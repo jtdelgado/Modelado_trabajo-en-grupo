@@ -43,7 +43,7 @@ class Piloto < Persona
 attributes
     num_kilometros : Integer
     piloto_pro : Boolean
-        derive : self.num_kilometros > --------------FALTA POR PONERLO CUANDO SE HAGA LAS ASOCIACIONES
+       -- derive : self.num_kilometros > --------------FALTA POR PONERLO CUANDO SE HAGA LAS ASOCIACIONES
 end
 
 class Pasajero < Persona
@@ -64,3 +64,16 @@ end
 ---------Fin de Clases--------
 
 ----------Asociaciones---------
+association vuelos_avion between
+    Vuelo [0..*] role vuelos
+    Avion [1] role avion
+end
+
+association avion_volando between
+    Vuelo [0..1] role volando
+    Avion [1] role avion
+end
+----------Fin Asociaciones-----
+
+----------Invariantes----------
+----------Fin Invariantes------
