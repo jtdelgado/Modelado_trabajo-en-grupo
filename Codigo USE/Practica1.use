@@ -1,0 +1,66 @@
+model Practica1
+
+----------Clases-----------
+class Avion
+attributes
+    num_kilometros : Integer
+end
+
+associationclass Contrato between
+    Avion[0..*] role avion
+    Aerolinea[1..*] role aerolinea
+attributes
+    precio_mes : Real
+    num_mes : Integer
+    precio_total : Real 
+            derive : self.precio_mes * self.num_mes
+end
+
+class Aerolinea
+attributes
+    nombre : String
+end
+
+class Aeropuerto
+end
+
+class Vuelo
+attributes
+    identificador : String
+    num_kilometros : Integer
+end
+
+class Ciudad
+end
+
+class Persona
+attributes
+    nombre : String
+    edad : Integer
+end
+
+class Piloto < Persona
+attributes
+    num_kilometros : Integer
+    piloto_pro : Boolean
+        derive : self.num_kilometros > --------------FALTA POR PONERLO CUANDO SE HAGA LAS ASOCIACIONES
+end
+
+class Pasajero < Persona
+end
+
+class Almacen
+attributes
+    capacidad_max : Integer
+end
+
+class Hangar < Almacen
+end
+
+class Desguace < Almacen
+end
+
+
+---------Fin de Clases--------
+
+----------Asociaciones---------
