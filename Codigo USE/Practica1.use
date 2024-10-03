@@ -117,4 +117,11 @@ end
 ----------Fin Asociaciones-----
 
 ----------Invariantes----------
+constraints
+
+context Aerolinea
+    inv AerolineaNombreUnico:
+        Aerolinea.allInstances() -> forAll(a | a.nombre!=self.nombre)
+        --(a.nombre!=self.nombre).implica(a.nombre!=self.nombre)
+
 ----------Fin Invariantes------
