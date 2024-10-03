@@ -73,6 +73,47 @@ association avion_volando between
     Vuelo [0..1] role volando
     Avion [1] role avion
 end
+
+association vueloPilotoPrincipal
+    Vuelo [0..*] role vuelosPrincipal
+    Piloto [1] role pilotoPrincipal
+end
+
+association vueloPilotoSecundario
+    Vuelo [0..*] role vuelosSecundario
+    Piloto [0..1] role pilotoSecundario
+end
+
+association vueloPasajero between
+    Vuelo [0..1] role vuelo
+    Pasajero [0..*] role pasajeros
+end
+
+association aeropuertoCiudad between
+    Aeropuerto [0..1] role aeropuertos
+    Ciudad [1] role ciudad
+end
+
+association aeropuertoHangar between
+    Aeropuerto [1] role aeropuerto
+    Hangar [1..*] role hangares
+end
+
+association aeropuertoDesguace between
+    Aeropuerto [1] role aeropuerto
+    Desguace [0..1] role desguace
+end
+
+association avionDesguace between
+    Avion [0..*] role aviones
+    Desguace [0..1] role avionRelegado
+end
+
+association avionHangar between
+    Avion [0..*] role aviones
+    Hangar [0..1] role avionEstacionado
+end
+
 ----------Fin Asociaciones-----
 
 ----------Invariantes----------
