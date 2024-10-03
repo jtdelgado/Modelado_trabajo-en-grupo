@@ -66,7 +66,7 @@ end
 ----------Asociaciones---------
 association vuelos_avion between
     Vuelo [0..*] role vuelos
-    Avion [1] role avion
+    Avion [1] role avion_estado
 end
 
 association avion_volando between
