@@ -74,14 +74,14 @@ association avion_volando between
     Avion [1] role avion
 end
 
-association vueloPilotoPrincipal
-    Vuelo [0..*] role vuelosPrincipal
-    Piloto [1] role pilotoPrincipal
+association vueloPilotoPrincipal between
+    Vuelo [0..*] role vuelosP
+    Piloto [1] role pilotoP
 end
 
-association vueloPilotoSecundario
-    Vuelo [0..*] role vuelosSecundario
-    Piloto [0..1] role pilotoSecundario
+association vueloPilotoSecundario between
+    Vuelo [0..*] role vuelosS
+    Piloto [0..1] role pilotoS
 end
 
 association vueloPasajero between
@@ -121,7 +121,9 @@ constraints
 
 context Aerolinea
     inv AerolineaNombreUnico:
-        Aerolinea.allInstances() -> forAll(a | a.nombre!=self.nombre)
-        --(a.nombre!=self.nombre).implica(a.nombre!=self.nombre)
+        Aerolinea.allInstances() -> forAll(a1, a2 | a1 <> a2 implies a1.nombre <> a2.nombre)
+                        --a1 <> a2 indica que a1 y a2 son distintos y
+                        --a1.nombre <> a2.nombre establece que el nombre de las aerolineas no puede ser igual
+                        --La lectura literal seria: si a1 es distinto de a2 entonces a1.nombre es distinto de a2.nombre
 
 ----------Fin Invariantes------

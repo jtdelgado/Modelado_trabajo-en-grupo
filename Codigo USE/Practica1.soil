@@ -1,0 +1,7 @@
+reset
+!new Aerolinea('a1')
+!a1.nombre := 'a1'
+
+!new Aerolinea('a2')
+!a2.nombre := 'a1'
+check
