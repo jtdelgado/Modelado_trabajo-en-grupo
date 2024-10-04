@@ -5,3 +5,15 @@ reset
 !new Aerolinea('a2')
 !a2.nombre := 'a1'
 check
+
+--Comprovación invariante:"IdCadaVueloUnico"
+!new Vuelo('v1')
+!v1.identificador := '1'
+
+!new Vuelo('v2')
+!v2.identificador := '2'
+
+--Descomentar esta línea de código para comprobar que funciona
+-- !new Vuelo('v3')
+-- !v3.identificador := '1'
+check

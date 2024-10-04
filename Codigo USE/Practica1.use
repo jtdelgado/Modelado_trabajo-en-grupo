@@ -126,4 +126,12 @@ context Aerolinea
                         --a1.nombre <> a2.nombre establece que el nombre de las aerolineas no puede ser igual
                         --La lectura literal seria: si a1 es distinto de a2 entonces a1.nombre es distinto de a2.nombre
 
+
+context Vuelo
+    inv IdCadaVueloUnico:
+        Vuelo.allInstances() -> forAll(v1,v2|  v1 <> v2 implies v1.identificador <> v2.identificador)
+                        -- Si el objeto no es el mismo esto implica que los identificadores son distintos
+
+
+                    
 ----------Fin Invariantes------
