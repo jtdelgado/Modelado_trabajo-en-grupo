@@ -6,7 +6,7 @@ reset
 !a2.nombre := 'a1'
 check
 
---Comprovación invariante:"IdCadaVueloUnico"
+--Comprobación invariante:"IdCadaVueloUnico"
 !new Vuelo('v1')
 !v1.identificador := '1'
 
