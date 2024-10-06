@@ -3,7 +3,10 @@ model Practica1
 ----------Clases-----------
 class Avion
 attributes
-    num_kilometros : Integer
+    num_kilometros : Integer --Hace falta hacerla (variable derivada)
+            derive : self.vuelos.num_kilometros -> iterate(k ;suma : Integer = 0 | suma + k)
+    num_vuelos : Integer --Hace falta hacerla (variable derivada)
+            derive : self.vuelos -> size()
 end
 
 associationclass Contrato between
@@ -31,6 +34,8 @@ attributes
 end
 
 class Ciudad
+attributes 
+    nombre : String
 end
 
 class Persona
@@ -41,9 +46,12 @@ end
 
 class Piloto < Persona
 attributes
-    num_kilometros : Integer
+    num_kilometros : Integer derive :
+        let totalK: Bag(Integer) = 
+            self.vuelosP.num_kilometros -> asBag() -> union(self.vuelosS.num_kilometros -> asBag()) in
+            totalK -> iterate(k ;suma : Integer = 0 | suma + k)
     piloto_pro : Boolean
-       -- derive : self.num_kilometros > --------------FALTA POR PONERLO CUANDO SE HAGA LAS ASOCIACIONES
+       derive : (self.vuelosS ->size() >= 3) and (self.vuelosP -> size() >=2) --------------FALTA POR PONERLO CUANDO SE HAGA LAS ASOCIACIONES
 end
 
 class Pasajero < Persona
@@ -66,12 +74,12 @@ end
 ----------Asociaciones---------
 association vuelos_avion between
     Vuelo [0..*] role vuelos
-    Avion [1] role avion_estado
+    Avion [1] role avion
 end
 
 association avion_volando between
-    Vuelo [0..1] role volando
-    Avion [1] role avion
+    Vuelo [0..1] role vueloEnCurso
+    Avion [1] role avionEnVuelo
 end
 
 association vueloPilotoPrincipal between
@@ -85,7 +93,7 @@ association vueloPilotoSecundario between
 end
 
 association vueloPasajero between
-    Vuelo [0..1] role vuelo
+    Vuelo [0..1] role vuelos
     Pasajero [0..*] role pasajeros
 end
 
