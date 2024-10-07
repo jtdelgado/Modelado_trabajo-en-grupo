@@ -3,15 +3,37 @@ reset
 !a1.nombre := 'a1'
 
 !new Aerolinea('a2')
-!a2.nombre := 'a1'
+!a2.nombre := 'a2'
+
+!new Aerolinea('a3')
+!a2.nombre := 'a3'
+check
+
+!new Piloto('p1')
+!p1.nombre := 'p1'
+check
+
+!new Avion('av1')
 check
 
 --Comprobación invariante:"IdCadaVueloUnico"
 !new Vuelo('v1')
 !v1.identificador := '1'
 
+!insert (v1, p1) into vueloPilotoPrincipal
+|insert ()
+!v1.avion := av1
+!v1.aerolinea := a1
+
+
 !new Vuelo('v2')
-!v2.identificador := '2'
+!v1.identificador := '2'
+!v1.avion := av1
+!v1.aerolinea := a1
+!v1.pilotoP := p1 
+
+--!new Vuelo('v2')
+--!v2.identificador := '2'
 
 --Descomentar esta línea de código para comprobar que funciona
 -- !new Vuelo('v3')
