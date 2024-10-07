@@ -4,7 +4,7 @@ model Practica1
 class Avion
 attributes
     num_kilometros : Integer --Hace falta hacerla (variable derivada)
-            derive : self.vuelos.num_kilometros -> iterate(k ;suma : Integer = 0 | suma + k)
+            derive : self.vuelos.num_kilometros -> iterate(k ; suma : Integer = 0 | suma + k)
     num_vuelos : Integer --Hace falta hacerla (variable derivada)
             derive : self.vuelos -> size()
 end
@@ -48,13 +48,18 @@ class Piloto < Persona
 attributes
     num_kilometros : Integer derive :
         let totalK: Bag(Integer) = 
-            self.vuelosP.num_kilometros -> asBag() -> union(self.vuelosS.num_kilometros -> asBag()) in
-            totalK -> iterate(k ; suma : Integer = 0 | suma + k)
+            --self.vuelosP.num_kilometros -> asBag() -> union(self.vuelosS.num_kilometros -> asBag()) in
+            --totalK -> iterate(k ; suma : Integer = 0 | suma + k)
+            self.vuelosP -> collect(k | k.num_kilometros) -> sum() + self.vuelosS -> 
+            collect(k | k.num_kilometros) -> sum()
             -- Se hace una union de los kilometros de vuelosP y vuelosS en un unico conjunto totalK y se suman
             -- La suma se hace con iterate en el que se recorre el conjunto totalK y se va sumando
             -- dentro de la variable suma que vale 0 al principio
-    piloto_pro : Boolean
-       derive : (self.vuelosS ->size() >= 3) and (self.vuelosP -> size() >=2) --------------FALTA POR PONERLO CUANDO SE HAGA LAS ASOCIACIONES
+
+            --Preguntar si se debe de hacer un collect en vuelosP y vuelosS para obtener los kilometros
+    piloto_pro : Boolean derive : 
+            (self.vuelosS ->size() >= 3) and (self.vuelosP -> size() >=2)
+                                  --1000                           --2000
 end
 
 class Pasajero < Persona
