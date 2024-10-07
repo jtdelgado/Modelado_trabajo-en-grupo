@@ -1,4 +1,6 @@
 reset
+--Comprobación invariante:"AerolineaNombreUnico"
+
 !new Aerolinea('a1')
 !a1.nombre := 'a1'
 
@@ -28,9 +30,10 @@ check
 !new Avion ('avion2')
 
 !new Desguace ('d1')
+!d1.capacidad_max := 10
 
 !insert (avion1,d1) into avionDesguace
---!insert (avion2,d1) into avionDesguace
+!insert (avion2,d1) into avionDesguace
 
 check
 --Comprobación invariante: "PilotosDistintos"
@@ -47,4 +50,65 @@ check
 
 check
 
---Comprobación
+--Comprobación invariante: "MaxAerolineasPorPiloto"
+--Creamos un piloto para asociarlo a tres vuelos distintos 
+!new Piloto('p1')
+
+!new Vuelo ('v4')
+
+!new Vuelo ('v5')
+
+!new Vuelo ('v6')
+
+!insert (v4,p1) into vueloPilotoPrincipal
+!insert (v5,p1) into vueloPilotoPrincipal
+!insert (v6,p1) into vueloPilotoPrincipal
+
+--Ya asociados, asociamos los vuelos a tres aviones de distintas aerolíneas
+!new Avion ('avion3')
+!new Avion ('avion4')
+!new Avion ('avion5')
+
+!insert (v4,avion3) into vuelos_avion
+!insert (v5,avion4) into vuelos_avion
+!insert (v6,avion5) into vuelos_avion
+
+
+!new Aerolinea('a3')
+!new Aerolinea('a4')
+!new Aerolinea('a5')
+
+!insert (avion3,a3) into Contrato
+!insert (avion4,a4) into Contrato
+!insert (avion5,a3) into Contrato
+
+check
+--Comprobación invariante: "AvionEstadoObligatorio"
+
+!new Avion ('avion6')
+
+!new Vuelo ('v7')
+
+!new Desguace ('d2')
+!d2.capacidad_max := 10
+
+!new Hangar('h1')
+!h1.capacidad_max := 10
+
+!insert (v7,avion6) into avion_volando
+--!insert (avion6,d2) into avionDesguace
+--!insert (avion6,h1) into avionHangar
+
+check
+
+--Comprobación invariantes :"CapMaxDeswace" y "CapMaxHangar"
+
+!new Desguace('d3')
+!d3.capacidad_max := 1
+
+!new Hangar ('h2')
+!h2.capacidad_max := 2
+
+!insert (avion3,d3) into avionDesguace
+!insert (avion4,d3) into avionDesguace
+
