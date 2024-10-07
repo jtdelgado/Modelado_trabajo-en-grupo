@@ -4,7 +4,7 @@ model Practica1
 class Avion
 attributes
     num_kilometros : Integer --Hace falta hacerla (variable derivada)
-            derive : self.vuelos.num_kilometros -> iterate(k ; suma : Integer = 0 | suma + k)
+            derive : self.vuelos -> collect(v | v.num_kilometros) -> sum()
     num_vuelos : Integer --Hace falta hacerla (variable derivada)
             derive : self.vuelos -> size()
 end
@@ -47,18 +47,13 @@ end
 class Piloto < Persona
 attributes
     num_kilometros : Integer derive :
-        let totalK: Bag(Integer) = 
-            --self.vuelosP.num_kilometros -> asBag() -> union(self.vuelosS.num_kilometros -> asBag()) in
-            --totalK -> iterate(k ; suma : Integer = 0 | suma + k)
-            self.vuelosP -> collect(k | k.num_kilometros) -> sum() + self.vuelosS -> 
-            collect(k | k.num_kilometros) -> sum()
-            -- Se hace una union de los kilometros de vuelosP y vuelosS en un unico conjunto totalK y se suman
-            -- La suma se hace con iterate en el que se recorre el conjunto totalK y se va sumando
-            -- dentro de la variable suma que vale 0 al principio
-
-            --Preguntar si se debe de hacer un collect en vuelosP y vuelosS para obtener los kilometros
-    piloto_pro : Boolean derive : 
-            (self.vuelosS ->size() >= 3) and (self.vuelosP -> size() >=2)
+        (self.vuelosP -> collect(v | v.num_kilometros) -> asBag())
+        -> union(self.vuelosS -> collect(v | v.num_kilometros) -> asBag())
+        -> sum()
+            -- Se hace una union de los kilometros de vuelosP y vuelosS en un unico conjunto totalK y 
+            -- se hace un collect de todas los kilometros de los vuelos en totalK y se suman
+    piloto_pro : Boolean
+        derive : self.vuelosS -> size() >= 3 and self.vuelosP -> size() >=2
                                   --1000                           --2000
 end
 
@@ -147,6 +142,23 @@ context Vuelo
     inv IdCadaVueloUnico:
         Vuelo.allInstances() -> forAll(v1,v2|  v1 <> v2 implies v1.identificador <> v2.identificador)
                         -- Si el objeto no es el mismo esto implica que los identificadores son distintos
+
+context Avion
+    inv AvionDesguace:
+        Avion.allInstances() -> forAll(a | a.num_vuelos >= 1000 implies a.avionRelegado = a)
+                        -- Si el numero de vuelos es mayor o igual a 1000 entonces el avion esta en desguace
+    
+    --inv AvionEstadoObligatorio
+        --Avion.allInstances() -> forAll(a | 
+                               -- a.avionEstacionado <> null implies a.avionRelegado = null and a.avionEnVuelo = null)
+                        -- Si el avion esta en un hangar entonces no esta en desguace
+
+context Vuelo
+    inv PilotosDistintos:
+        Vuelo.allInstances() -> forAll(v | v.pilotoP <> v.pilotoS)
+                        -- Si el piloto principal es distinto del secundario
+
+
 
 
                     

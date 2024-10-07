@@ -56,23 +56,23 @@ reset
 ---------VUELOS----------
 !new Vuelo('v3')
 !v3.identificador := '3'
-!v3.num_kilometros := 400
+!v3.num_kilometros := 1
 
 !new Vuelo('v4')
 !v4.identificador := '4'
-!v4.num_kilometros := 150
+!v4.num_kilometros := 1
 
 !new Vuelo('v5')
 !v5.identificador := '5'
-!v5.num_kilometros := 300
+!v5.num_kilometros := 1
 
 !new Vuelo('v6')
 !v6.identificador := '6'
-!v6.num_kilometros := 800
+!v6.num_kilometros := 1
 
 !new Vuelo('v7')
 !v7.identificador := '7'
-!v7.num_kilometros := 10
+!v7.num_kilometros := 1
 -------FIN VUELOS--------
 
 ---------PILOTOS---------
@@ -95,3 +95,4 @@ reset
 !insert (v6,p2) into vueloPilotoPrincipal
 !insert (v5,p2) into vueloPilotoPrincipal
 ------------------------------------------------------------------
+check
