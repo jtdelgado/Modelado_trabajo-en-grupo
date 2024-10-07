@@ -16,21 +16,27 @@ check
 !new Avion('av1')
 check
 
---Comprobación invariante:"IdCadaVueloUnico"
+--Comprobación invariante:"MaxAerolineasPorPiloto"
 !new Vuelo('v1')
 !v1.identificador := '1'
 
 !insert (v1, p1) into vueloPilotoPrincipal
-|insert ()
-!v1.avion := av1
-!v1.aerolinea := a1
-
+!insert (v1, av1) into vuelos_avion
+!insert (av1, a1) into Contrato
 
 !new Vuelo('v2')
-!v1.identificador := '2'
-!v1.avion := av1
-!v1.aerolinea := a1
-!v1.pilotoP := p1 
+!v2.identificador := '2'
+!insert (v2, p1) into vueloPilotoPrincipal
+!insert (v2, av2) into vuelos_avion
+!insert (av1, a2) into Contrato
+check
+
+!new Vuelo('v3')
+!v3.identificador := '3'
+!insert (v3, p1) into vueloPilotoPrincipal
+!insert (v3, av1) into vuelos_avion
+!insert (av1, a3) into Contrato
+check
 
 --!new Vuelo('v2')
 --!v2.identificador := '2'

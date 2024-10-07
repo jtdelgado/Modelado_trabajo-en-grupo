@@ -149,7 +149,7 @@ context Piloto
         
 context Avion 
     inv AvionEstadoUnico:
-        (self.Desguace->isEmpty() and self.avionEstacionado->isEmpty() and not self.avion_volando->isEmpty()) or
-        (self.Desguace->isEmpty() and not self.avionEstacionado->isEmpty() and self.avion_volando->isEmpty()) or
-        (not self.Desguace->isEmpty() and self.avionEstacionado->isEmpty() and self.avion_volando->isEmpty())                 
+        (self.avionRelegado->isEmpty() and self.avionEstacionado->isEmpty() and not self.avion_volando->isEmpty()) or
+        (self.avionRelegado->isEmpty() and not self.avionEstacionado->isEmpty() and self.avion_volando->isEmpty()) or
+        (not self.avionRelegado->isEmpty() and self.avionEstacionado->isEmpty() and self.avion_volando->isEmpty())                 
 ----------Fin Invariantes------
