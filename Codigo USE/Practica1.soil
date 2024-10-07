@@ -21,6 +21,7 @@ check
 !insert (v1, p1) into vueloPilotoPrincipal
 !insert (v1, p2) into vueloPilotoSecundario
 
+-- con esto de abajo debe ser false, cambiar para que sea true
 !insert (v2, p2) into vueloPilotoPrincipal
 !insert (v2, p2) into vueloPilotoSecundario
 
@@ -34,6 +35,9 @@ check
 !new Desguace('d')
 
 -- !insert (av1, d) into avionDesguace
+--Descomentar esta línea de código para comprobar que funciona
+--Cambiar el límite de vuelos a 1 para que funcione
+
 
 --Descomentar esta línea de código para comprobar que funciona
 -- !new Vuelo('v3')
