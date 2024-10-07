@@ -142,6 +142,17 @@ context Vuelo
     inv IdCadaVueloUnico:
         Vuelo.allInstances() -> forAll(v1,v2|  v1 <> v2 implies v1.identificador <> v2.identificador)
                         -- Si el objeto no es el mismo esto implica que los identificadores son distintos
+    
+    inv PilotosDistintos:
+        Vuelo.allInstances() -> forAll(v | v.pilotoP <> v.pilotoS)
+        -- En un vuelo, el piloto principal y secundario no pueden ser el mismo
+
+context Avion
+    inv AvionDesguace:
+        self.num_vuelos > 1000 implies not self.avionRelegado.oclIsUndefined()
+        -- que el avión tenga más de 1000 vuelos implica que la relación con desguace existe
+
+
 
 
                     

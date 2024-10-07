@@ -13,6 +13,28 @@ check
 !new Vuelo('v2')
 !v2.identificador := '2'
 
+--Comprobación invariante PilotosDistintos
+
+!new Piloto('p1')
+!new Piloto('p2')
+
+!insert (v1, p1) into vueloPilotoPrincipal
+!insert (v1, p2) into vueloPilotoSecundario
+
+!insert (v2, p2) into vueloPilotoPrincipal
+!insert (v2, p2) into vueloPilotoSecundario
+
+--Comprobación invariante AvionDesguace
+
+!new Avion('av1')
+
+!insert (v1, av1) into vuelos_avion
+!insert (v2, av1) into vuelos_avion
+
+!new Desguace('d')
+
+-- !insert (av1, d) into avionDesguace
+
 --Descomentar esta línea de código para comprobar que funciona
 -- !new Vuelo('v3')
 -- !v3.identificador := '1'
