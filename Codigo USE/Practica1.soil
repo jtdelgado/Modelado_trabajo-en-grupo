@@ -1,21 +1,130 @@
 reset
+
+--Comprobacion invariante:"Max2AerolineasPorPiloto", "AvionVolandoEntoncesAvionRegistrado",--
+------------------------------------"PilotosDistintos" y "AvionDesguace"------------------------------------
+
 !new Aerolinea('a1')
-!a1.nombre := 'a1'
-
 !new Aerolinea('a2')
-!a2.nombre := 'a1'
-check
+!new Aerolinea('a3')
+!new Aerolinea('a4')
 
---Comprobación invariante:"IdCadaVueloUnico"
+!new Piloto('p1')
+!p1.nombre := 'p1'
+!p1.edad := 20
+
+!new Piloto('p2')
+!p2.nombre := 'p2'
+!p2.edad := 20
+
+!new Piloto('p3')
+!p3.nombre := 'p3'
+!p3.edad := 20
+
+!new Avion('av1')
+!new Avion('av2')
+!new Avion('av3')
+
 !new Vuelo('v1')
-!v1.identificador := '1'
-
 !new Vuelo('v2')
-!v2.identificador := '2'
+!new Vuelo('v3')
+!new Vuelo('v4')
 
---Descomentar esta línea de código para comprobar que funciona
--- !new Vuelo('v3')
--- !v3.identificador := '1'
+!new Hangar('h1')
+!h1.capacidad_max := 1 
+-- para comprobar la invariante "HangarCapacidadMax" se cambia 
+--el valor de capacidad_max a un valor > 1
+!new Hangar('h2')
+!h2.capacidad_max := 1
+-- para comprobar la invariante "DesguaceCapacidadMax" se cambia 
+--el valor de capacidad_max a un valor > 1
+!new Desguace('d1')
+
+!new Aeropuerto('aer1')
+!insert (aer1,h1) into aeropuertoHangar
+!new Aeropuerto('aer2')
+!insert (aer2,h2) into aeropuertoHangar
+!insert (aer2,d1) into aeropuertoDesguace
+
+!new Ciudad('c1')
+!insert (aer1,c1) into aeropuertoCiudad
+!new Ciudad('c2')
+!insert (aer2,c2) into aeropuertoCiudad
+
+            
+
+!insert (v1,p1) into vueloPilotoPrincipal
+!insert (v1,p2) into vueloPilotoSecundario -- aqui se comprueba la invariante "PilotosDistintos"
+
+!insert (v2,p1) into vueloPilotoPrincipal
+
+!insert (v1,av1) into vuelos_avion
+!insert (v2,av1) into vuelos_avion
+
+!insert (av1,d1) into avionDesguace -- el avion av1 esta en desguace porque tiene mas de 2 vuelos
+
+!insert (av1,a1) into Contrato
+!insert (av1,a2) into Contrato
+
+
+
+!insert (v3,p3) into vueloPilotoPrincipal -- Si cambio p3 por p1, el invariante "Max2AerolineasPorPiloto" falla
+
+!insert (v3,av2) into vuelos_avion
+
+!insert (av2,h1) into avionHangar
+
+!insert (av2,a3) into Contrato
+
+
+
+!insert (v4,p3) into vueloPilotoPrincipal
+
+!insert (v4,av3) into vuelos_avion
+
+!insert (v4,av3) into avion_volando
+
+!insert (av3,a4) into Contrato
+
+
+---------------------------------------------------------------------------------------------
+
+
+
+--------Comprobacion invariante:"IdCadaVueloUnico" y "AerolineaNombreUnico"--------
+
+!v1.identificador := '1'
+!v2.identificador := '2'
+!v3.identificador := '3'
+!v4.identificador := '4'
+
+!a1.nombre := 'a1'
+!a2.nombre := 'a2'
+!a3.nombre := 'a3'
+!a4.nombre := 'a4'
+
+
+-----------------------------------------------------------------------------------
+
+
+
+--------Comprobacion atributo derivado "num_kilometros"--------
+
+!v1.num_kilometros := 5
+!v2.num_kilometros := 5
+
+---------------------------------------------------------------
+
+
+
+--------Comprobacion atributo derivado "precio_total"--------
+
+!Contrato1.precio_mes := 10
+!Contrato1.num_mes := 2
+
+-------------------------------------------------------------
+
+
+
 
 
 check

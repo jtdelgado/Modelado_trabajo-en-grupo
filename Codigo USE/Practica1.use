@@ -47,13 +47,17 @@ end
 class Piloto < Persona
 attributes
     num_kilometros : Integer derive :
-        (self.vuelosP -> collect(v | v.num_kilometros) -> asBag())
-        -> union(self.vuelosS -> collect(v | v.num_kilometros) -> asBag())
-        -> sum()
-            -- Se hace una union de los kilometros de vuelosP y vuelosS en un unico conjunto totalK y 
-            -- se hace un collect de todas los kilometros de los vuelos en totalK y se suman
+        -- SE PUEDE HACER DE LAS DOS FORMAS
+
+        --(self.vuelosP -> collect(v | v.num_kilometros))
+        ---> union(self.vuelosS -> collect(v | v.num_kilometros))
+        ---> sum()
+            -- Se hace un collect de los num_kilometros de vuelosP y vuelosS y se suman
+
+        (self.vuelosP.num_kilometros) -> union(self.vuelosS.num_kilometros) -> sum()
+            -- Se hace una union de los kilometros de vuelosP y vuelosS y se suman
     piloto_pro : Boolean
-        derive : self.vuelosS -> size() >= 3 and self.vuelosP -> size() >=2
+        derive : self.vuelosS -> size() >= 1 and self.vuelosP -> size() >= 1
                                   --1000                           --2000
 end
 
@@ -82,7 +86,7 @@ end
 
 association avion_volando between
     Vuelo [0..1] role vueloEnCurso
-    Avion [1] role avionEnVuelo
+    Avion [0..1] role avionEnVuelo -- Cambio de multiplicidades
 end
 
 association vueloPilotoPrincipal between
@@ -125,6 +129,7 @@ association avionHangar between
     Hangar [0..1] role avionEstacionado
 end
 
+
 ----------Fin Asociaciones-----
 
 ----------Invariantes----------
@@ -132,34 +137,53 @@ constraints
 
 context Aerolinea
     inv AerolineaNombreUnico:
-        Aerolinea.allInstances() -> forAll(a1, a2 | a1 <> a2 implies a1.nombre <> a2.nombre)
-                        --a1 <> a2 indica que a1 y a2 son distintos y
-                        --a1.nombre <> a2.nombre establece que el nombre de las aerolineas no puede ser igual
-                        --La lectura literal seria: si a1 es distinto de a2 entonces a1.nombre es distinto de a2.nombre
+        self.nombre <> null and
+        Aerolinea.allInstances() -> forAll(a1, a2 | a1 <> a2 implies a1.nombre <> a2.nombre) 
+                        -- el nombre de la aerolinea no puede ser nulo y
+                        -- si a1 es distinto de a2 entonces a1.nombre es distinto de a2.nombre
 
 
 context Vuelo
     inv IdCadaVueloUnico:
-        Vuelo.allInstances() -> forAll(v1,v2|  v1 <> v2 implies v1.identificador <> v2.identificador)
-                        -- Si el objeto no es el mismo esto implica que los identificadores son distintos
+        self.identificador <> null and
+        Vuelo.allInstances() -> forAll(v1,v2 | v1 <> v2 implies v1.identificador <> v2.identificador)
+                        -- el identificador del vuelo no puede ser nulo y
+                        -- si el objeto no es el mismo esto implica que los identificadores son distintos
+    
+    inv PilotosDistintos:
+        self.pilotoP <> self.pilotoS
+            -- Si el piloto principal de mi vuelo es distinto del secundario
 
 context Avion
-    inv AvionDesguace:
-        Avion.allInstances() -> forAll(a | a.num_vuelos >= 1000 implies a.avionRelegado = a)
+    inv AvionDesguace: -- ¿ ESTO NO ES DERIVADO ? preguntar //////////////////////////////////////////
+        Avion.allInstances() -> forAll(a | a.num_vuelos >= 2 implies a.avionRelegado <> null)
                         -- Si el numero de vuelos es mayor o igual a 1000 entonces el avion esta en desguace
+                        -- es decir, la variable avionRelegado no es nula
     
-    --inv AvionEstadoObligatorio
-        --Avion.allInstances() -> forAll(a | 
-                               -- a.avionEstacionado <> null implies a.avionRelegado = null and a.avionEnVuelo = null)
-                        -- Si el avion esta en un hangar entonces no esta en desguace
+    inv AvionEstadoObligatorio:
+        (self.avionEstacionado <> null implies (self.avionRelegado = null and self.vueloEnCurso = null)) and
+        (self.avionRelegado <> null implies (self.avionEstacionado = null and self.vueloEnCurso = null)) and
+        (self.vueloEnCurso <> null implies (self.avionEstacionado = null and self.avionRelegado = null and
+        self.vuelos -> includes(self.vueloEnCurso))) and
+                -- Un avion no puede estar en dos estados a la vez
+                -- Si un avion esta volando entonces tiene que estar regi
+        self.vueloEnCurso <> null or self.avionEstacionado <> null or self.avionRelegado <> null
+                -- Un avion tiene que estar estacionado, en vuelo o en desguace
 
-context Vuelo
-    inv PilotosDistintos:
-        Vuelo.allInstances() -> forAll(v | v.pilotoP <> v.pilotoS)
-                        -- Si el piloto principal es distinto del secundario
+context Piloto
+    inv Max2AerolineasPorPiloto:
+        self.vuelosP.avion.aerolinea -> union(self.vuelosS.avion.aerolinea) -> asSet() -> size() <= 2
+                -- Un piloto no puede volar en mas de 2 aerolineas
+    
+context Hangar
+    inv HangarCapacidadMax:
+        self.aviones -> size() <= self.capacidad_max
+                -- La cantidad de aviones en un hangar no puede ser mayor que la capacidad maxima del hangar
 
-
-
+context Desguace
+    inv DesguaceCapacidadMax:
+        self.aviones -> size() <= self.capacidad_max
+                -- La cantidad de aviones en un desguace no puede ser mayor que la capacidad maxima del desguace
 
                     
 ----------Fin Invariantes------
