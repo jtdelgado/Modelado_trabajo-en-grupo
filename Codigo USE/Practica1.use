@@ -143,6 +143,13 @@ context Vuelo
         Vuelo.allInstances() -> forAll(v1,v2|  v1 <> v2 implies v1.identificador <> v2.identificador)
                         -- Si el objeto no es el mismo esto implica que los identificadores son distintos
 
+context Hangar
+    inv CapMaxHangar:
+        self.aviones -> size() <= self.capacidad_max
+
+context Desguace
+    inv CapMaxDesguace:
+        self.aviones -> size() <= self.capacidad_max
 
                     
 ----------Fin Invariantes------
