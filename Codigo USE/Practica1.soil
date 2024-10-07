@@ -17,3 +17,34 @@ check
 -- !new Vuelo('v3')
 -- !v3.identificador := '1'
 check
+
+
+--Comprobación invariante: "AvionDesguace"
+!new Avion ('avion1')
+
+!insert (v1,avion1) into vuelos_avion
+!insert (v2,avion1) into vuelos_avion
+
+!new Avion ('avion2')
+
+!new Desguace ('d1')
+
+!insert (avion1,d1) into avionDesguace
+--!insert (avion2,d1) into avionDesguace
+
+check
+--Comprobación invariante: "PilotosDistintos"
+!new Piloto('pPro')
+!pPro.nombre := 'Paco'
+!pPro.edad := 32
+
+!new Vuelo('v3')
+!v3.identificador := '3'
+!v3.num_kilometros := 400
+
+!insert (v3,pPro) into vueloPilotoSecundario
+!insert (v3,pPro) into vueloPilotoPrincipal 
+
+check
+
+--Comprobación

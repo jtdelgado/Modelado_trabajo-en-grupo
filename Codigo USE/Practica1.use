@@ -4,7 +4,7 @@ model Practica1
 class Avion
 attributes
     num_kilometros : Integer --Hace falta hacerla (variable derivada)
-            derive : self.vuelos.num_kilometros -> iterate(k ;suma : Integer = 0 | suma + k)
+            derive : self.vuelos.num_kilometros -> sum()
     num_vuelos : Integer --Hace falta hacerla (variable derivada)
             derive : self.vuelos -> size()
 end
@@ -47,9 +47,9 @@ end
 class Piloto < Persona
 attributes
     num_kilometros : Integer derive :
-        let totalK: Bag(Integer) = 
-            self.vuelosP.num_kilometros -> asBag() -> union(self.vuelosS.num_kilometros -> asBag()) in
-            totalK -> iterate(k ;suma : Integer = 0 | suma + k)
+        let totalK: Set(Vuelo) = 
+            self.vuelosP -> union(self.vuelosS) in
+            totalK -> collect(v |v.num_kilometros)-> sum()
     piloto_pro : Boolean
        derive : (self.vuelosS ->size() >= 3) and (self.vuelosP -> size() >=2) --------------FALTA POR PONERLO CUANDO SE HAGA LAS ASOCIACIONES
 end
@@ -141,5 +141,31 @@ context Vuelo
                         -- Si el objeto no es el mismo esto implica que los identificadores son distintos
 
 
-                    
+    inv PilotosDistintos:
+        self.pilotoS ->notEmpty() implies self.pilotoP <> self.pilotoS
+
+context Desguace 
+    inv AvionEstaDesguace:
+        self.aviones -> forAll(a | a.num_vuelos>=2) --Para comprobar el invariante supondremos que el avion debe de haber superado 2
+
+    inv CapMaxDeswace:
+        self.aviones -> size()<= self.capacidad_max
+
+context Hangar
+    inv CapMaxHangar: 
+        self.aviones -> size()<= self.capacidad_max
+
+context Aeropuerto
+    inv MaximoDesguaces:
+        self.desguace -> size()<=1
+
+context Ciudad 
+    inv MaximoAeropuerto:
+        self.aeropuertos -> size()<=1 
+
+context Piloto
+    inv MaxAerolineasPorPiloto:
+        let totalVuelos : Set(Vuelo) = self.vuelosP -> union(self.vuelosS) in
+        let totalAviones : Set(Avion) = totalVuelos.avion -> asSet() in
+        totalAviones.aerolinea ->size()<=2
 ----------Fin Invariantes------
