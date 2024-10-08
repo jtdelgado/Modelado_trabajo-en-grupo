@@ -155,8 +155,8 @@ context Vuelo
             -- Si el piloto principal de mi vuelo es distinto del secundario
 
 context Avion
-    inv AvionDesguace: -- ¿ ESTO NO ES DERIVADO ? preguntar //////////////////////////////////////////
-        Avion.allInstances() -> forAll(a | a.num_vuelos >= 2 implies a.avionRelegado <> null)
+    inv AvionDesguace:
+        self.num_vuelos >= 2 implies self.avionRelegado <> null
                         -- Si el numero de vuelos es mayor o igual a 1000 entonces el avion esta en desguace
                         -- es decir, la variable avionRelegado no es nula
     
