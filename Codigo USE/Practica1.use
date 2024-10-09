@@ -105,16 +105,6 @@ association aeropuertoCiudad between
     Ciudad [1] role ciudad
 end
 
-association aeropuertoHangar between
-    Aeropuerto [1] role aeropuerto
-    Hangar [1..*] role hangares
-end
-
-association aeropuertoDesguace between
-    Aeropuerto [1] role aeropuerto
-    Desguace [0..1] role desguace
-end
-
 association avionDesguace between
     Avion [0..*] role aviones
     Desguace [0..1] role avionRelegado
@@ -127,6 +117,18 @@ end
 
 ----------Fin Asociaciones-----
 
+----------Composiciones----------
+composition aeropuertoHangar between
+    Aeropuerto [1] role aeropuerto
+    Hangar [1..*] role hangares
+end
+
+composition aeropuertoDesguace between
+    Aeropuerto [1] role aeropuerto
+    Desguace [0..1] role desguace
+end
+----------Fin composiciones----------
+
 ----------Invariantes----------
 constraints
 
@@ -137,12 +139,26 @@ context Aerolinea
                         --a1.nombre <> a2.nombre establece que el nombre de las aerolineas no puede ser igual
                         --La lectura literal seria: si a1 es distinto de a2 entonces a1.nombre es distinto de a2.nombre
 
+context Avion
+    inv AvionDesguace:
+        self.num_vuelos > 1000 implies not self.avionRelegado.oclIsUndefined()
+        -- que el avión tenga más de 1000 vuelos implica que la relación con desguace existe
+    inv AvionEstadoUnico:
+        self.vueloEnCurso -> size() + self.avionRelegado -> size() + self.avionEstacionado -> size() = 1      
+        -- obligatoriamente tiene que tener un estado y debe ser solo uno       
 
 context Vuelo
-    inv IdCadaVueloUnico:
+    inv IdVueloUnico:
         Vuelo.allInstances() -> forAll(v1,v2|  v1 <> v2 implies v1.identificador <> v2.identificador)
                         -- Si el objeto no es el mismo esto implica que los identificadores son distintos
+    inv PilotosDistintos:
+        self.pilotoP <> self.pilotoS
+        -- El piloto principal y el secundario no pueden ser el mismo
 
+context Piloto
+    inv MaxAerolineasPorPiloto:
+        self.vuelosP.avion.aerolinea -> union(self.vuelosS.avion.aerolinea) -> asSet()->size()<3        
+    
 context Hangar
     inv CapMaxHangar:
         self.aviones -> size() <= self.capacidad_max
@@ -150,6 +166,4 @@ context Hangar
 context Desguace
     inv CapMaxDesguace:
         self.aviones -> size() <= self.capacidad_max
-
-                    
 ----------Fin Invariantes------
