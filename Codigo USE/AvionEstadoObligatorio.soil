@@ -8,7 +8,7 @@ reset
 !new Desguace('desguace')
 
 
---!insert(vuelo, avion) into avionVolando
+!insert(vuelo, avion) into avionVolando
 --!insert(avion, hangar) into avionHangar
 --!insert(avion, desguace) into avionDesguace
 

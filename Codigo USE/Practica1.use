@@ -4,7 +4,7 @@ model Practica1
 class Avion
 attributes
     num_kilometros : Integer --Hace falta hacerla (variable derivada)
-            derive : self.vuelos -> collect(v | v.num_kilometros) -> sum()
+            derive : self.vuelos.num_kilometros -> sum()
     num_vuelos : Integer --Hace falta hacerla (variable derivada)
             derive : self.vuelos -> size()
 end
@@ -57,8 +57,7 @@ attributes
         (self.vuelosP.num_kilometros) -> union(self.vuelosS.num_kilometros) -> sum()
             -- Se hace una union de los kilometros de vuelosP y vuelosS y se suman
     piloto_pro : Boolean
-        derive : self.vuelosS -> size() >= 1 and self.vuelosP -> size() >= 1
-                                  --1000                           --2000
+        derive : (self.vuelosS ->size() >= 2000) and (self.vuelosP -> size() >=1000)
 end
 
 class Pasajero < Persona
@@ -86,7 +85,7 @@ end
 
 association avionVolando between
     Vuelo [0..1] role vueloEnCurso
-    Avion [0..1] role avionEnVuelo -- Cambio de multiplicidades
+    Avion [0..1] role avionEnVuelo
 end
 
 association vueloPilotoPrincipal between
@@ -109,16 +108,6 @@ association aeropuertoCiudad between
     Ciudad [1] role ciudad
 end
 
-association aeropuertoHangar between
-    Aeropuerto [1] role aeropuerto
-    Hangar [1..*] role hangares
-end
-
-association aeropuertoDesguace between
-    Aeropuerto [1] role aeropuerto
-    Desguace [0..1] role desguace
-end
-
 association avionDesguace between
     Avion [0..*] role aviones
     Desguace [0..1] role avionRelegado
@@ -132,21 +121,31 @@ end
 
 ----------Fin Asociaciones-----
 
+----------Composiciones----------
+composition aeropuertoHangar between
+    Aeropuerto [1] role aeropuerto
+    Hangar [1..*] role hangares
+end
+
+composition aeropuertoDesguace between
+    Aeropuerto [1] role aeropuerto
+    Desguace [0..1] role desguace
+end
+----------Fin composiciones----------
+
 ----------Invariantes----------
 constraints
 
 context Aerolinea
     inv AerolineaNombreUnico:
-        self.nombre <> null and
-        Aerolinea.allInstances() -> forAll(a1, a2 | a1 <> a2 implies a1.nombre <> a2.nombre) 
+        Aerolinea.allInstances() -> forAll(a1, a2 | a1 <> a2 implies a1.nombre <> a2.nombre)
                         -- el nombre de la aerolinea no puede ser nulo y
                         -- si a1 es distinto de a2 entonces a1.nombre es distinto de a2.nombre
 
 
 context Vuelo
     inv IdVueloUnico:
-        self.identificador <> null and
-        Vuelo.allInstances() -> forAll(v1,v2 | v1 <> v2 implies v1.identificador <> v2.identificador)
+        Vuelo.allInstances() -> forAll(v1,v2|  v1 <> v2 implies v1.identificador <> v2.identificador)
                         -- el identificador del vuelo no puede ser nulo y
                         -- si el objeto no es el mismo esto implica que los identificadores son distintos
     
@@ -156,7 +155,7 @@ context Vuelo
 
 context Avion
     inv AvionDesguace:
-        self.num_vuelos > 1 implies not self.avionRelegado.oclIsUndefined()
+        self.num_vuelos > 1000 implies not self.avionRelegado.oclIsUndefined()
                         -- Si el numero de vuelos es mayor o igual a 1000 entonces el avion esta en desguace
                         -- es decir, la variable avionRelegado no es nula
     
@@ -168,16 +167,16 @@ context Avion
 
 context Piloto
     inv MaxAerolineasPorPiloto:
-        self.vuelosP.avion.aerolinea -> union(self.vuelosS.avion.aerolinea) -> asSet() -> size() <= 2
+        self.vuelosP.avion.aerolinea -> union(self.vuelosS.avion.aerolinea) -> asSet()->size()<3
                 -- Un piloto no puede volar en mas de 2 aerolineas
     
 context Hangar
-    inv HangarCapacidadMax:
+    inv CapMaxHangar:
         self.aviones -> size() <= self.capacidad_max
                 -- La cantidad de aviones en un hangar no puede ser mayor que la capacidad maxima del hangar
 
 context Desguace
-    inv DesguaceCapacidadMax:
+    inv CapMaxDesguace:
         self.aviones -> size() <= self.capacidad_max
                 -- La cantidad de aviones en un desguace no puede ser mayor que la capacidad maxima del desguace
 
