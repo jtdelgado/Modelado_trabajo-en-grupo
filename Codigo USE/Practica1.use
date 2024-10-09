@@ -75,12 +75,12 @@ end
 ---------Fin de Clases--------
 
 ----------Asociaciones---------
-association vuelos_avion between
+association vuelosAvion between
     Vuelo [0..*] role vuelos
     Avion [1] role avion
 end
 
-association avion_volando between
+association avionVolando between
     Vuelo [0..1] role vueloEnCurso
     Avion [1] role avionEnVuelo
 end
@@ -144,7 +144,7 @@ context Avion
         self.num_vuelos > 1000 implies not self.avionRelegado.oclIsUndefined()
         -- que el avión tenga más de 1000 vuelos implica que la relación con desguace existe
     inv AvionEstadoUnico:
-        self.vueloEnCurso -> size() + self.avionRelegado -> size() + self.avionEstacionado -> size() = 1      
+        (self.vueloEnCurso -> size() + self.avionRelegado -> size() + self.avionEstacionado -> size()) = 1      
         -- obligatoriamente tiene que tener un estado y debe ser solo uno       
 
 context Vuelo

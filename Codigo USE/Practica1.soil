@@ -1,19 +1,44 @@
 reset
-!new Aerolinea('a1')
-!a1.nombre := 'a1'
 
-!new Aerolinea('a2')
-!a2.nombre := 'a1'
-check
+--Comprobación invariante:"AvionEstadoObligatorio"
+!new Avion('airbus_a320')
+!new Avion('boeing_747')
 
---Comprobación invariante:"IdCadaVueloUnico"
-!new Vuelo('v1')
-!v1.identificador := '1'
+!new Hangar('united_aviation')
+!united_aviation.capacidad_max := 2
 
-!new Vuelo('v2')
-!v2.identificador := '2'
+!new Desguace('desguaces_paco')
+!desguaces_paco.capacidad_max := 1
 
---Descomentar esta línea de código para comprobar que funciona
--- !new Vuelo('v3')
--- !v3.identificador := '1'
+!new Vuelo('malaga_barcelona')
+
+!insert(malaga_barcelona, boeing_747) into avion_volando
+!insert(airbus_a320, desguaces_paco) into avionDesguace
+
+--Descomentar la linea de abajo para que falle
+--Porque el boeing_747 estaria volando y en un hangar a la vez
+--!insert(boeing_747, united_aviation) into avionHangar
+
+--Comprobación invariante:"CapMaxHangar"
+
+!new Avion('airbus_a320')
+!new Avion('boeing_747')
+
+!new Hangar('united_aviation')
+!united_aviation.capacidad_max := 1
+
+!insert(airbus_a320, united_aviation) into avionHangar
+--Descomentar la linea de abajo para que falle
+--Porque dos aviones estarían en un hangar de capacidad 1
+!insert(boeing_747, united_aviation) into avionHangar
+
+!new Vuelo('vuelo')
+!new Piloto('Julia')
+!new Piloto('Mariano')
+
+!insert (vuelo, Julia) into vueloPilotoPrincipal
+--Si comentamos el primer insert desde este mensaje y descomentamos el segundo,
+--la invariante será correcta
+--!insert (vuelo, Julia) into vueloPilotoSecundario
+!insert (vuelo, Mariano) into vueloPilotoSecundario
 check

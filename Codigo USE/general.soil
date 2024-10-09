@@ -1,0 +1,242 @@
+reset
+
+-----------------------------------Inicio de la creación de objetos-----------------------------------
+
+!new Avion('airbus_a320')
+!new Avion('airbus_a350')
+!new Avion('airbus_a380')
+!new Avion('boeing_737')
+!new Avion('boeing_747')
+!new Avion('boeing_777')
+!new Avion('piaggio_p180')
+
+!new Aerolinea('AirEuropa')
+!AirEuropa.nombre := 'AirEuropa'
+!new Aerolinea('Iberia')
+!Iberia.nombre := 'Iberia'
+!new Aerolinea('Vueling')
+!Vueling.nombre := 'Vueling'
+!new Aerolinea('Ryanair')
+!Ryanair.nombre := 'Ryanair'
+!new Aerolinea('AirFrance')
+!AirFrance.nombre := 'Air France'
+
+!new Aeropuerto('AGP')
+!new Aeropuerto('BCN')
+!new Aeropuerto('MAD')
+!new Aeropuerto('VLC')
+!new Aeropuerto('SVQ')
+
+!new Vuelo('malaga_barcelona')
+!malaga_barcelona.identificador := 'FL000'
+!malaga_barcelona.num_kilometros := 960
+!new Vuelo('barcelona_madrid')
+!barcelona_madrid.identificador := 'FL001'
+!barcelona_madrid.num_kilometros := 620
+!new Vuelo('madrid_valencia')
+!madrid_valencia.identificador := 'FL002'
+!madrid_valencia.num_kilometros := 360
+!new Vuelo('valencia_sevilla')
+!valencia_sevilla.identificador := 'FL003'
+!valencia_sevilla.num_kilometros := 730
+!new Vuelo('malaga_madrid')
+!malaga_madrid.identificador := 'FL004'
+!malaga_madrid.num_kilometros := 520
+!new Vuelo('madrid_sevilla')
+!madrid_sevilla.identificador := 'FL005'
+!madrid_sevilla.num_kilometros := 420
+!new Vuelo('sevilla_barcelona')
+!sevilla_barcelona.identificador := 'FL006'
+!sevilla_barcelona.num_kilometros := 1000
+
+!new Ciudad('Malaga')
+!Malaga.nombre := 'Malaga'
+!new Ciudad('Barcelona')
+!Barcelona.nombre := 'Barcelona'
+!new Ciudad('Madrid')
+!Madrid.nombre := 'Madrid'
+!new Ciudad('Valencia')
+!Valencia.nombre := 'Valencia'
+!new Ciudad('Sevilla')
+!Sevilla.nombre := 'Sevilla'
+
+!new Piloto('Pau')
+!Pau.nombre := 'Pau'
+!Pau.edad := 20
+!new Piloto('Eloy')
+!Eloy.nombre := 'Eloy'
+!Eloy.edad := 25
+!new Piloto('Eduardo')
+!Eduardo.nombre := 'Eduardo'
+!Eduardo.edad := 30
+!new Piloto('Javier')
+!Javier.nombre := 'Javier'
+!Javier.edad := 35
+!new Piloto('Maria')
+!Maria.nombre := 'Maria'
+!Maria.edad := 20
+!new Piloto('Daniela')
+!Daniela.nombre := 'Daniela'
+!Daniela.edad := 30
+
+!new Pasajero('Gonzalo')
+!Gonzalo.nombre := 'Gonzalo'
+!Gonzalo.edad := 55
+!new Pasajero('Agustin')
+!Agustin.nombre := 'Agustin'
+!Agustin.edad := 60
+!new Pasajero('Juanmi')
+!Juanmi.nombre := 'Juanmi'
+!Juanmi.edad := 20
+!new Pasajero('Clara')
+!Clara.nombre := 'Clara'
+!Clara.edad := 80
+!new Pasajero('Ana')
+!Ana.nombre := 'Ana'
+!Ana.edad := 25
+!new Pasajero('Ruben')
+!Ruben.nombre := 'Ruben'
+!Ruben.edad := 30
+!new Pasajero('Alejandro')
+!Alejandro.nombre := 'Alejandro'
+!Alejandro.edad := 35
+!new Pasajero('Amparo')
+!Amparo.nombre := 'Amparo'
+!Amparo.edad := 75
+!new Pasajero('Blanca')
+!Blanca.nombre := 'Blanca'
+!Blanca.edad := 16
+!new Pasajero('Luigi')
+!Luigi.nombre := 'Luigi'
+!Luigi.edad := 43
+!new Pasajero('Marta')
+!Marta.nombre := 'Marta'
+!Marta.edad := 50
+!new Pasajero('Sara')
+!Sara.nombre := 'Sara'
+!Sara.edad := 45
+!new Pasajero('Raul')
+!Raul.nombre := 'Raul'
+!Raul.edad := 40
+!new Pasajero('Carmen')
+!Carmen.nombre := 'Carmen'
+!Carmen.edad := 30
+
+!new Hangar('AGP_hangar')
+!AGP_hangar.capacidad_max := 1
+!new Hangar('BCN_hangar')
+!BCN_hangar.capacidad_max := 2
+!new Hangar('MAD_hangar')
+!MAD_hangar.capacidad_max := 0
+!new Hangar('VLC_hangar')
+!VLC_hangar.capacidad_max := 1
+!new Hangar('SVQ_hangar')
+!SVQ_hangar.capacidad_max := 1
+
+!new Desguace('AGP_desguace')
+!AGP_desguace.capacidad_max := 2
+!new Desguace('BCN_desguace')
+!BCN_desguace.capacidad_max := 1
+!new Desguace('MAD_desguace')
+!MAD_desguace.capacidad_max := 2
+!new Desguace('VLC_desguace')
+!VLC_desguace.capacidad_max := 0
+!new Desguace('SVQ_desguace')
+!SVQ_desguace.capacidad_max := 0
+
+-----------------------------------Fin de la creación de objetos-----------------------------------
+
+-----------------------------------Inicio de las asociaciones-----------------------------------
+
+!insert(airbus_a320, Ryanair) into Contrato --Contrato1
+!Contrato1.precio_mes:= 1000
+!Contrato1.num_mes:= 12
+!insert(airbus_a350, Iberia) into Contrato --Contrato2
+!Contrato2.precio_mes:= 2000
+!Contrato2.num_mes:= 12
+!insert(airbus_a380, Vueling) into Contrato --Contrato3
+!Contrato3.precio_mes:= 3000
+!Contrato3.num_mes:= 12
+!insert(boeing_737, Ryanair) into Contrato --Contrato4
+!Contrato4.precio_mes:= 4000
+!Contrato4.num_mes:= 12
+!insert(boeing_747, AirFrance) into Contrato --Contrato5
+!Contrato5.precio_mes:= 5000
+!Contrato5.num_mes:= 12
+!insert(boeing_777, AirFrance) into Contrato --Contrato6
+!Contrato6.precio_mes:= 6000
+!Contrato6.num_mes:= 12
+!insert(piaggio_p180, AirEuropa) into Contrato --Contrato7
+!Contrato7.precio_mes:= 7000
+!Contrato7.num_mes:= 12
+
+--Hay que poner las dos asociaciones? We are not that sure
+
+!insert(malaga_barcelona, boeing_747) into vuelosAvion
+!insert(barcelona_madrid, airbus_a320) into vuelosAvion
+!insert(madrid_valencia, airbus_a350) into vuelosAvion
+!insert(valencia_sevilla, airbus_a350) into vuelosAvion
+!insert(malaga_madrid, piaggio_p180) into vuelosAvion
+!insert(madrid_sevilla, boeing_777) into vuelosAvion
+!insert(sevilla_barcelona, boeing_737) into vuelosAvion
+
+!insert(malaga_barcelona, boeing_747) into avionVolando
+!insert(malaga_madrid, piaggio_p180) into avionVolando
+
+!insert(airbus_a320, BCN_hangar) into avionHangar
+!insert(boeing_737, SVQ_hangar) into avionHangar
+!insert(boeing_777, BCN_hangar) into avionHangar
+
+!insert(airbus_a350, MAD_desguace) into avionDesguace
+!insert(airbus_a380, MAD_desguace) into avionDesguace
+
+!insert(AGP, Malaga) into aeropuertoCiudad
+!insert(BCN, Barcelona) into aeropuertoCiudad
+!insert(MAD, Madrid) into aeropuertoCiudad
+!insert(VLC, Valencia) into aeropuertoCiudad
+!insert(SVQ, Sevilla) into aeropuertoCiudad
+
+!insert(AGP, AGP_hangar) into aeropuertoHangar
+!insert(BCN, BCN_hangar) into aeropuertoHangar
+!insert(MAD, MAD_hangar) into aeropuertoHangar
+!insert(VLC, VLC_hangar) into aeropuertoHangar
+!insert(SVQ, SVQ_hangar) into aeropuertoHangar
+
+!insert(AGP, AGP_desguace) into aeropuertoDesguace
+!insert(BCN, BCN_desguace) into aeropuertoDesguace
+!insert(MAD, MAD_desguace) into aeropuertoDesguace
+!insert(VLC, VLC_desguace) into aeropuertoDesguace
+!insert(SVQ, SVQ_desguace) into aeropuertoDesguace
+
+!insert(malaga_barcelona, Pau) into vueloPilotoPrincipal
+!insert(barcelona_madrid, Eloy) into vueloPilotoPrincipal
+!insert(madrid_valencia, Eduardo) into vueloPilotoPrincipal
+!insert(valencia_sevilla, Javier) into vueloPilotoPrincipal
+!insert(malaga_madrid, Maria) into vueloPilotoPrincipal
+!insert(madrid_sevilla, Daniela) into vueloPilotoPrincipal
+!insert(sevilla_barcelona, Pau) into vueloPilotoPrincipal
+
+!insert(malaga_barcelona, Eloy) into vueloPilotoSecundario
+!insert(barcelona_madrid, Eduardo) into vueloPilotoSecundario
+!insert(madrid_valencia, Javier) into vueloPilotoSecundario
+!insert(valencia_sevilla, Maria) into vueloPilotoSecundario
+!insert(malaga_madrid, Daniela) into vueloPilotoSecundario
+!insert(madrid_sevilla, Pau) into vueloPilotoSecundario
+!insert(sevilla_barcelona, Eloy) into vueloPilotoSecundario
+
+!insert(malaga_barcelona, Gonzalo) into vueloPasajero
+!insert(malaga_barcelona, Agustin) into vueloPasajero
+!insert(malaga_barcelona, Juanmi) into vueloPasajero
+!insert(malaga_barcelona, Clara) into vueloPasajero
+!insert(malaga_barcelona, Luigi) into vueloPasajero
+!insert(malaga_barcelona, Marta) into vueloPasajero
+
+!insert(malaga_madrid, Ana) into vueloPasajero
+!insert(malaga_madrid, Ruben) into vueloPasajero
+!insert(malaga_madrid, Alejandro) into vueloPasajero
+!insert(malaga_madrid, Amparo) into vueloPasajero
+!insert(malaga_madrid, Blanca) into vueloPasajero
+!insert(malaga_madrid, Carmen) into vueloPasajero
+!insert(malaga_madrid, Raul) into vueloPasajero
+
+
