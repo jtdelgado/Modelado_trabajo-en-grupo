@@ -130,26 +130,26 @@ end
 ----------Invariantes----------
 constraints
 
-context Aerolinea
-    inv AerolineaNombreUnico:
-        Aerolinea.allInstances() -> forAll(a1, a2 | a1 <> a2 implies a1.nombre <> a2.nombre)
+--context Aerolinea
+    --inv AerolineaNombreUnico:
+    --    Aerolinea.allInstances() -> forAll(a1, a2 | a1 <> a2 implies a1.nombre <> a2.nombre)
                         --a1 <> a2 indica que a1 y a2 son distintos y
                         --a1.nombre <> a2.nombre establece que el nombre de las aerolineas no puede ser igual
                         --La lectura literal seria: si a1 es distinto de a2 entonces a1.nombre es distinto de a2.nombre
 
 
-context Vuelo
-    inv IdCadaVueloUnico:
-        Vuelo.allInstances() -> forAll(v1,v2|  v1 <> v2 implies v1.identificador <> v2.identificador)
-                        -- Si el objeto no es el mismo esto implica que los identificadores son distintos
+--context Vuelo
+  --  inv IdCadaVueloUnico:
+   --     Vuelo.allInstances() -> forAll(v1,v2|  v1 <> v2 implies v1.identificador <> v2.identificador)
+   --                     -- Si el objeto no es el mismo esto implica que los identificadores son distintos
 
-context Piloto
-    inv MaxAerolineasPorPiloto:
-        (self.vuelosP.avion.aerolinea -> union(self.vuelosS.avion.aerolinea) -> asSet() -> size()) <= 2
+--context Piloto
+--    inv MaxAerolineasPorPiloto:
+--        self.vuelosP.avion.aerolinea -> union(self.vuelosS.avion.aerolinea) -> asSet() -> size() <= 2
         
 context Avion 
     inv AvionEstadoUnico:
-        (self.avionRelegado->isEmpty() and self.avionEstacionado->isEmpty() and not self.avion_volando->isEmpty()) or
-        (self.avionRelegado->isEmpty() and not self.avionEstacionado->isEmpty() and self.avion_volando->isEmpty()) or
-        (not self.avionRelegado->isEmpty() and self.avionEstacionado->isEmpty() and self.avion_volando->isEmpty())                 
+        (self.avionRelegado->isEmpty() and self.avionEstacionado->isEmpty() and not self.vueloEnCurso->isEmpty()) or
+        (self.avionRelegado->isEmpty() and not self.avionEstacionado->isEmpty() and self.vueloEnCurso->isEmpty()) or
+        (not self.avionRelegado->isEmpty() and self.avionEstacionado->isEmpty() and self.vueloEnCurso->isEmpty())                 
 ----------Fin Invariantes------

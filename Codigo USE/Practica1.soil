@@ -1,47 +1,39 @@
 reset
-!new Aerolinea('a1')
-!a1.nombre := 'a1'
 
-!new Aerolinea('a2')
-!a2.nombre := 'a2'
 
-!new Aerolinea('a3')
-!a2.nombre := 'a3'
-check
+------------------ MaxAerolíneasPorPiloto ------------------
+--!new Aerolinea('gorrocoptero')
+--!new Aerolinea('aguila')
+--!new Aerolinea ('flying')
 
-!new Piloto('p1')
-!p1.nombre := 'p1'
-check
+--!new Avion('avionG')
+--!new Avion('avionA')
+--!new Avion('avionF')
 
-!new Avion('av1')
-check
+--!new Piloto('PacoEloy')
 
---Comprobación invariante:"MaxAerolineasPorPiloto"
-!new Vuelo('v1')
-!v1.identificador := '1'
+--!new Vuelo('vueloG')
+--!insert(vueloG, PacoEloy) into vueloPilotoPrincipal
+--!insert(vueloG, avionG) into vuelos_avion
+--!insert(avionG, gorrocoptero) into Contrato
 
-!insert (v1, p1) into vueloPilotoPrincipal
-!insert (v1, av1) into vuelos_avion
-!insert (av1, a1) into Contrato
+--!new Vuelo('vueloA')
+--!insert(vueloA, PacoEloy) into vueloPilotoPrincipal
+--!insert(vueloA, avionA) into vuelos_avion
+--!insert(avionA, aguila) into Contrato
 
-!new Vuelo('v2')
-!v2.identificador := '2'
-!insert (v2, p1) into vueloPilotoPrincipal
-!insert (v2, av2) into vuelos_avion
-!insert (av1, a2) into Contrato
-check
+--!new Vuelo('vueloF')
+--!insert(vueloF, PacoEloy) into vueloPilotoPrincipal
+--!insert(vueloF, avionF) into vuelos_avion
+--!insert(avionF, flying) into Contrato
 
-!new Vuelo('v3')
-!v3.identificador := '3'
-!insert (v3, p1) into vueloPilotoPrincipal
-!insert (v3, av1) into vuelos_avion
-!insert (av1, a3) into Contrato
-check
+------------------ AvionEstadoObligatorio ------------------
+!new Avion ('avion')
 
---!new Vuelo('v2')
---!v2.identificador := '2'
+!new Vuelo('vuelo')
+!new Hangar ('hangar')
+!new Desguace('desguace')
 
---Descomentar esta línea de código para comprobar que funciona
--- !new Vuelo('v3')
--- !v3.identificador := '1'
-check
+--!insert(vuelo, avion) into avion_volando
+--!insert(avion, hangar) into avionHangar
+!insert(avion, desguace) into avionDesguace
