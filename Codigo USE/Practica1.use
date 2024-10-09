@@ -149,7 +149,7 @@ context Vuelo
 
 context Avion
     inv AvionDesguace:
-        self.num_vuelos > 1000 implies not self.avionRelegado.oclIsUndefined()
+        self.num_vuelos > 1 implies not self.avionRelegado.oclIsUndefined()
         -- que el avión tenga más de 1000 vuelos implica que la relación con desguace existe
 
 

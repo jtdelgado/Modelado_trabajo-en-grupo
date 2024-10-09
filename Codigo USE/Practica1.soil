@@ -1,9 +1,12 @@
 reset
+
+--Comprobación invariante:"AerolineaNombreUnico"
+
 !new Aerolinea('a1')
 !a1.nombre := 'a1'
 
 !new Aerolinea('a2')
-!a2.nombre := 'a1'
+!a2.nombre := 'a2'
 check
 
 --Comprobación invariante:"IdCadaVueloUnico"
@@ -12,6 +15,10 @@ check
 
 !new Vuelo('v2')
 !v2.identificador := '2'
+
+!new Vuelo('v3')
+!v3.identificador := '1'
+
 
 --Comprobación invariante PilotosDistintos
 
@@ -34,7 +41,7 @@ check
 
 !new Desguace('d')
 
--- !insert (av1, d) into avionDesguace
+!insert (av1, d) into avionDesguace
 --Descomentar esta línea de código para comprobar que funciona
 --Cambiar el límite de vuelos a 1 para que funcione
 
