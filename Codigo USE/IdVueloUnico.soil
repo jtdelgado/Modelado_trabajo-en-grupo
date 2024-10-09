@@ -1,0 +1,10 @@
+reset
+
+!new Vuelo('v1')
+!new Vuelo('v2')
+
+!v1.identificador := 'v1'
+--Cambiar el identificador de v2 a v1 para que falle la invariante
+!v2.identificador := 'v1' 
+
+check

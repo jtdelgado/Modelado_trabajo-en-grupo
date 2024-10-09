@@ -79,12 +79,12 @@ end
 ---------Fin de Clases--------
 
 ----------Asociaciones---------
-association vuelos_avion between
+association vuelosAvion between
     Vuelo [0..*] role vuelos
     Avion [1] role avion
 end
 
-association avion_volando between
+association avionVolando between
     Vuelo [0..1] role vueloEnCurso
     Avion [0..1] role avionEnVuelo -- Cambio de multiplicidades
 end
@@ -144,7 +144,7 @@ context Aerolinea
 
 
 context Vuelo
-    inv IdCadaVueloUnico:
+    inv IdVueloUnico:
         self.identificador <> null and
         Vuelo.allInstances() -> forAll(v1,v2 | v1 <> v2 implies v1.identificador <> v2.identificador)
                         -- el identificador del vuelo no puede ser nulo y
@@ -156,22 +156,18 @@ context Vuelo
 
 context Avion
     inv AvionDesguace:
-        self.num_vuelos >= 2 implies self.avionRelegado <> null
+        self.num_vuelos > 1 implies not self.avionRelegado.oclIsUndefined()
                         -- Si el numero de vuelos es mayor o igual a 1000 entonces el avion esta en desguace
                         -- es decir, la variable avionRelegado no es nula
     
     inv AvionEstadoObligatorio:
-        (self.avionEstacionado <> null implies (self.avionRelegado = null and self.vueloEnCurso = null)) and
-        (self.avionRelegado <> null implies (self.avionEstacionado = null and self.vueloEnCurso = null)) and
-        (self.vueloEnCurso <> null implies (self.avionEstacionado = null and self.avionRelegado = null and
-        self.vuelos -> includes(self.vueloEnCurso))) and
-                -- Un avion no puede estar en dos estados a la vez
-                -- Si un avion esta volando entonces tiene que estar regi
-        self.vueloEnCurso <> null or self.avionEstacionado <> null or self.avionRelegado <> null
-                -- Un avion tiene que estar estacionado, en vuelo o en desguace
+        (self.vueloEnCurso -> size() + self.avionRelegado -> size() + self.avionEstacionado -> size() = 1) 
+        and (not self.vueloEnCurso.oclIsUndefined() implies self.vuelos -> includes(self.vueloEnCurso))
+                -- Un avion tiene que estar en un estado obligatoriamente
+                -- Si un avion esta volando entonces tiene que estar registrado en un vuelo
 
 context Piloto
-    inv Max2AerolineasPorPiloto:
+    inv MaxAerolineasPorPiloto:
         self.vuelosP.avion.aerolinea -> union(self.vuelosS.avion.aerolinea) -> asSet() -> size() <= 2
                 -- Un piloto no puede volar en mas de 2 aerolineas
     

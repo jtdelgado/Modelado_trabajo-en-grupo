@@ -62,8 +62,8 @@ reset
 
 !insert (av1,d1) into avionDesguace -- el avion av1 esta en desguace porque tiene mas de 2 vuelos
 
-!insert (av1,a1) into Contrato
-!insert (av1,a2) into Contrato
+!insert (av1,a1) into Contrato --Contrato1
+!insert (av1,a2) into Contrato --Contrato2
 
 
 
