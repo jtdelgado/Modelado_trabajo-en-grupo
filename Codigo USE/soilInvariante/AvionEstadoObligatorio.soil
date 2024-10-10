@@ -1,0 +1,19 @@
+reset
+
+!new Avion ('avion')
+
+
+!new Vuelo('vuelo')
+!new Hangar ('hangar')
+!new Desguace('desguace')
+
+
+!insert(vuelo, avion) into avionVolando
+--!insert(avion, hangar) into avionHangar
+--!insert(avion, desguace) into avionDesguace
+
+-- Si se descomenta una o ambas lineas, el invariante falla
+
+--!insert(vuelo, avion) into vuelosAvion
+
+check

@@ -1,0 +1,11 @@
+reset
+
+!new Vuelo('vuelo')
+!new Piloto('Julia')
+!new Piloto('Mariano')
+
+--Si se cambia Julia por Mariano en uno de los dos insert la invariante --es correcta
+!insert (vuelo, Julia) into vueloPilotoPrincipal
+!insert (vuelo, Mariano) into vueloPilotoSecundario
+
+check

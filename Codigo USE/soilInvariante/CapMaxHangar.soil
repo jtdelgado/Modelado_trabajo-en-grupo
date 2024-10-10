@@ -1,0 +1,20 @@
+reset
+
+--Comprobación invariante:"CapMaxHangar"
+
+
+!new Avion('airbus_a320')
+!new Avion('boeing_747')
+
+
+!new Hangar('united_aviation')
+!united_aviation.capacidad_max := -1
+
+
+!insert(airbus_a320, united_aviation) into avionHangar
+--Descomentar la linea de abajo para que falle
+--Porque dos aviones estarían en un hangar de capacidad 1
+--!insert(boeing_747, united_aviation) into avionHangar
+
+
+check

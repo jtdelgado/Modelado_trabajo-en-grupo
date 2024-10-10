@@ -1,0 +1,15 @@
+reset
+
+!new Avion('av1')
+
+!new Desguace('d1')
+
+!new Vuelo('v1')
+!new Vuelo('v2')
+
+!insert (v1,av1) into vuelosAvion
+!insert (v2,av1) into vuelosAvion
+
+!insert (av1,d1) into avionDesguace
+
+check

@@ -1,0 +1,38 @@
+reset
+
+!new Aerolinea('Vueling')
+!new Aerolinea('Ryanair')
+!new Aerolinea('AirFrance')
+
+
+!new Avion('avionVueling')
+!new Avion('avionRyanair')
+!new Avion('avionAirFrance')
+
+
+!new Vuelo('vueloVueling')
+!new Vuelo('vueloRyanair')
+!new Vuelo('vueloAirFrance')
+
+
+!new Piloto('Francisco')
+
+
+!insert (vueloVueling, Francisco) into vueloPilotoPrincipal
+!insert (vueloRyanair, Francisco) into vueloPilotoPrincipal
+!insert (vueloAirFrance, Francisco) into vueloPilotoPrincipal
+
+--Si comentamos una de estas relaciones de vuelos de diferentes aerolineas
+--con el piloto Francisco, la restricción se cumplirá
+
+
+!insert (vueloVueling, avionVueling) into vuelosAvion
+!insert (vueloRyanair, avionRyanair) into vuelosAvion
+!insert (vueloAirFrance, avionAirFrance) into vuelosAvion
+
+
+!insert (avionVueling, Vueling) into Contrato
+!insert (avionRyanair, Ryanair) into Contrato
+!insert (avionAirFrance, AirFrance) into Contrato
+
+check
