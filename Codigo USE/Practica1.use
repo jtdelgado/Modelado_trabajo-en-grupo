@@ -1,13 +1,15 @@
 model Practica1
 
+
 ----------Clases-----------
 class Avion
 attributes
-    num_kilometros : Integer --Hace falta hacerla (variable derivada)
+    num_kilometros : Integer 
             derive : self.vuelos.num_kilometros -> sum()
-    num_vuelos : Integer --Hace falta hacerla (variable derivada)
+    num_vuelos : Integer 
             derive : self.vuelos -> size()
 end
+
 
 associationclass Contrato between
     Avion[0..*] role avion
@@ -15,17 +17,20 @@ associationclass Contrato between
 attributes
     precio_mes : Real
     num_mes : Integer
-    precio_total : Real 
+    precio_total : Real
             derive : self.precio_mes * self.num_mes
 end
+
 
 class Aerolinea
 attributes
     nombre : String
 end
 
+
 class Aeropuerto
 end
+
 
 class Vuelo
 attributes
@@ -33,10 +38,12 @@ attributes
     num_kilometros : Integer
 end
 
+
 class Ciudad
-attributes 
+attributes
     nombre : String
 end
+
 
 class Persona
 attributes
@@ -44,31 +51,48 @@ attributes
     edad : Integer
 end
 
+
 class Piloto < Persona
 attributes
     num_kilometros : Integer derive :
-        (self.vuelosP.num_kilometros)->union(self.vuelosS.num_kilometros)-> sum()
-            -- Se hace una union de los kilometros de vuelosP y vuelosS en un unico conjunto  y se suman los num_kilometros
+        -- SE PUEDE HACER DE LAS DOS FORMAS
+
+
+        --(self.vuelosP -> collect(v | v.num_kilometros))
+        ---> union(self.vuelosS -> collect(v | v.num_kilometros))
+        ---> sum()
+            -- Se hace un collect de los num_kilometros de vuelosP y vuelosS y se suman
+
+
+        (self.vuelosP.num_kilometros) -> union(self.vuelosS.num_kilometros) -> sum()
+            -- Se hace una union de los kilometros de vuelosP y vuelosS y se suman
     piloto_pro : Boolean
-       derive : (self.vuelosS ->size() >= 3) and (self.vuelosP -> size() >=2) --------------FALTA POR PONERLO CUANDO SE HAGA LAS ASOCIACIONES
+        derive : (self.vuelosS ->size() >= 2000) and (self.vuelosP -> size() >=1000)
 end
+
 
 class Pasajero < Persona
 end
+
 
 class Almacen
 attributes
     capacidad_max : Integer
 end
 
+
 class Hangar < Almacen
 end
+
 
 class Desguace < Almacen
 end
 
 
+
+
 ---------Fin de Clases--------
+
 
 ----------Asociaciones---------
 association vuelosAvion between
@@ -76,42 +100,53 @@ association vuelosAvion between
     Avion [1] role avion
 end
 
+
 association avionVolando between
     Vuelo [0..1] role vueloEnCurso
-    Avion [1] role avionEnVuelo
+    Avion [0..1] role avionEnVuelo
 end
+
 
 association vueloPilotoPrincipal between
     Vuelo [0..*] role vuelosP
     Piloto [1] role pilotoP
 end
 
+
 association vueloPilotoSecundario between
     Vuelo [0..*] role vuelosS
     Piloto [0..1] role pilotoS
 end
+
 
 association vueloPasajero between
     Vuelo [0..1] role vuelos
     Pasajero [0..*] role pasajeros
 end
 
+
 association aeropuertoCiudad between
     Aeropuerto [0..1] role aeropuertos
     Ciudad [1] role ciudad
 end
+
 
 association avionDesguace between
     Avion [0..*] role aviones
     Desguace [0..1] role avionRelegado
 end
 
+
 association avionHangar between
     Avion [0..*] role aviones
     Hangar [0..1] role avionEstacionado
 end
 
+
+
+
 ----------Fin Asociaciones-----
+
 
 ----------Composiciones----------
 composition aeropuertoHangar between
@@ -119,47 +154,67 @@ composition aeropuertoHangar between
     Hangar [1..*] role hangares
 end
 
+
 composition aeropuertoDesguace between
     Aeropuerto [1] role aeropuerto
     Desguace [0..1] role desguace
 end
 ----------Fin composiciones----------
 
+
 ----------Invariantes----------
 constraints
+
 
 context Aerolinea
     inv AerolineaNombreUnico:
         Aerolinea.allInstances() -> forAll(a1, a2 | a1 <> a2 implies a1.nombre <> a2.nombre)
-                        --a1 <> a2 indica que a1 y a2 son distintos y
-                        --a1.nombre <> a2.nombre establece que el nombre de las aerolineas no puede ser igual
-                        --La lectura literal seria: si a1 es distinto de a2 entonces a1.nombre es distinto de a2.nombre
+                        -- el nombre de la aerolinea no puede ser nulo y
+                        -- si a1 es distinto de a2 entonces a1.nombre es distinto de a2.nombre
 
-context Avion
-    inv AvionDesguace:
-        self.num_vuelos > 1000 implies not self.avionRelegado.oclIsUndefined()
-        -- que el avión tenga más de 1000 vuelos implica que la relación con desguace existe
-    inv AvionEstadoUnico:
-        (self.vueloEnCurso -> size() + self.avionRelegado -> size() + self.avionEstacionado -> size()) = 1      
-        -- obligatoriamente tiene que tener un estado y debe ser solo uno       
+
+
 
 context Vuelo
     inv IdVueloUnico:
         Vuelo.allInstances() -> forAll(v1,v2|  v1 <> v2 implies v1.identificador <> v2.identificador)
-                        -- Si el objeto no es el mismo esto implica que los identificadores son distintos
+                        -- el identificador del vuelo no puede ser nulo y
+                        -- si el objeto no es el mismo esto implica que los identificadores son distintos
+   
     inv PilotosDistintos:
         self.pilotoP <> self.pilotoS
-        -- El piloto principal y el secundario no pueden ser el mismo
+            -- Si el piloto principal de mi vuelo es distinto del secundario
+
+
+context Avion
+    inv AvionDesguace:
+        self.num_vuelos >= 1000 implies not self.avionRelegado.oclIsUndefined()
+                        -- Si el numero de vuelos es mayor o igual a 1000 entonces el avion esta en desguace
+                        -- es decir, la variable avionRelegado no es nula
+   
+    inv AvionEstadoObligatorio:
+        (self.vueloEnCurso -> size() + self.avionRelegado -> size() + self.avionEstacionado -> size() = 1)
+        and (not self.vueloEnCurso.oclIsUndefined() implies self.vuelos -> includes(self.vueloEnCurso))
+                -- Un avion tiene que estar en un estado obligatoriamente
+                -- Si un avion esta volando entonces tiene que estar registrado en un vuelo
+
 
 context Piloto
     inv MaxAerolineasPorPiloto:
-        self.vuelosP.avion.aerolinea -> union(self.vuelosS.avion.aerolinea) -> asSet()->size()<3        
-    
+        self.vuelosP.avion.aerolinea -> union(self.vuelosS.avion.aerolinea) -> asSet()->size()<3
+                -- Un piloto no puede volar en mas de 2 aerolineas
+   
 context Hangar
     inv CapMaxHangar:
         self.aviones -> size() <= self.capacidad_max
+                -- La cantidad de aviones en un hangar no puede ser mayor que la capacidad maxima del hangar
+
 
 context Desguace
     inv CapMaxDesguace:
         self.aviones -> size() <= self.capacidad_max
+                -- La cantidad de aviones en un desguace no puede ser mayor que la capacidad maxima del desguace
+
+
+                   
 ----------Fin Invariantes------

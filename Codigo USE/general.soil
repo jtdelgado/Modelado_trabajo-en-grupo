@@ -239,4 +239,4 @@ reset
 !insert(malaga_madrid, Carmen) into vueloPasajero
 !insert(malaga_madrid, Raul) into vueloPasajero
 
-
+check

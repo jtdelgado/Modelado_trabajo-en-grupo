@@ -23,8 +23,8 @@ reset
 !v2.num_kilometros := 200
 
 
-!insert (v1,a1) into vuelos_avion
-!insert (v2,a1) into vuelos_avion
+!insert (v1,a1) into vuelosAvion
+!insert (v2,a1) into vuelosAvion
 
 ------------------------------
 --PRECIO_TOTAL
