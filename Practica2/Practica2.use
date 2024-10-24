@@ -27,7 +27,7 @@ end
 
 associationclass Recorrido  between
     Ciudad[1] role ciudadOrigen
-    Ciudad[1] role ciudadDestino
+    Ciudad[0..*] role ciudadDestino
     attributes
         numKm : Real
 end
