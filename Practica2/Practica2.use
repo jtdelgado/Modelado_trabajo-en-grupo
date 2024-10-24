@@ -1,0 +1,83 @@
+model Practica2
+
+----------Clases-----------
+class Coche 
+attributes
+    fechaMatriculacion : Integer
+    kmRecorridos : Real
+            --derive : self.Viaje.num_kilometros -> sum()
+    kmAlDia : Real
+    enGarantia : Boolean
+            --derive : self.fechaMatriculacion + 2 > 2020
+    enMantenimiento : Boolean
+            --derive : self.Viaje.fechaSalida - self.Viaje.fechaLlegada > 30
+end
+
+class Viaje
+attributes
+    fechaSalida : Integer
+    fechaLlegada : Integer
+            --derive :
+end
+
+class Ciudad
+attributes
+    nombre : String
+end
+
+associationclass Recorrido  between
+    Ciudad[1] role ciudadOrigen
+    Ciudad[1] role ciudadDestino
+    attributes
+        numKm : Real
+end
+
+class Taller 
+attributes
+    nombre : String
+end
+
+class TallerOficial< Taller
+attributes
+    tiempoGarantiaDias : Integer 
+end
+
+enum TipoRevision {Mantenimiento, Averia}
+
+class Revision
+attributes
+    fechaInicio : Integer
+    fechaFin : Integer
+    tipoRevision : TipoRevision
+end 
+
+----------Fin de clases-----------
+
+----------Asociaciones------------
+association ViajeCoche between
+    Coche[1] role cocheEnViaje
+    Viaje[0..*] role viaje
+end
+
+association RevisionCoche between
+    Coche[1] role cocheEnRevision
+    Revision[0..*] role revision
+end
+
+association RevisionTaller between
+    Taller[1] role taller
+    Revision[0..*] role revision
+end
+
+association CiudadTaller between
+    Ciudad[1] role localizacionTaller
+    Taller[0..*] role taller
+end
+
+association ViajeRecorrido between
+    Viaje[0..*] role viajeRecorrido
+    Recorrido[1] role recorrido
+end
+
+
+
