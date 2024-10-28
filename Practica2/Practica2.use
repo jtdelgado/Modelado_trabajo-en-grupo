@@ -69,15 +69,15 @@ association RevisionTaller between
     Revision[0..*] role revision
 end
 
-association CiudadTaller between
-    Ciudad[1] role localizacionTaller
-    Taller[0..*] role taller
-end
-
 association ViajeRecorrido between
     Viaje[0..*] role viajeRecorrido
     Recorrido[1] role recorrido
 end
 
+----------Composiciones------------
 
+composition CiudadTaller between
+    Ciudad[1] role localizacionTaller
+    Taller[0..*] role taller
+end
 
