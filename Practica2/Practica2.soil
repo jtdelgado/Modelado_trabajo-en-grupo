@@ -1,0 +1,33 @@
+!new Clock('reloj')
+!reloj.now := 500
+
+!new Coche('Audi')
+!Audi.fechaMatriculacion := 50
+
+!new Coche('Seat')
+!Seat.fechaMatriculacion := 200
+
+!new Coche('CitroenC3')
+!CitroenC3.fechaMatriculacion := 300
+
+!new Revision('RevisionCitroen2')
+!RevisionCitroen2.fechaFin := 450
+!RevisionCitroen2.tipoRevision := TipoRevision::Averia
+
+!new Revision('RevisionAudi')
+!RevisionAudi.fechaFin := 450
+!RevisionAudi.tipoRevision := TipoRevision::Mantenimiento
+
+!new Revision('RevisionSeat')
+!RevisionSeat.fechaFin := 450
+!RevisionSeat.tipoRevision := TipoRevision::Mantenimiento
+
+!new Revision('RevisionCitroen')
+!RevisionCitroen.fechaFin := 400
+!RevisionCitroen.tipoRevision := TipoRevision::Mantenimiento
+
+!insert(CitroenC3, RevisionCitroen2) into RevisionCoche
+!insert(Audi, RevisionAudi) into RevisionCoche
+!insert(Seat, RevisionSeat) into RevisionCoche
+!insert(CitroenC3, RevisionCitroen) into RevisionCoche
+
