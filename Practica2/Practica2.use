@@ -5,19 +5,19 @@ class Coche
 attributes
     fechaMatriculacion : Integer
     kmRecorridos : Real
-            --derive : self.Viaje.num_kilometros -> sum()
+        derive : self.viaje.recorrido.numKm->sum()
     kmAlDia : Real
     enGarantia : Boolean
-            --derive : self.fechaMatriculacion + 2 > 2020
-    enMantenimiento : Boolean
-            --derive : self.Viaje.fechaSalida - self.Viaje.fechaLlegada > 30
+        derive : (Clock.allInstances()->any(true).now - self.fechaMatriculacion) < 400
+    necesitaMantenimiento : Boolean
+        derive : (Clock.allInstances()->any(true).now - self.fechaMatriculacion) >= 400 or 
+            (Clock.allInstances()->any(true).now - self.revision->select(r | r.tipoRevision = TipoRevision::Mantenimiento)->sortedBy(fechaFin)->last().fechaFin) >= 100
 end
 
 class Viaje
 attributes
     fechaSalida : Integer
     fechaLlegada : Integer
-            --derive :
 end
 
 class Ciudad
