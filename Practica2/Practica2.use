@@ -1,6 +1,11 @@
 model Practica2
 
 ----------Clases-----------
+class Clock
+attributes
+    now : Integer
+end
+
 class Coche 
 attributes
     fechaMatriculacion : Integer
@@ -80,9 +85,11 @@ composition CiudadTaller between
     Ciudad[1] role localizacionTaller
     Taller[0..*] role taller
 end
-
+/*
 ----------Invariantes------------ ESTO NO ESTA NI TERMINADO NI ASEGURO QUE SEA CORRECTO
 constraints
+
+asdsadsda
 
 context Recorrido
     inv DistanciaMinima:
@@ -94,7 +101,7 @@ context Coche
     
 context Revision
     inv fechasRevisionNoNulas:
-        self.fechaInicio != null and self.fechaFin != null
+        self.fechaInicio != -1 and self.fechaFin != -1
     inv fechaInicioRevisionPositiva:
         self.fechaInicio >= 0
     inv fechaFinRevisionPosteriorInicio:
@@ -107,3 +114,4 @@ context Taller
 context Ciudad 
     inv 
 ----------Fin invariantes------------
+*/
