@@ -5,19 +5,19 @@ class Coche
 attributes
     fechaMatriculacion : Integer
     kmRecorridos : Real
-            --derive : self.kmRecorridos + 
+            --derive : self.Viaje.num_kilometros -> sum()
     kmAlDia : Real
     enGarantia : Boolean
-        derive : (Clock.allInstances()->any(true).now - self.fechaMatriculacion) < 400
-    necesitaMantenimiento : Boolean
-        derive : (Clock.allInstances()->any(true).now - self.fechaMatriculacion) >= 400 or 
-            (Clock.allInstances()->any(true).now - self.revision->select(r | r.tipoRevision = TipoRevision::Mantenimiento)->sortedBy(fechaFin)->last().fechaFin) >= 100
+            --derive : self.fechaMatriculacion + 2 > 2020
+    enMantenimiento : Boolean
+            --derive : self.Viaje.fechaSalida - self.Viaje.fechaLlegada > 30
 end
 
 class Viaje
 attributes
     fechaSalida : Integer
     fechaLlegada : Integer
+            --derive :
 end
 
 class Ciudad
@@ -51,11 +51,6 @@ attributes
     tipoRevision : TipoRevision
 end 
 
-class Clock
-attributes
-    now : Integer
-end
-
 ----------Fin de clases-----------
 
 ----------Asociaciones------------
@@ -79,17 +74,36 @@ association ViajeRecorrido between
     Recorrido[1] role recorrido
 end
 
-association CocheCiudad between
-    Coche[0..*] role cocheEnCiudad
-    Ciudad[0..1] role ciudad
-end
-----------Fin de Asociaciones-----------
-
 ----------Composiciones------------
 
 composition CiudadTaller between
     Ciudad[1] role localizacionTaller
     Taller[0..*] role taller
 end
-----------Fin de Composiciones-----------
-----------Invariantes------------
+
+----------Invariantes------------ ESTO NO ESTA NI TERMINADO NI ASEGURO QUE SEA CORRECTO
+constraints
+
+context Recorrido
+    inv DistanciaMinima:
+         self.numKm > 5
+
+context Coche
+    inv fechaMatriculacionPositiva:
+        self.fechaMatriculacion >= 0
+    
+context Revision
+    inv fechasRevisionNoNulas:
+        self.fechaInicio != null and self.fechaFin != null
+    inv fechaInicioRevisionPositiva:
+        self.fechaInicio >= 0
+    inv fechaFinRevisionPosteriorInicio:
+        self.fechaFin >= fechaInicio
+
+context Taller
+    inv GarantiaPositiva:
+        self.oclIsTypeOf(TallerOficial) implies self.tiempoGarantiaDias > 0
+
+context Ciudad 
+    inv 
+----------Fin invariantes------------
