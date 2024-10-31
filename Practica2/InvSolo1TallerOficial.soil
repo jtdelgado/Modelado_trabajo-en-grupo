@@ -1,0 +1,21 @@
+-- añadimos dos talleres oficiales a una ciudad
+
+!new TallerOficial('to1')
+!new TallerOficial('to2')
+
+!new Taller('t1')
+!new Taller('t2')
+!new Taller('t3')
+
+!new Ciudad('c1')
+
+!insert (c1, to1) into CiudadTaller
+--!insert (c1, to2) into CiudadTaller
+-- si comentamos alguna de estas dos líneas devuelve true
+
+!insert (c1, t1) into CiudadTaller
+!insert (c1, t2) into CiudadTaller
+!insert (c1, t3) into CiudadTaller
+-- los talleres normales no deberían afectar
+
+check

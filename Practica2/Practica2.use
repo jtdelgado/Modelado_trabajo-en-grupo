@@ -116,8 +116,8 @@ context Revision
     inv fechasRevisionNoNulas:
         self.fechaInicio <> -1 and self.fechaFin <> -1
 
-    inv ultimaCiudadDestinoEsSiguienteCiudadOrigen:
-        self.viaje->select(v | v.fechaSalida = self.viaje.fechaSalida->max())->recorrido.ciudadDestino = self.viaje->select(v | v.fechaSalida = self.viaje.fechaSalida->max())->recorrido.ciudadOrigen
+--    inv ultimaCiudadDestinoEsSiguienteCiudadOrigen:
+--        self.viaje->select(v | v.fechaSalida = self.viaje.fechaSalida->max())->recorrido.ciudadDestino = self.viaje->select(v | v.fechaSalida = self.viaje.fechaSalida->max())->recorrido.ciudadOrigen
 
     
 context Revision
@@ -129,10 +129,10 @@ context Revision
         self.cocheEnRevision.fechaMatriculacion <= self.fechaInicio
 
 context Taller
-    inv garantiaPositiva:
-        self.oclIsTypeOf(TallerOficial) implies self.tiempoGarantiaDias > 0
+--    inv garantiaPositiva:
+--        self.oclIsTypeOf(TallerOficial) implies self.tiempoGarantiaDias > 0
 
 context Ciudad 
-    inv solo1TallerOficial
-        self.taller -> select(t|t.oclIsTypeOf(TallerOficial)) -> size()<=1
+    inv solo1TallerOficial:
+        self.taller->select(t|t.oclIsTypeOf(TallerOficial))->size()<=1
 ----------Fin invariantes------------
