@@ -1,0 +1,27 @@
+-- Creamos 3 ciudades distintas para relacionarlas a partir de la clase asociación Recorrido
+
+!new Ciudad ('c1')
+!c1.nombre := 'Granada'
+
+!new Ciudad ('c2')
+!c2.nombre := 'Narnia'
+
+!new Ciudad ('c3')
+!c3.nombre := 'LazyTown'
+
+--Insertamos las relaciones entre c1 con c2 y c1 con c3
+
+!new Recorrido ('r1')
+!insert (c1,c2) into r1
+!r1.numKm := 3
+
+!new Recorrido ('r2')
+!insert (c1,c2) into r2
+!r1.numKm := 6
+
+check
+
+--
+
+
+
