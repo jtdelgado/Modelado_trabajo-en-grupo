@@ -79,39 +79,51 @@ association ViajeRecorrido between
     Recorrido[1] role recorrido
 end
 
+association CocheCiudad between
+    Coche[0..*] role cocheEnCiudad
+    Ciudad[0..1] role ciudad
+end
+
 ----------Composiciones------------
 
 composition CiudadTaller between
     Ciudad[1] role localizacionTaller
     Taller[0..*] role taller
 end
-/*
+
 ----------Invariantes------------ ESTO NO ESTA NI TERMINADO NI ASEGURO QUE SEA CORRECTO
 constraints
-
-asdsadsda
+--En el apartado A solo tendremos una única insatncia del objeto clock 
+--Para indicar esto crearemos una nueva invariante
+context Clock
+    inv unicoClock:
+        Clock.allInstances()->size() = 1
 
 context Recorrido
     inv DistanciaMinima:
-         self.numKm > 5
+        self.numKm > 5 
 
 context Coche
     inv fechaMatriculacionPositiva:
         self.fechaMatriculacion >= 0
-    
+    inv tallerMismaCiudad:
+        let ultimaRevision: Revision = self.revision -> asSequence() ->first() in
+        let hoy : Integer = Clock.allInstances()->any(true).now in
+        (ultimaRevision.fechaInicio <= hoy and ultimaRevision.fechaFin >= hoy) 
+        implies ultimaRevision.taller.localizacionTaller = self.ciudad 
+        
 context Revision
     inv fechasRevisionNoNulas:
-        self.fechaInicio != -1 and self.fechaFin != -1
+        self.fechaInicio <> -1 and self.fechaFin <> -1
     inv fechaInicioRevisionPositiva:
         self.fechaInicio >= 0
     inv fechaFinRevisionPosteriorInicio:
         self.fechaFin >= fechaInicio
 
-context Taller
-    inv GarantiaPositiva:
-        self.oclIsTypeOf(TallerOficial) implies self.tiempoGarantiaDias > 0
+-- context Taller
+--     inv GarantiaPositiva:
+--         self.oclIsTypeOf(TallerOficial) implies self.tiempoGarantiaDias > 0
 
-context Ciudad 
-    inv 
+--context Ciudad 
+     
 ----------Fin invariantes------------
-*/
