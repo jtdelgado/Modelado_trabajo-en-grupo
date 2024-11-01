@@ -113,6 +113,12 @@ context Coche
         (ultimaRevision.fechaInicio <= hoy and ultimaRevision.fechaFin >= hoy) 
         implies ultimaRevision.taller.localizacionTaller = self.ciudad 
 
+--    inv ultimaCiudadDestinoEsSiguienteCiudadOrigen:
+--        self.viaje->select(v | v.fechaSalida = self.viaje.fechaSalida->max())
+--                            ->recorrido.ciudadDestino = self.viaje
+--                                            ->select(v | v.fechaSalida = self.viaje.fechaSalida->max())
+--                                                        ->recorrido.ciudadOrigen
+
     inv ciudadDestinoEsCiudadOrigenSiguiente:
         let viajesOrdenados : Sequence(Viaje) = self.viaje
                 ->sortedBy(fechaSalida)->asSequence() in
