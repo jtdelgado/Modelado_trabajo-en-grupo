@@ -1,0 +1,38 @@
+!new Coche('c1')
+
+!new Ciudad('ciudad1')
+!new Ciudad('ciudad2')
+!new Ciudad('ciudad3')
+!new Ciudad('ciudad4')
+
+!new Viaje('v1')
+!v1.fechaSalida := 1
+!v1.fechaLlegada := 2
+
+!insert(c1,v1) into ViajeCoche
+
+!insert(ciudad1,ciudad2) into Recorrido
+
+!insert(v1,Recorrido1) into ViajeRecorrido
+
+
+!new Viaje('v2')
+!v2.fechaSalida := 3
+!v2.fechaLlegada := 4
+
+!insert(c1,v2) into ViajeCoche
+!insert (ciudad2,ciudad3) into Recorrido
+
+!insert(v2,Recorrido2) into ViajeRecorrido
+
+!new Viaje('v3')
+!v3.fechaSalida := 5
+!v3.fechaLlegada := 6
+
+!insert(c1,v3) into ViajeCoche
+
+!insert (ciudad2,ciudad4) into Recorrido
+
+!insert(v3,Recorrido3) into ViajeRecorrido
+
+check
