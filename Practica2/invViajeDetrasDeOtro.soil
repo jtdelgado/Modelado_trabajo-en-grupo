@@ -1,0 +1,16 @@
+!new Coche('c1')
+
+!new Viaje('v1')
+!v1.fechaSalida := 1
+!v1.fechaLlegada := 2
+
+!insert(c1,v1) into ViajeCoche
+
+
+!new Viaje('v2')
+!v2.fechaSalida := 2
+!v2.fechaLlegada := 4
+
+!insert(c1,v2) into ViajeCoche
+
+check

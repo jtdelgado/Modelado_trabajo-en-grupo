@@ -112,13 +112,7 @@ context Coche
         let hoy : Integer = Clock.allInstances()->any(true).now in
         (ultimaRevision.fechaInicio <= hoy and ultimaRevision.fechaFin >= hoy) 
         implies ultimaRevision.taller.localizacionTaller = self.ciudad 
-
---    inv ultimaCiudadDestinoEsSiguienteCiudadOrigen:
---        self.viaje->select(v | v.fechaSalida = self.viaje.fechaSalida->max())
---                            ->recorrido.ciudadDestino = self.viaje
---                                            ->select(v | v.fechaSalida = self.viaje.fechaSalida->max())
---                                                        ->recorrido.ciudadOrigen
-
+                            
     inv ciudadDestinoEsCiudadOrigenSiguiente:
         let viajesOrdenados : Sequence(Viaje) = self.viaje
                 ->sortedBy(fechaSalida)->asSequence() in
@@ -131,6 +125,19 @@ context Coche
         -- y comprobamos para todos los viajes que la siguiente ciudad de destino actual 
         -- es la ciudad de origen de la siguiente
 
+    inv viajeDetrasDeOtro:
+        let viajesOrdenados : Sequence(Viaje) = self.viaje
+            ->sortedBy(fechaSalida)->asSequence() in
+        viajesOrdenados->forAll(v | 
+            viajesOrdenados->indexOf(v) < viajesOrdenados->size() implies 
+            v.fechaLlegada < viajesOrdenados
+                    ->at(viajesOrdenados->indexOf(v) + 1).fechaSalida
+        )
+    -- Esta invariante comprueba que un si un viaje empieza el 1 y acaba el 2, 
+    -- el siguiente viaje tiene que empezar el 3 y asi sucesivamente
+    
+    -- En el siguiente apartado esta restriccion habria que modificarla ya que,
+    -- al modelar el paso del tiempo, no sabemos cuando va a llegar (enunciado)
         
 context Revision
     inv fechasRevisionNoNulas:
@@ -153,18 +160,5 @@ context TallerOficial
 context Ciudad 
     inv solo1TallerOficial:
         self.taller->select(t|t.oclIsTypeOf(TallerOficial))->size()<=1
-
-context Viaje
-    inv viajeDetrasDeOtro:
-        let viajesOrdenados : Sequence(Viaje) = Viaje.allInstances()->sortedBy(fechaSalida)->asSequence() in
-        viajesOrdenados->forAll(v | 
-            viajesOrdenados->indexOf(v) < viajesOrdenados->size() implies 
-            v.fechaLlegada < viajesOrdenados->at(viajesOrdenados->indexOf(v) + 1).fechaSalida
-        )
-    -- Esta invariante comprueba que un si un viaje empieza el 1 y acaba el 2, 
-    -- el siguiente viaje tiene que empezar el 3 y asi sucesivamente
-    
-    -- En el siguiente apartado esta restriccion habria que modificarla ya que,
-    -- al modelar el paso del tiempo, no sabemos cuando va a llegar (enunciado)
 
 ----------Fin invariantes------------
