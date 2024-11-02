@@ -11,13 +11,20 @@ attributes
     fechaMatriculacion : Integer
     kmRecorridos : Real
         derive : self.viaje.recorrido.numKm->sum()
+                -- tomar solamente los viajes que su fechaFin <= now
     kmAlDia : Real
     enGarantia : Boolean
         derive : (Clock.allInstances()->any(true).now - self.fechaMatriculacion) < 400
+                -- Comprobar que los días de garantía por una revisión en
+                -- un taller oficial se han acabado o no (punto 15 enunciado)
     necesitaMantenimiento : Boolean
         derive : (Clock.allInstances()->any(true).now - self.fechaMatriculacion) >= 400 or 
-            (Clock.allInstances()->any(true).now - self.revision->select(r | r.tipoRevision = TipoRevision::Mantenimiento)->sortedBy(fechaFin)->last().fechaFin) >= 100
+            (Clock.allInstances()->any(true).now - self.revision
+                        ->select(r | r.tipoRevision = TipoRevision::Mantenimiento)
+                                    ->sortedBy(fechaFin)->last().fechaFin) >= 100
 end
+
+
 
 class Viaje
 attributes
@@ -108,10 +115,14 @@ context Coche
         self.fechaMatriculacion >= 0 and self.fechaMatriculacion <> null
 
     inv tallerMismaCiudad:
-        let ultimaRevision: Revision = self.revision-> sortedBy(fechaFin)->last() in
+        let revisiones: Revision = self.revision-> sortedBy(fechaFin) in
         let hoy : Integer = Clock.allInstances()->any(true).now in
-        (ultimaRevision.fechaInicio <= hoy and ultimaRevision.fechaFin >= hoy) 
-        implies ultimaRevision.taller.localizacionTaller = self.ciudad 
+        revisiones->forAll(r | 
+            (r.fechaInicio <= hoy and hoy <= r.fechaFin) implies 
+            r.taller.localizacionTaller = self.ciudad
+        )
+        
+    -- PROBAR CON SOIL
                             
     inv ciudadDestinoEsCiudadOrigenSiguiente:
         let viajesOrdenados : Sequence(Viaje) = self.viaje
@@ -156,7 +167,8 @@ context Coche
             (v.fechaSalida <= hoy and hoy <= v.fechaLlegada) implies 
             self.ciudad.oclIsUndefined() 
         )
-    -- --------------------------IMPORTANTE--------------------------------
+    -- --------------------------IMPORTANTE (otro invariante)--------------------------------
+    -- (Punto 11 enunciado)
     -- Comprobar que el coche esta en la ciudad adecuada, es decir, si now es antes del viaje
     -- entonces la ciudad en la que se encuentra el coche es la ciudad de origen del viaje
     -- si now es despues del viaje entonces la ciudad en la que se encuentra el coche es la 
