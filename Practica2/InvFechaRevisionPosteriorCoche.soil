@@ -1,0 +1,9 @@
+!new Coche('c1')
+!c1.fechaMatriculacion := 2
+
+!new Revision('r1')
+!r1.fechaInicio := 2
+!r1.fechaFin := 3
+
+!insert (c1,r1) into RevisionCoche
+
