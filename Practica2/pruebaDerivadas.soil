@@ -48,6 +48,13 @@
 !new Coche ('c2')
 !c2.fechaMatriculacion := 1
 
+!new Revision ('r1')
+!r1.fechaInicio := 400
+!r1.fechaFin := 401
+!r1.tipoRevision := 'Mantenimiento'
+
+!insert (c2,r1) into RevisionCoche
+
 
 
 

@@ -108,7 +108,7 @@ context Coche
         self.fechaMatriculacion >= 0
 
     inv tallerMismaCiudad:
-        let ultimaRevision: Revision = self.revision -> asSequence() ->first() in
+        let ultimaRevision: Revision = self.revision-> sortedBy(fechaFin)->last() in
         let hoy : Integer = Clock.allInstances()->any(true).now in
         (ultimaRevision.fechaInicio <= hoy and ultimaRevision.fechaFin >= hoy) 
         implies ultimaRevision.taller.localizacionTaller = self.ciudad 
@@ -141,9 +141,9 @@ context Coche
         
 context Revision
     inv fechasRevisionNoNulas:
-        self.fechaInicio <> -1 and self.fechaFin <> -1
-    
-context Revision
+        (self.fechaInicio <> null or self.fechaInicio>=0) and 
+        (self.fechaFin <> null or self.fechaFin>=0)
+        
     inv fechaInicioRevisionPositiva:
         self.fechaInicio >= 0
 

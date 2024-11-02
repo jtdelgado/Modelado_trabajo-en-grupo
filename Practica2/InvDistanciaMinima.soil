@@ -1,0 +1,8 @@
+!new Ciudad('c1')
+!new Ciudad('c2')
+
+!insert (c1,c2) into Recorrido
+
+!Recorrido1.numKm = 6
+
+check
