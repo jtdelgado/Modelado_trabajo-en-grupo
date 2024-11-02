@@ -156,6 +156,11 @@ context Coche
             (v.fechaSalida <= hoy and hoy <= v.fechaLlegada) implies 
             self.ciudad.oclIsUndefined() 
         )
+    -- --------------------------IMPORTANTE--------------------------------
+    -- Comprobar que el coche esta en la ciudad adecuada, es decir, si now es antes del viaje
+    -- entonces la ciudad en la que se encuentra el coche es la ciudad de origen del viaje
+    -- si now es despues del viaje entonces la ciudad en la que se encuentra el coche es la 
+    -- ciudad de destino del viaje
     
     inv unaRevisionALaVez:
         self.revision->forAll(r1,r2 | r1 <> r2 implies 

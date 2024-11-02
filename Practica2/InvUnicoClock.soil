@@ -1,0 +1,5 @@
+!new Clock ('Today')
+!Today.now := 4
+--Para que el invariante se incumpla descomentar las siguientes líneas:
+-- !new Clock ('Prueba1')
+-- !Prueba1.now := 2

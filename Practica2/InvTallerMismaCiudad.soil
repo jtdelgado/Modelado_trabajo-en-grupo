@@ -1,9 +1,6 @@
 !new Clock ('Today')
 !Today.now := 4
 
--- !new Clock ('Prueba1')
--- !Prueba1.now := 2
-
 !new Coche ('c1')
 
 !new Ciudad('ciudad1')
@@ -28,6 +25,8 @@
 
 !insert (t1,r1) into RevisionTaller
 
+
+--Para que se incumpla el invariante descomentar la siguiente línea y comenta la posterior:
+--!insert (ciudad2,t1) into CiudadTaller
 !insert (ciudad1,t1) into CiudadTaller
 
---!insert (ciudad2,t1) into CiudadTaller
