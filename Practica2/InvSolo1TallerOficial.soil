@@ -9,7 +9,7 @@
 
 !new Ciudad('c1')
 
-!insert (c1, to1) into CiudadTaller
+--!insert (c1, to1) into CiudadTaller
 --!insert (c1, to2) into CiudadTaller
 -- si comentamos alguna de estas dos líneas devuelve true
 

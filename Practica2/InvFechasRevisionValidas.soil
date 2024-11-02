@@ -1,0 +1,5 @@
+!new Revision('r1')
+!r1.fechaInicio := 1
+!r1.fechaFin := 2
+
+check
