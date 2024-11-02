@@ -139,8 +139,29 @@ context Coche
     -- En el siguiente apartado esta restriccion habria que modificarla ya que,
     -- al modelar el paso del tiempo, no sabemos cuando va a llegar (enunciado)
 
+    inv cocheViajandoOEnCiudad_v2:
+        let ultimoViaje : Viaje = self.viaje
+            ->sortedBy(fechaSalida)->asSequence() -> last() in
+        let hoy : Integer = Clock.allInstances()->any(true).now in
+        (((self.ciudad -> notEmpty()) and 
+                   not (ultimoViaje.fechaSalida <= hoy and hoy <= ultimoViaje.fechaLlegada))) or 
+        (((self.ciudad -> isEmpty()) and 
+                   (ultimoViaje.fechaSalida <= hoy and hoy <= ultimoViaje.fechaLlegada)))
+
     inv cocheViajandoOEnCiudad:
-        
+        let viajes : Sequence(Viaje) = self.viaje
+            ->sortedBy(fechaSalida)->asSequence() in
+        let hoy : Integer = Clock.allInstances()->any(true).now in
+        viajes->forAll(v | 
+            (v.fechaSalida <= hoy and hoy <= v.fechaLlegada) implies 
+            self.ciudad -> isEmpty() 
+        )
+    
+    inv unaRevisionALaVez:
+        let hoy : Integer = Clock.allInstances()->any(true).now in
+        let revisionesActuales : Sequence(Revision) = self.revision -> 
+                select(r | r.fechaInicio <= hoy and hoy <= r.fechaFin) -> asSequence() in
+        revisionesActuales -> size() <= 1
         
 context Revision
     inv fechasRevisionValidas:
@@ -150,6 +171,11 @@ context Revision
         
     inv fechaRevisionPosteriorCoche:
         self.cocheEnRevision.fechaMatriculacion <= self.fechaInicio
+
+    --inv tipoRevisionValido:
+    --    not self.cocheEnRevision.necesitaMantenimiento implies 
+    --    self.tipoRevision = TipoRevision::Averia
+    -- no esta en el enunciado y no se a que se refiere
 
 context TallerOficial
     inv garantiaValida:

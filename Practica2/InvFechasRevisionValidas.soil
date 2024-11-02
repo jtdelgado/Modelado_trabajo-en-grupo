@@ -1,5 +1,7 @@
 !new Revision('r1')
 !r1.fechaInicio := 1
 !r1.fechaFin := 2
+-- para que el invariante no se cumple, pones alguna de las fechas negativas o ambas
+-- o pones la fecha de inicio mayor que la fecha de fin
 
 check
