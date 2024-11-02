@@ -138,14 +138,15 @@ context Coche
     
     -- En el siguiente apartado esta restriccion habria que modificarla ya que,
     -- al modelar el paso del tiempo, no sabemos cuando va a llegar (enunciado)
+
+    inv cocheViajandoOEnCiudad:
+        
         
 context Revision
     inv fechasRevisionValidas:
-        (self.fechaInicio <> null and self.fechaInicio>=0) and 
-        (self.fechaFin <> null and self.fechaFin>=0)
-
-    inv fechaFinRevisionPosteriorInicio:
-        self.fechaFin >= fechaInicio
+        ((self.fechaInicio <> null and self.fechaInicio>=0) and 
+        (self.fechaFin <> null and self.fechaFin>=0)) and 
+        (self.fechaInicio <= self.fechaFin)
         
     inv fechaRevisionPosteriorCoche:
         self.cocheEnRevision.fechaMatriculacion <= self.fechaInicio
