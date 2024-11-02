@@ -32,7 +32,8 @@
 
 !insert(c1,v3) into ViajeCoche
 
-!insert (ciudad2,ciudad4) into Recorrido
+!insert (ciudad3,ciudad4) into Recorrido
+-- para que no se cumpla el invariante cambiamos ciudad3 por ciudad2
 
 !insert(v3,Recorrido3) into ViajeRecorrido
 

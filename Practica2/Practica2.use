@@ -104,8 +104,8 @@ context Recorrido
         self.numKm > 5 
 
 context Coche
-    inv fechaMatriculacionPositiva:
-        self.fechaMatriculacion >= 0
+    inv fechaMatriculacionValida:
+        self.fechaMatriculacion >= 0 and self.fechaMatriculacion <> null
 
     inv tallerMismaCiudad:
         let ultimaRevision: Revision = self.revision-> sortedBy(fechaFin)->last() in

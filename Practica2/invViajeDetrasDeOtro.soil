@@ -8,7 +8,8 @@
 
 
 !new Viaje('v2')
-!v2.fechaSalida := 2
+!v2.fechaSalida := 3
+-- para que no se cumpla el invariante, se cambia el 3 por 2
 !v2.fechaLlegada := 4
 
 !insert(c1,v2) into ViajeCoche

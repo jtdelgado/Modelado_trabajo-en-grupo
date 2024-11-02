@@ -1,11 +1,13 @@
 --Comprobación de la invariante garantiaPositiva
 
+--Valor postitivo : se cumple la invariante
 -- !new TallerOficial ('to1')
 -- !to1.tiempoGarantiaDias := 10
 
-
+--Valor negativo : se incumple la invariante
 -- !new TallerOficial ('to2')
 -- !to2.tiempoGarantiaDias := -1
 
+--Valor nulo : se incumple la invariante
 !new TallerOficial ('to3')
 

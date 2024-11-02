@@ -1,0 +1,5 @@
+!new Coche('c1')
+!c1.fechaMatriculacion := 1
+-- para que el invariante no se cumpla, cambiamos la fecha de matriculación a un valor negativo
+
+check
