@@ -3,6 +3,6 @@
 
 !insert (c1,c2) into Recorrido
 
-!Recorrido1.numKm = 6
+!Recorrido1.numKm := 6
 
 check

@@ -140,12 +140,9 @@ context Coche
     -- al modelar el paso del tiempo, no sabemos cuando va a llegar (enunciado)
         
 context Revision
-    inv fechasRevisionNoNulas:
-        (self.fechaInicio <> null or self.fechaInicio>=0) and 
-        (self.fechaFin <> null or self.fechaFin>=0)
-        
-    inv fechaInicioRevisionPositiva:
-        self.fechaInicio >= 0
+    inv fechasRevisionValidas:
+        (self.fechaInicio <> null and self.fechaInicio>=0) and 
+        (self.fechaFin <> null and self.fechaFin>=0)
 
     inv fechaFinRevisionPosteriorInicio:
         self.fechaFin >= fechaInicio
@@ -155,10 +152,12 @@ context Revision
 
 context TallerOficial
     inv garantiaPositiva:
-        self.tiempoGarantiaDias > 0
+        self.tiempoGarantiaDias <> null and self.tiempoGarantiaDias > 0 
 
 context Ciudad 
     inv solo1TallerOficial:
         self.taller->select(t|t.oclIsTypeOf(TallerOficial))->size()<=1
 
 ----------Fin invariantes------------
+--PREGUNTAS QUE HAY QUE HACER AL PROFESOR
+--1. ¿Hay que comprobar que las fechas sean positivas, no nulas y que sean razonables (inicio<fi)?
