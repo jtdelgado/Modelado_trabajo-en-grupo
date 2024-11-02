@@ -1,15 +1,12 @@
 --En este archivo comprobaremos e invariante unaRevisionALaVez
 
-!new Clock ('clock')
-!clock.now := 0
-
 !new Revision ('r1')
 !r1.fechaInicio := 1
-!r1.fechaFin := 2
+!r1.fechaFin := 4
 
 !new Revision ('r2')
-!r2.fechaInicio := 4
-!r2.fechaFin := 5
+!r2.fechaInicio := 2
+!r2.fechaFin := 3
 
 !new Coche('c1')
 

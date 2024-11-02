@@ -154,14 +154,26 @@ context Coche
         let hoy : Integer = Clock.allInstances()->any(true).now in
         viajes->forAll(v | 
             (v.fechaSalida <= hoy and hoy <= v.fechaLlegada) implies 
-            self.ciudad -> isEmpty() 
+            self.ciudad.oclIsUndefined() 
         )
     
     inv unaRevisionALaVez:
-        let hoy : Integer = Clock.allInstances()->any(true).now in
-        let revisionesActuales : Sequence(Revision) = self.revision -> 
-                select(r | r.fechaInicio <= hoy and hoy <= r.fechaFin) -> asSequence() in
-        revisionesActuales -> size() <= 1
+        self.revision->forAll(r1,r2 | r1 <> r2 implies 
+            (r1.fechaInicio <> r2.fechaInicio and r1.fechaFin <> r2.fechaFin) and
+            not (r1.fechaInicio <= r2.fechaInicio and r2.fechaInicio <= r1.fechaFin) and
+            not (r1.fechaInicio <= r2.fechaFin and r2.fechaFin <= r1.fechaFin)
+        )
+
+        -- e1 : 1, 4
+        -- e2 : 5, 6
+        -- e3 : 2, 3
+        -- e4 : 6 , 8
+    
+
+        -- let hoy : Integer = Clock.allInstances()->any(true).now in
+        -- let revisionesActuales : Sequence(Revision) = self.revision -> 
+        --         select(r | r.fechaInicio <= hoy and hoy <= r.fechaFin) -> asSequence() in
+        -- revisionesActuales -> size() <= 1
         
 context Revision
     inv fechasRevisionValidas:
@@ -188,3 +200,5 @@ context Ciudad
 ----------Fin invariantes------------
 --PREGUNTAS QUE HAY QUE HACER AL PROFESOR
 --1. ¿Hay que comprobar que las fechas sean positivas, no nulas y que sean razonables (inicio<fi)?
+--2. ¿Hay que comprobar que la ciudad en la que se encuentre el coche 
+--    es la misma que el destino del ultimo viaje realizado?
