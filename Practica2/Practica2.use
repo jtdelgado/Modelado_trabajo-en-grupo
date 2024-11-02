@@ -151,7 +151,7 @@ context Revision
         self.cocheEnRevision.fechaMatriculacion <= self.fechaInicio
 
 context TallerOficial
-    inv garantiaPositiva:
+    inv garantiaValida:
         self.tiempoGarantiaDias <> null and self.tiempoGarantiaDias > 0 
 
 context Ciudad 
