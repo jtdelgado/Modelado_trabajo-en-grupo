@@ -1,0 +1,10 @@
+--La fecha de matriculación es negativa
+!new Coche('Seat')
+!Seat.fechaMatriculacion := -1
+
+--La fecha de matriculación es positiva
+!new Coche('Audi')
+!Audi.fechaMatriculacion := 0
+
+--La fecha de matriculación es nula
+!new Coche('CitroenC3')
