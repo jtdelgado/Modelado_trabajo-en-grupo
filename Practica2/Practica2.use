@@ -14,26 +14,28 @@ attributes
                 -- tomar solamente los viajes que su fechaFin <= now
     kmAlDia : Real
     enGarantia : Boolean
-        derive : let hoy : Integer = Clock.allInstances()->any(true).now in
-                 let diasDesdeMatriculacion : Integer = hoy - self.fechaMatriculacion in
-                 let ultimaRevisionOficial : Revision = self.revision
-                     ->select(r | r.taller.oclIsTypeOf(TallerOficial) and 
-                                 r.tipoRevision = TipoRevision::Mantenimiento)
-                     ->sortedBy(fechaFin)->last() in
-                 let diasDesdeUltimaRevision : Integer = 
-                 if not ultimaRevisionOficial.oclIsUndefined() then
-                     hoy - ultimaRevisionOficial.fechaFin
-                 else
-                     -1 -- Si no hay revisión oficial, asumimos sin garantía extendida
-                 endif in
-                 diasDesdeMatriculacion < 400 or 
-                 (not ultimaRevisionOficial.oclIsUndefined() and 
-                  diasDesdeUltimaRevision <= ultimaRevisionOficial.taller.oclAsType(TallerOficial).tiempoGarantiaDias)
+        -- derive : let hoy : Integer = Clock.allInstances()->any(true).now in
+        --          let diasDesdeMatriculacion : Integer = hoy - self.fechaMatriculacion in
+        --          let ultimaRevisionOficial : Revision = self.revision
+        --              ->select(r | r.taller.oclIsTypeOf(TallerOficial) and 
+        --                          r.tipoRevision = TipoRevision::Mantenimiento)
+        --              ->sortedBy(fechaFin)->last() in
+        --          let diasDesdeUltimaRevision : Integer = 
+        --          if not ultimaRevisionOficial.oclIsUndefined() then
+        --              hoy - ultimaRevisionOficial.fechaFin
+        --          else
+        --              -1 -- Si no hay revisión oficial, asumimos sin garantía extendida
+        --          endif in
+        --          diasDesdeMatriculacion < 400 or 
+        --          (not ultimaRevisionOficial.oclIsUndefined() and 
+        --           diasDesdeUltimaRevision <= 
+        --                 ultimaRevisionOficial.taller.oclAsType(TallerOficial).tiempoGarantiaDias)
         
         
-     --   (Clock.allInstances()->any(true).now - self.fechaMatriculacion) < 400 or 
-      --  self.revision->select(r | r.taller.oclIsTypeOf(TallerOficial))
-      -- ->exists(r | ((Clock.allInstances()->any(true).now - r.fechaFin) <= r.taller.tiempoGarantiaDias))
+    derive: (Clock.allInstances()->any(true).now - self.fechaMatriculacion) < 400 or 
+        self.revision->select(r | r.taller.oclIsTypeOf(TallerOficial))
+       ->select(r | ((Clock.allInstances()->any(true).now - r.fechaFin) 
+                    <= r.talleroclAsType(TallerOficial).tiempoGarantiaDias)) -> size() >= 1
                 
                 -- Comprobar que los días de garantía por una revisión en
                 -- un taller oficial se han acabado o no (punto 15 enunciado)

@@ -7,13 +7,12 @@
 !new Ciudad('ciudad2')
 !new Ciudad('ciudad3')
 
-!new Recorrido ('r1')
-!r1.origen := 'ciudad1'
-!r1.destino := 'ciudad2'
 
-!new Recorrido ('r2')
-!r2.origen := 'ciudad2'
-!r2.destino := 'ciudad3'
+!insert(ciudad1, ciudad2) into Recorrido
+!Recorrido1.numKm := 210
+
+!insert(ciudad2, ciudad3) into Recorrido
+!Recorrido2.numKm := 100
 
 !new Viaje('v1')
 !v1.fechaSalida := 1
@@ -24,9 +23,11 @@
 !v2.fechaLlegada := 6
 
 !insert(c1,v1) into ViajeCoche
-!insert(v1,r1) into ViajeRecorrido
+!insert(v1,Recorrido1) into ViajeRecorrido
 
 !insert(c1,v2) into ViajeCoche
-!insert(v2,r2) into ViajeRecorrido
+!insert(v2,Recorrido2) into ViajeRecorrido
+
+!insert(c1,ciudad3) into CocheCiudad
 
 check
