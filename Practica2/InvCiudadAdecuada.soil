@@ -29,4 +29,4 @@
 !insert(c1,v2) into ViajeCoche
 !insert(v2,r2) into ViajeRecorrido
 
-c1.cocheEnCiudad.oclIsUndefined() = false and c1.cocheEnCiudad.nombre = 'ciudad3'
+check
