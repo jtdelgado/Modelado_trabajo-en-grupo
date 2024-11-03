@@ -115,7 +115,7 @@ context Coche
         self.fechaMatriculacion >= 0 and self.fechaMatriculacion <> null
 
     inv tallerMismaCiudad:
-        let revisiones: Revision = self.revision-> sortedBy(fechaFin) in
+        let revisiones: Sequence(Revision) = self.revision-> sortedBy(fechaFin) -> asSequence in
         let hoy : Integer = Clock.allInstances()->any(true).now in
         revisiones->forAll(r | 
             (r.fechaInicio <= hoy and hoy <= r.fechaFin) implies 
@@ -141,7 +141,7 @@ context Coche
             ->sortedBy(fechaSalida)->asSequence() in
         viajesOrdenados->forAll(v | 
             viajesOrdenados->indexOf(v) < viajesOrdenados->size() implies 
-            v.fechaLlegada < viajesOrdenados
+            v.fechaLlegada <= viajesOrdenados
                     ->at(viajesOrdenados->indexOf(v) + 1).fechaSalida
         )
     -- Esta invariante comprueba que un si un viaje empieza el 1 y acaba el 2, 
