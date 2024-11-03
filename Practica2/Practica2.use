@@ -12,33 +12,13 @@ attributes
     kmRecorridos : Real
         derive : self.viaje.recorrido.numKm->sum()
                 -- tomar solamente los viajes que su fechaFin <= now
-    kmAlDia : Real
-    enGarantia : Boolean
-        -- derive : let hoy : Integer = Clock.allInstances()->any(true).now in
-        --          let diasDesdeMatriculacion : Integer = hoy - self.fechaMatriculacion in
-        --          let ultimaRevisionOficial : Revision = self.revision
-        --              ->select(r | r.taller.oclIsTypeOf(TallerOficial) and 
-        --                          r.tipoRevision = TipoRevision::Mantenimiento)
-        --              ->sortedBy(fechaFin)->last() in
-        --          let diasDesdeUltimaRevision : Integer = 
-        --          if not ultimaRevisionOficial.oclIsUndefined() then
-        --              hoy - ultimaRevisionOficial.fechaFin
-        --          else
-        --              -1 -- Si no hay revisión oficial, asumimos sin garantía extendida
-        --          endif in
-        --          diasDesdeMatriculacion < 400 or 
-        --          (not ultimaRevisionOficial.oclIsUndefined() and 
-        --           diasDesdeUltimaRevision <= 
-        --                 ultimaRevisionOficial.taller.oclAsType(TallerOficial).tiempoGarantiaDias)
-        
-        
-    derive: (Clock.allInstances()->any(true).now - self.fechaMatriculacion) < 400 or 
-        self.revision->select(r | r.taller.oclIsTypeOf(TallerOficial))
-       ->select(r | ((Clock.allInstances()->any(true).now - r.fechaFin) 
-                    <= r.talleroclAsType(TallerOficial).tiempoGarantiaDias)) -> size() >= 1
-                
-                -- Comprobar que los días de garantía por una revisión en
-                -- un taller oficial se han acabado o no (punto 15 enunciado)
+    kmAlDia : Real -- APARTADO B
+    enGarantia : Boolean 
+        derive: (Clock.allInstances()->any(true).now - self.fechaMatriculacion) < 400 or 
+            self.revision->exists(r | r.taller.oclIsTypeOf(TallerOficial) and 
+                    (Clock.allInstances()->any(true).now - r.fechaFin) <= 
+                            r.taller.oclAsType(TallerOficial).tiempoGarantiaDias)
+
     necesitaMantenimiento : Boolean
         derive : (Clock.allInstances()->any(true).now - self.fechaMatriculacion) >= 400 or 
             (Clock.allInstances()->any(true).now - self.revision
@@ -143,8 +123,6 @@ context Coche
             (r.fechaInicio <= hoy and hoy <= r.fechaFin) implies 
             r.taller.localizacionTaller = self.ciudad
         )
-        
-    -- PROBAR CON SOIL
                             
     inv ciudadDestinoEsCiudadOrigenSiguiente:
         let viajesOrdenados : Sequence(Viaje) = self.viaje
@@ -171,15 +149,6 @@ context Coche
     
     -- En el siguiente apartado esta restriccion habria que modificarla ya que,
     -- al modelar el paso del tiempo, no sabemos cuando va a llegar (enunciado)
-
-    inv cocheViajandoOEnCiudad_v2:
-        let ultimoViaje : Viaje = self.viaje
-            ->sortedBy(fechaSalida)->asSequence() -> last() in
-        let hoy : Integer = Clock.allInstances()->any(true).now in
-        (((self.ciudad -> notEmpty()) and 
-                   not (ultimoViaje.fechaSalida <= hoy and hoy <= ultimoViaje.fechaLlegada))) or 
-        (((self.ciudad -> isEmpty()) and 
-                   (ultimoViaje.fechaSalida <= hoy and hoy <= ultimoViaje.fechaLlegada)))
 
     inv cocheViajandoOEnCiudad:
         let viajes : Sequence(Viaje) = self.viaje

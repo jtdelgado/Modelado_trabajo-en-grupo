@@ -1,5 +1,5 @@
 !new Clock ('Today')
-!Today.now := 4
+!Today.now := 6
 
 !new Coche ('c1')
 
@@ -14,19 +14,23 @@
 !r1.fechaFin := 4
 
 !new Revision('r2')
+!r2.fechaInicio:= 5
+!r2.fechaFin := 8
 
+
+!insert (c1,r2) into RevisionCoche
+!insert (c1,r1) into RevisionCoche
+
+
+!insert (t1,r1) into RevisionTaller
+!insert (t1,r2) into RevisionTaller
 
 
 !insert (c1,ciudad1) into CocheCiudad
 
-!insert (c1,r2) into RevisionCoche
 
-!insert (c1,r1) into RevisionCoche
-
-!insert (t1,r1) into RevisionTaller
+!insert (ciudad2,t1) into CiudadTaller
+-- para que no se cumpla el invariante cambiar ciudad1 por ciudad2
 
 
---Para que se incumpla el invariante descomentar la siguiente línea y comenta la posterior:
---!insert (ciudad2,t1) into CiudadTaller
-!insert (ciudad1,t1) into CiudadTaller
-
+check

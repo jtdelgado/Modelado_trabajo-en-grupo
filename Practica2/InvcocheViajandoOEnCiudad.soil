@@ -3,10 +3,10 @@
 --Creamos un reloj para controlar el tiempo
 
 !new Clock ('clock')
-!clock.now := 2
+--!clock.now := 2
 --Para que se incumpla la invariante modificamos el dia actual a uno dentro del intervalo 
 --del viaje v1
---!clock.now := 3
+!clock.now := 3
 
 !new Coche ('c1')
 !c1.fechaMatriculacion := 1
@@ -29,7 +29,7 @@
 
 !insert (c1,v1) into ViajeCoche
 
-!insert (c1,ciudad1) into CocheCiudad
+--!insert (c1,ciudad1) into CocheCiudad
 
 
 

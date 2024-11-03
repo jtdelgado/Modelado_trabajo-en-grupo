@@ -19,8 +19,8 @@
 !v1.fechaLlegada := 3
 
 !new Viaje('v2')
-!v2.fechaSalida := 4
-!v2.fechaLlegada := 6
+!v2.fechaSalida := 5
+!v2.fechaLlegada := 7
 
 !insert(c1,v1) into ViajeCoche
 !insert(v1,Recorrido1) into ViajeRecorrido
@@ -28,6 +28,7 @@
 !insert(c1,v2) into ViajeCoche
 !insert(v2,Recorrido2) into ViajeRecorrido
 
+-- Para que el invariante se incupmla, cambiar ciudad3 por ciudad1
 !insert(c1,ciudad3) into CocheCiudad
 
 check
