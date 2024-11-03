@@ -202,3 +202,4 @@ context Ciudad
 --1. ¿Hay que comprobar que las fechas sean positivas, no nulas y que sean razonables (inicio<fi)?
 --2. ¿Hay que comprobar que la ciudad en la que se encuentre el coche 
 --    es la misma que el destino del ultimo viaje realizado (inv CiudadAdecuada)?
+--3. ¿Hay que hacer un state machine?
