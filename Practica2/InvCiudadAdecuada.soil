@@ -1,0 +1,28 @@
+!new Clock('reloj')
+!reloj.now := 4
+
+!new Coche('c1')
+
+!new Recorrido ('r1')
+!r1.origen := 'Malaga'
+!r1.destino := 'Madrid'
+
+!new Recorrido ('r2')
+!r2.origen := 'Madrid'
+!r2.destino := 'Barcelona'
+
+!new Viaje('v1')
+!v1.fechaSalida := 1
+!v1.fechaLlegada := 3
+
+!new Viaje('v2')
+!v2.fechaSalida := 4
+!v2.fechaLlegada := 6
+
+!insert(c1,v1) into ViajeCoche
+!insert(v1,r1) into ViajeRecorrido
+
+!insert(c1,v2) into ViajeCoche
+!insert(v2,r2) into ViajeRecorrido
+
+

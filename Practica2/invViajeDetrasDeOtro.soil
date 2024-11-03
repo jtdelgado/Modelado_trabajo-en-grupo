@@ -2,15 +2,17 @@
 
 !new Viaje('v1')
 !v1.fechaSalida := 1
-!v1.fechaLlegada := 2
+!v1.fechaLlegada := 4
 
 !insert(c1,v1) into ViajeCoche
 
 
 !new Viaje('v2')
-!v2.fechaSalida := 3
--- para que no se cumpla el invariante, se cambia el 3 por 2
-!v2.fechaLlegada := 4
+!v2.fechaSalida := 5
+!v2.fechaLlegada := 8
+
+-- para que no se cumpla el invariante, se cambia la fecha de salida de 
+-- v2 por una mayor que la fecha de llegada de v1
 
 !insert(c1,v2) into ViajeCoche
 

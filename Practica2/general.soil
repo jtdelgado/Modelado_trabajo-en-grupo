@@ -1,0 +1,4 @@
+!new Clock ('clock')
+!clock.now := 0
+
+

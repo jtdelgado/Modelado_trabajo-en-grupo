@@ -14,7 +14,10 @@ attributes
                 -- tomar solamente los viajes que su fechaFin <= now
     kmAlDia : Real
     enGarantia : Boolean
-        derive : (Clock.allInstances()->any(true).now - self.fechaMatriculacion) < 400
+        derive : (Clock.allInstances()->any(true).now - self.fechaMatriculacion) < 400  
+        -- or 
+        --         self.revision->select(r | r.taller.oclIsTypeOf(TallerOficial))
+        --             ->exists(r | (Clock.allInstances()->any(true).now - r.fechaFin) <= r.taller.tiempoGarantiaDias)
                 -- Comprobar que los días de garantía por una revisión en
                 -- un taller oficial se han acabado o no (punto 15 enunciado)
     necesitaMantenimiento : Boolean
@@ -115,7 +118,7 @@ context Coche
         self.fechaMatriculacion >= 0 and self.fechaMatriculacion <> null
 
     inv tallerMismaCiudad:
-        let revisiones: Sequence(Revision) = self.revision-> sortedBy(fechaFin) -> asSequence in
+        let revisiones: Sequence(Revision) = self.revision-> sortedBy(fechaFin) -> asSequence() in
         let hoy : Integer = Clock.allInstances()->any(true).now in
         revisiones->forAll(r | 
             (r.fechaInicio <= hoy and hoy <= r.fechaFin) implies 
@@ -173,6 +176,13 @@ context Coche
     -- entonces la ciudad en la que se encuentra el coche es la ciudad de origen del viaje
     -- si now es despues del viaje entonces la ciudad en la que se encuentra el coche es la 
     -- ciudad de destino del viaje
+
+
+    inv CiudadAdecuada:
+        let viajes : Sequence(Viaje) = self.viaje
+            ->sortedBy(fechaSalida)->asSequence() in
+        let hoy : Integer = Clock.allInstances()->any(true).now in
+        viajes->select(v | v.fechaLlegada <= hoy)->last().recorrido.ciudadDestino = self.ciudad
     
     inv unaRevisionALaVez:
         self.revision->forAll(r1,r2 | r1 <> r2 implies 
