@@ -100,7 +100,7 @@ composition CiudadTaller between
     Taller[0..*] role taller
 end
 
-----------Invariantes------------ ESTO NO ESTA NI TERMINADO NI ASEGURO QUE SEA CORRECTO
+----------Invariantes------------ 
 constraints
 --En el apartado A solo tendremos una única insatncia del objeto clock 
 --Para indicar esto crearemos una nueva invariante
@@ -179,16 +179,6 @@ context Coche
             not (r1.fechaInicio <= r2.fechaFin and r2.fechaFin <= r1.fechaFin)
         )
 
-        -- e1 : 1, 4
-        -- e2 : 5, 6
-        -- e3 : 2, 3
-        -- e4 : 6 , 8
-    
-
-        -- let hoy : Integer = Clock.allInstances()->any(true).now in
-        -- let revisionesActuales : Sequence(Revision) = self.revision -> 
-        --         select(r | r.fechaInicio <= hoy and hoy <= r.fechaFin) -> asSequence() in
-        -- revisionesActuales -> size() <= 1
         
 context Revision
     inv fechasRevisionValidas:
@@ -198,11 +188,6 @@ context Revision
         
     inv fechaRevisionPosteriorCoche:
         self.cocheEnRevision.fechaMatriculacion <= self.fechaInicio
-
-    --inv tipoRevisionValido:
-    --    not self.cocheEnRevision.necesitaMantenimiento implies 
-    --    self.tipoRevision = TipoRevision::Averia
-    -- no esta en el enunciado y no se a que se refiere
 
 context TallerOficial
     inv garantiaValida:
@@ -216,4 +201,4 @@ context Ciudad
 --PREGUNTAS QUE HAY QUE HACER AL PROFESOR
 --1. ¿Hay que comprobar que las fechas sean positivas, no nulas y que sean razonables (inicio<fi)?
 --2. ¿Hay que comprobar que la ciudad en la que se encuentre el coche 
---    es la misma que el destino del ultimo viaje realizado?
+--    es la misma que el destino del ultimo viaje realizado (inv CiudadAdecuada)?
