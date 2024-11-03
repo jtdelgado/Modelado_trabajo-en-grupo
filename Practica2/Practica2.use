@@ -28,7 +28,7 @@ attributes
                  endif in
                  diasDesdeMatriculacion < 400 or 
                  (not ultimaRevisionOficial.oclIsUndefined() and 
-                  diasDesdeUltimaRevision <= ultimaRevisionOficial.taller.tiempoGarantiaDias)
+                  diasDesdeUltimaRevision <= ultimaRevisionOficial.taller.oclAsType(TallerOficial).tiempoGarantiaDias)
         
         
      --   (Clock.allInstances()->any(true).now - self.fechaMatriculacion) < 400 or 
@@ -69,7 +69,7 @@ attributes
     nombre : String
 end
 
-class TallerOficial< Taller
+class TallerOficial < Taller
 attributes
     tiempoGarantiaDias : Integer 
 end
