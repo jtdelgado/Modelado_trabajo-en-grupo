@@ -4,13 +4,40 @@ model Practica2
 class Clock
 attributes
     now : Integer
+    resolution : Integer init = 1
+operations
+    tick() 
+      begin
+        self.now:=self.now + self.resolution;
+        for o in self.ao do 
+            o.tick()
+        end;
+      end
+      post TimePasses: self.now = self.now@pre + self.resolution
+    run (n:Integer)
+      begin
+        for i in Sequence{1..n} do
+          self.tick()
+        end 
+      end
+  constraints
+    inv PositiveResolution: self.resolution > 0
+end
+
+abstract class ActiveObject -- real-time objects 
+  operations
+    tick() begin end 
+end
+
+association Time between 
+  Clock [1] 
+  ActiveObject [*] role ao ordered
 end
 
 class Coche 
 attributes
     fechaMatriculacion : Integer
     kmRecorridos : Real
-        derive : self.viaje->select(v | v.fechaLlegada <= Clock.allInstances()->any(true).now).recorrido.numKm->sum()
     kmAlDia : Real -- APARTADO B
     enGarantia : Boolean 
         derive: (Clock.allInstances()->any(true).now - self.fechaMatriculacion) < 400 or 
@@ -24,8 +51,22 @@ attributes
                         ->select(r | r.tipoRevision = TipoRevision::Mantenimiento)
                                     ->sortedBy(fechaFin)->last().fechaFin) >= 100
 end
-
-
+operations 
+    --Un coche comienza un viaje desde la ciudad en la que se encuentra. Esta operación debe 
+    --recibir como parámetro el recorrido entre dos ciudades que debe realizar en su viaje.
+    nuevoViaje(recorrido : Recorrido)
+        begin
+            begin
+            end
+            pre not self.cocheEnCiudad.oclIsUndefined()
+            post
+        end
+    avanzar()
+        begin
+        end
+        pre
+        post 
+end
 
 class Viaje
 attributes
@@ -195,6 +236,13 @@ context TallerOficial
 context Ciudad 
     inv solo1TallerOficial:
         self.taller->select(t|t.oclIsTypeOf(TallerOficial))->size()<=1
+
+context Viaje
+    inv fechasViajeValidas: 
+        ((self.fechaSalida <> null and self.fechaSalida>=0) and 
+        (self.fechaLlegada <> null and self.fechaLlegada>=0)) and 
+        (self.fechaSalida <= self.fechaLlegada)
+
 
 ----------Fin invariantes------------
 --PREGUNTAS QUE HAY QUE HACER AL PROFESOR
