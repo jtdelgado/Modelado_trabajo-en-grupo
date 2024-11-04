@@ -3,11 +3,14 @@
 
 !new Coche ('c1')
 
+!insert (Today,c1) into Time
+
 !new Ciudad('ciudad1')
 
 !new Ciudad('ciudad2')
 
 !new Taller ('t1')
+!new Taller ('t2')
 
 !new Revision ('r1')
 !r1.fechaInicio:= 1
@@ -23,14 +26,14 @@
 
 
 !insert (t1,r1) into RevisionTaller
-!insert (t1,r2) into RevisionTaller
+!insert (t2,r2) into RevisionTaller
+
+
+!insert (ciudad1,t1) into CiudadTaller
+!insert (ciudad2,t2) into CiudadTaller
 
 
 !insert (c1,ciudad1) into CocheCiudad
-
-
-!insert (ciudad2,t1) into CiudadTaller
--- para que no se cumpla el invariante cambiar ciudad1 por ciudad2
-
+-- para que no se cumpla el invariante cambiar ciudad2 por ciudad1
 
 check

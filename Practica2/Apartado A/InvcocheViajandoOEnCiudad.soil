@@ -1,35 +1,50 @@
---En este archivo se comprobará la invariante cocheViajandoOEnCiudad
+--En este archivo se comprobará el invariante cocheViajandoOEnCiudad
+
 
 --Creamos un reloj para controlar el tiempo
 
+
 !new Clock ('clock')
---!clock.now := 2
---Para que se incumpla la invariante modificamos el dia actual a uno dentro del intervalo 
+!clock.now := 0
+--Para que se incumpla el invariante modificamos el dia actual a uno dentro del intervalo
 --del viaje v1
-!clock.now := 3
+
 
 !new Coche ('c1')
-!c1.fechaMatriculacion := 1
+
+!insert (clock,c1) into Time
+
 
 !new Ciudad ('ciudad1')
-!ciudad1.nombre := 'Madrid'
 
 !new Ciudad ('ciudad2')
-!ciudad2.nombre := 'Barcelona'
+
+!new Ciudad ('ciudad3')
+
+
 
 !insert (ciudad1,ciudad2) into Recorrido
-!Recorrido1.numKm := 400
+
+!insert (ciudad2,ciudad3) into Recorrido
+
 
 !new Viaje ('v1')
 !v1.fechaSalida := 1
 !v1.fechaLlegada := 4
 
+!new Viaje ('v2')
+!v2.fechaSalida := 6
+!v2.fechaLlegada := 9
 
 !insert (v1,Recorrido1) into ViajeRecorrido
 
+!insert (v2,Recorrido2) into ViajeRecorrido
+
+
 !insert (c1,v1) into ViajeCoche
-
---!insert (c1,ciudad1) into CocheCiudad
-
+!insert (c1,v2) into ViajeCoche
 
 
+!insert (c1,ciudad1) into CocheCiudad
+
+check

@@ -6,23 +6,29 @@ attributes
     now : Integer
 end
 
-class Coche 
+class Coche < ActiveObject
 attributes
     fechaMatriculacion : Integer
+    --Este hay que actualizarlo en el apartado B
     kmRecorridos : Real
-        derive : self.viaje->select(v | v.fechaLlegada <= Clock.allInstances()->any(true).now).recorrido.numKm->sum()
-    kmAlDia : Real -- APARTADO B
+        derive : self.viaje->select(v | v.fechaLlegada <= self.clock.now).recorrido.numKm->sum()
+    --Este hay que actualizarlo en el apartado B
     enGarantia : Boolean 
-        derive: (Clock.allInstances()->any(true).now - self.fechaMatriculacion) < 400 or 
+        derive: (self.clock.now - self.fechaMatriculacion) < 400 or 
             self.revision->exists(r | r.taller.oclIsTypeOf(TallerOficial) and 
-                    (Clock.allInstances()->any(true).now - r.fechaFin) <= 
+                    (self.clock.now - r.fechaFin) <= 
                             r.taller.oclAsType(TallerOficial).tiempoGarantiaDias)
-
+    --Este hay que actualizarlo en el apartado B
     necesitaMantenimiento : Boolean
-        derive : (Clock.allInstances()->any(true).now - self.fechaMatriculacion) >= 400 or 
-            (Clock.allInstances()->any(true).now - self.revision
-                        ->select(r | r.tipoRevision = TipoRevision::Mantenimiento)
-                                    ->sortedBy(fechaFin)->last().fechaFin) >= 100
+        derive: if self.revision->select(r | r.tipoRevision = TipoRevision::Mantenimiento)->notEmpty() then
+            (self.clock.now - self.revision->select(r | r.tipoRevision = TipoRevision::Mantenimiento)
+                                            ->sortedBy(fechaFin)->last().fechaFin) > 100
+        else
+            (self.clock.now - self.fechaMatriculacion) > 400
+        endif
+        -- derive : (self.clock.now - self.fechaMatriculacion) >= 400 or 
+        --     (self.clock.now - self.revision ->select(r | r.tipoRevision = TipoRevision::Mantenimiento)
+        --                             ->sortedBy(fechaFin)->last().fechaFin) >= 100
 end
 
 
@@ -64,6 +70,9 @@ attributes
     tipoRevision : TipoRevision
 end 
 
+abstract class ActiveObject
+end
+
 ----------Fin de clases-----------
 
 ----------Asociaciones------------
@@ -92,6 +101,11 @@ association CocheCiudad between
     Ciudad[0..1] role ciudad
 end
 
+association Time between
+    Clock[1] role clock
+    ActiveObject[*] role ao ordered
+end
+
 ----------Composiciones------------
 
 composition CiudadTaller between
@@ -115,9 +129,10 @@ context Coche
     inv fechaMatriculacionValida:
         self.fechaMatriculacion >= 0 and self.fechaMatriculacion <> null
 
+    --Este hay que actualizarlo en el apartado B
     inv tallerMismaCiudad:
         let revisiones: Sequence(Revision) = self.revision-> sortedBy(fechaFin) -> asSequence() in
-        let hoy : Integer = Clock.allInstances()->any(true).now in
+        let hoy : Integer = self.clock.now in
         revisiones->forAll(r | 
             (r.fechaInicio <= hoy and hoy <= r.fechaFin) implies 
             r.taller.localizacionTaller = self.ciudad
@@ -149,27 +164,30 @@ context Coche
     -- En el siguiente apartado esta restriccion habria que modificarla ya que,
     -- al modelar el paso del tiempo, no sabemos cuando va a llegar (enunciado)
 
+    --Este hay que actualizarlo en el apartado B
     inv cocheViajandoOEnCiudad:
-        let viajes : Sequence(Viaje) = self.viaje
-            ->sortedBy(fechaSalida)->asSequence() in
-        let hoy : Integer = Clock.allInstances()->any(true).now in
-        viajes->forAll(v | 
-            (v.fechaSalida <= hoy and hoy <= v.fechaLlegada) implies 
-            self.ciudad.oclIsUndefined() 
-        )
-    -- --------------------------IMPORTANTE (otro invariante)--------------------------------
-    -- (Punto 11 enunciado)
-    -- Comprobar que el coche esta en la ciudad adecuada, es decir, si now es antes del viaje
-    -- entonces la ciudad en la que se encuentra el coche es la ciudad de origen del viaje
-    -- si now es despues del viaje entonces la ciudad en la que se encuentra el coche es la 
-    -- ciudad de destino del viaje
+    let viajes : Sequence(Viaje) = self.viaje->sortedBy(fechaSalida)->asSequence() in
+    let hoy : Integer = self.clock.now in
+    if viajes->exists(v | v.fechaSalida <= hoy and hoy <= v.fechaLlegada) then
+        -- Si el coche está en viaje, su ciudad debe ser indefinida
+        self.ciudad.oclIsUndefined()
+    else
+        if viajes->select(v | v.fechaLlegada <= hoy)->isEmpty() then
+            -- Si el coche no tiene viajes realizados, su ciudad es la ciudad origen del primer viaje
+            viajes.select(v | v.fechaSalida >= hoy)->first().recorrido.ciudadOrigen = self.ciudad
+        else
+            -- Si tiene viajes realizados, su ciudad debe coincidir con el destino del último viaje finalizado
+            viajes->select(v | v.fechaLlegada <= hoy)->last().recorrido.ciudadDestino = self.ciudad
+        endif
+    endif
 
 
-    inv CiudadAdecuada:
-        let viajes : Sequence(Viaje) = self.viaje
-            ->sortedBy(fechaSalida)->asSequence() in
-        let hoy : Integer = Clock.allInstances()->any(true).now in
-        viajes->select(v | v.fechaLlegada <= hoy)->last().recorrido.ciudadDestino = self.ciudad
+    ----Este hay que actualizarlo en el apartado B
+    -- inv CiudadAdecuada:
+    --     let viajes : Sequence(Viaje) = self.viaje
+    --         ->sortedBy(fechaSalida)->asSequence() in
+    --     let hoy : Integer = self.clock.now in
+    --     viajes->select(v | v.fechaLlegada <= hoy)->last().recorrido.ciudadDestino = self.ciudad
     
     inv unaRevisionALaVez:
         self.revision->forAll(r1,r2 | r1 <> r2 implies 

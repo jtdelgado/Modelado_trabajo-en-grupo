@@ -1,15 +1,50 @@
-!new Clock('reloj')
-!reloj.now := 500
+!new Clock ('clock')
+!clock.now := 2
+--!clock.now := 8
 
-!new Coche('CitroenC3')
-!CitroenC3.fechaMatriculacion := 300
 
-!new Viaje('Viaje1')
-!new Ciudad('Madrid')
-!new Ciudad('Barcelona')
+!new Coche ('c1')
+!c1.fechaMatriculacion := 1
 
-!new Recorrido('Recorrido1')
-!insert (Madrid, Barcelona) into Recorrido1
-!Recorrido1.numKm := 500
+!insert(clock,c1) into Time
 
-!insert (CitroenC3, Viaje1) into ViajeCoche
+
+!new Ciudad ('ciudad1')
+
+!new Ciudad ('ciudad2')
+
+!new Ciudad ('ciudad3')
+
+!new Ciudad ('ciudad4')
+
+
+
+!insert (ciudad1,ciudad2) into Recorrido
+!Recorrido1.numKm := 400
+
+
+!insert (ciudad2,ciudad3) into Recorrido
+!Recorrido2.numKm := 100
+
+
+!insert (ciudad1,ciudad4) into Recorrido
+!Recorrido3.numKm := 50
+
+
+!new Viaje ('v1')
+!v1.fechaSalida := 1
+!v1.fechaLlegada := 4
+
+
+!new Viaje ('v2')
+!v2.fechaSalida := 6
+!v2.fechaLlegada := 7
+
+
+!insert (v1,Recorrido1) into ViajeRecorrido
+--!insert (v2,Recorrido3) into ViajeRecorrido
+!insert (v2,Recorrido2) into ViajeRecorrido
+
+
+!insert (c1,v1) into ViajeCoche
+!insert (c1,v2) into ViajeCoche

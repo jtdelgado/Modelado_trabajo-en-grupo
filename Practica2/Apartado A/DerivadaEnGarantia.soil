@@ -11,6 +11,8 @@
 !Coche1.fechaMatriculacion := 50 
 -- now - fechaMatriculacion = 430, no tiene garantia
 
+!insert(reloj,Coche1) into Time
+
 !new Revision('RevisionCoche1')
 !RevisionCoche1.fechaFin := 470
 -- fechaFin + tiempoGarantiaDias = 490, y como now < 490, tiene garantia
@@ -24,6 +26,8 @@
 !new Coche('Coche2')
 !Coche2.fechaMatriculacion := 200
 
+!insert(reloj,Coche2) into Time
+
 !new TallerOficial('TO2')
 !TO2.tiempoGarantiaDias := 60
 
@@ -32,6 +36,8 @@
 --60 días de garantía, entonces está en garantía hasta el día 510
 !new Coche('Coche3')
 !Coche3.fechaMatriculacion := 10
+
+!insert(reloj,Coche3) into Time
 
 !new Revision('RevisionCoche3_1')
 !RevisionCoche3_1.fechaFin := 400
