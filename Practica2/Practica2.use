@@ -10,8 +10,7 @@ class Coche
 attributes
     fechaMatriculacion : Integer
     kmRecorridos : Real
-        derive : self.viaje.recorrido.numKm->sum()
-                -- tomar solamente los viajes que su fechaFin <= now
+        derive : self.viaje->select(v | v.fechaLlegada <= Clock.allInstances()->any(true).now).recorrido.numKm->sum()
     kmAlDia : Real -- APARTADO B
     enGarantia : Boolean 
         derive: (Clock.allInstances()->any(true).now - self.fechaMatriculacion) < 400 or 
