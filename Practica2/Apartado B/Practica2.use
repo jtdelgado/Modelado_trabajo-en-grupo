@@ -26,52 +26,101 @@ end
 
 abstract class ActiveObject -- real-time objects 
   operations
-    tick() begin end 
+    tick() 
+    begin
+   -- self. 
+    
+    end 
 end
 
 association Time between 
-  Clock [1] 
+  Clock [1] role clock
   ActiveObject [*] role ao ordered
 end
 
-class Coche 
+class Coche < ActiveObject
 attributes
     fechaMatriculacion : Integer
-    kmRecorridos : Real
-    kmAlDia : Real -- APARTADO B
+    kmRecorridos : Integer
+    kmAlDia : Integer -- APARTADO B
     enGarantia : Boolean 
-        derive: (Clock.allInstances()->any(true).now - self.fechaMatriculacion) < 400 or 
+        derive: (self.clock.now - self.fechaMatriculacion) < 400 or 
             self.revision->exists(r | r.taller.oclIsTypeOf(TallerOficial) and 
-                    (Clock.allInstances()->any(true).now - r.fechaFin) <= 
+                    (self.clock.now - r.fechaFin) <= 
                             r.taller.oclAsType(TallerOficial).tiempoGarantiaDias)
 
     necesitaMantenimiento : Boolean
-        derive : (Clock.allInstances()->any(true).now - self.fechaMatriculacion) >= 400 or 
-            (Clock.allInstances()->any(true).now - self.revision
+        derive : (self.clock.now - self.fechaMatriculacion) >= 400 or 
+            (self.clock.now - self.revision
                         ->select(r | r.tipoRevision = TipoRevision::Mantenimiento)
                                     ->sortedBy(fechaFin)->last().fechaFin) >= 100
-end
+
 operations 
+    tick()
+        begin
+            self.avanzar()
+        end
     --Un coche comienza un viaje desde la ciudad en la que se encuentra. Esta operación debe 
     --recibir como parámetro el recorrido entre dos ciudades que debe realizar en su viaje.
     nuevoViaje(recorrido : Recorrido)
         begin
-            begin
-            end
-            pre not self.cocheEnCiudad.oclIsUndefined()
-            post
+            
+            declare v:Viaje;
+            v.fechaSalida:=self.clock.now;
+            v.kilometrosRecorridos:=recorrido.numKm;
+            insert(self, v) into ViajeCoche;
+            insert(v, recorrido) into ViajeRecorrido;
+            
         end
+        pre OrigenRecorridoCorrecto :( not self.ciudad.oclIsUndefined() and Recorrido.allInstances()->exists(r | r = recorrido) and self.ciudad = recorrido.ciudadOrigen)
+        post CreadoViajeConFechaSalidaNow : (self.viaje->exists(v | v.recorrido = recorrido and v.fechaSalida = self.clock.now))
+
     avanzar()
         begin
+            declare kmQueRecorreAlAvanzar : Integer, viajeActual : Viaje, kmRestantesViajeActual : Integer;
+            
+            if self.viaje -> exists(v | v.fechaLlegada.oclIsUndefined()) then --Hay  un invariante que comprueba que no haya más viajes en curso 
+
+                viajeActual := self.viaje->sortedBy(v | v.fechaSalida)->last();
+                kmRestantesViajeActual := viajeActual.recorrido.numKm - viajeActual.kilometrosRecorridos;
+
+                --Como máximo recorre kmAlDia (↓)
+                if kmRestantesViajeActual > self.kmAlDia then  
+                    kmQueRecorreAlAvanzar := self.kmAlDia;
+                else
+                    kmQueRecorreAlAvanzar := kmRestantesViajeActual;
+                    viajeActual.asignarFechaLlegada(self.clock.now);
+                end;
+
+                viajeActual.sumarKilometrosRecorridos(kmQueRecorreAlAvanzar);
+                self.kmRecorridos := self.kmRecorridos + kmQueRecorreAlAvanzar;
+                
+            end;
+            
         end
-        pre
-        post 
+--        pre viajeEnCurso : self.viaje -> exists(v | v.fechaLlegada = null)
+        post kilometrosActualizados: self.kmRecorridos = self.kmRecorridos@pre + kmQueRecorreAlAvanzar  
+                                        
+                                        -- if(kmRestantesViajeActual = kmQueRecorreAlAvanzar) then 
+                                        --     viajeActual.fechaLlegada = self.clock.now endif
 end
+
+
 
 class Viaje
 attributes
     fechaSalida : Integer
     fechaLlegada : Integer
+    kilometrosRecorridos : Integer
+operations
+    sumarKilometrosRecorridos(km : Integer)
+        begin
+            self.kilometrosRecorridos := self.kilometrosRecorridos + km;
+        end
+    asignarFechaLlegada(llegada : Integer)
+        begin
+            self.fechaLlegada := llegada
+        end
 end
 
 class Ciudad
@@ -83,7 +132,7 @@ associationclass Recorrido  between
     Ciudad[1] role ciudadOrigen
     Ciudad[0..*] role ciudadDestino
     attributes
-        numKm : Real
+        numKm : Integer
 end
 
 class Taller 
@@ -132,7 +181,6 @@ association CocheCiudad between
     Coche[0..*] role cocheEnCiudad
     Ciudad[0..1] role ciudad
 end
-
 ----------Composiciones------------
 
 composition CiudadTaller between
@@ -158,7 +206,7 @@ context Coche
 
     inv tallerMismaCiudad:
         let revisiones: Sequence(Revision) = self.revision-> sortedBy(fechaFin) -> asSequence() in
-        let hoy : Integer = Clock.allInstances()->any(true).now in
+        let hoy : Integer = self.clock.now in
         revisiones->forAll(r | 
             (r.fechaInicio <= hoy and hoy <= r.fechaFin) implies 
             r.taller.localizacionTaller = self.ciudad
@@ -193,7 +241,7 @@ context Coche
     inv cocheViajandoOEnCiudad:
         let viajes : Sequence(Viaje) = self.viaje
             ->sortedBy(fechaSalida)->asSequence() in
-        let hoy : Integer = Clock.allInstances()->any(true).now in
+        let hoy : Integer = self.clock.now in
         viajes->forAll(v | 
             (v.fechaSalida <= hoy and hoy <= v.fechaLlegada) implies 
             self.ciudad.oclIsUndefined() 
@@ -209,7 +257,7 @@ context Coche
     inv CiudadAdecuada:
         let viajes : Sequence(Viaje) = self.viaje
             ->sortedBy(fechaSalida)->asSequence() in
-        let hoy : Integer = Clock.allInstances()->any(true).now in
+        let hoy : Integer = self.clock.now in
         viajes->select(v | v.fechaLlegada <= hoy)->last().recorrido.ciudadDestino = self.ciudad
     
     inv unaRevisionALaVez:
