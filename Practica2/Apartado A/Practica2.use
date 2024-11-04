@@ -19,6 +19,7 @@ attributes
                     (self.clock.now - r.fechaFin) <= 
                             r.taller.oclAsType(TallerOficial).tiempoGarantiaDias)
     --Este hay que actualizarlo en el apartado B
+    -- probar que pasa cuando se hace un mantenimiento antes de los 400 dias
     necesitaMantenimiento : Boolean
         derive: if self.revision->select(r | r.tipoRevision = TipoRevision::Mantenimiento)->notEmpty() then
             (self.clock.now - self.revision->select(r | r.tipoRevision = TipoRevision::Mantenimiento)
@@ -26,9 +27,6 @@ attributes
         else
             (self.clock.now - self.fechaMatriculacion) > 400
         endif
-        -- derive : (self.clock.now - self.fechaMatriculacion) >= 400 or 
-        --     (self.clock.now - self.revision ->select(r | r.tipoRevision = TipoRevision::Mantenimiento)
-        --                             ->sortedBy(fechaFin)->last().fechaFin) >= 100
 end
 
 
@@ -160,9 +158,7 @@ context Coche
         )
     -- Esta invariante comprueba que un si un viaje empieza el 1 y acaba el 2, 
     -- el siguiente viaje tiene que empezar el 3 y asi sucesivamente
-    
-    -- En el siguiente apartado esta restriccion habria que modificarla ya que,
-    -- al modelar el paso del tiempo, no sabemos cuando va a llegar (enunciado)
+
 
     --Este hay que actualizarlo en el apartado B
     inv cocheViajandoOEnCiudad:
@@ -180,14 +176,6 @@ context Coche
             viajes->select(v | v.fechaLlegada <= hoy)->last().recorrido.ciudadDestino = self.ciudad
         endif
     endif
-
-
-    ----Este hay que actualizarlo en el apartado B
-    -- inv CiudadAdecuada:
-    --     let viajes : Sequence(Viaje) = self.viaje
-    --         ->sortedBy(fechaSalida)->asSequence() in
-    --     let hoy : Integer = self.clock.now in
-    --     viajes->select(v | v.fechaLlegada <= hoy)->last().recorrido.ciudadDestino = self.ciudad
     
     inv unaRevisionALaVez:
         self.revision->forAll(r1,r2 | r1 <> r2 implies 
