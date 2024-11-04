@@ -1,0 +1,47 @@
+
+!new Clock('reloj')
+!reloj.now := 500 
+-- para que el invariante no se cumpla hay que cambiar now por 
+
+!new TallerOficial('TO1')
+!TO1.tiempoGarantiaDias := 20
+
+--No está en garantía
+!new Coche('Coche1')
+!Coche1.fechaMatriculacion := 50 
+-- now - fechaMatriculacion = 430, no tiene garantia
+
+!new Revision('RevisionCoche1')
+!RevisionCoche1.fechaFin := 470
+-- fechaFin + tiempoGarantiaDias = 490, y como now < 490, tiene garantia
+
+!insert(Coche1, RevisionCoche1) into RevisionCoche
+!insert(TO1, RevisionCoche1) into RevisionTaller 
+
+--Han pasado menos de 4 años desde la fecha de matriculación
+--entonces está en garantía
+
+!new Coche('Coche2')
+!Coche2.fechaMatriculacion := 200
+
+!new TallerOficial('TO2')
+!TO2.tiempoGarantiaDias := 60
+
+--Han pasado más de 4 años desde la fecha de matriculación
+--pero la revisión que tuvo el día 450 en un taller Oficial le otorga 
+--60 días de garantía, entonces está en garantía hasta el día 510
+!new Coche('Coche3')
+!Coche3.fechaMatriculacion := 10
+
+!new Revision('RevisionCoche3_1')
+!RevisionCoche3_1.fechaFin := 400
+
+!new Revision('RevisionCoche3_2')
+!RevisionCoche3_2.fechaFin := 450
+
+!insert(Coche3, RevisionCoche3_1) into RevisionCoche
+!insert(Coche3, RevisionCoche3_2) into RevisionCoche
+!insert(TO1, RevisionCoche3_1) into RevisionTaller 
+!insert(TO2, RevisionCoche3_2) into RevisionTaller 
+
+check

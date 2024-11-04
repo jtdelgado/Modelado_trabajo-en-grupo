@@ -1,0 +1,204 @@
+model Practica2
+
+----------Clases-----------
+class Clock
+attributes
+    now : Integer
+end
+
+class Coche 
+attributes
+    fechaMatriculacion : Integer
+    kmRecorridos : Real
+        derive : self.viaje->select(v | v.fechaLlegada <= Clock.allInstances()->any(true).now).recorrido.numKm->sum()
+    kmAlDia : Real -- APARTADO B
+    enGarantia : Boolean 
+        derive: (Clock.allInstances()->any(true).now - self.fechaMatriculacion) < 400 or 
+            self.revision->exists(r | r.taller.oclIsTypeOf(TallerOficial) and 
+                    (Clock.allInstances()->any(true).now - r.fechaFin) <= 
+                            r.taller.oclAsType(TallerOficial).tiempoGarantiaDias)
+
+    necesitaMantenimiento : Boolean
+        derive : (Clock.allInstances()->any(true).now - self.fechaMatriculacion) >= 400 or 
+            (Clock.allInstances()->any(true).now - self.revision
+                        ->select(r | r.tipoRevision = TipoRevision::Mantenimiento)
+                                    ->sortedBy(fechaFin)->last().fechaFin) >= 100
+end
+
+
+
+class Viaje
+attributes
+    fechaSalida : Integer
+    fechaLlegada : Integer
+end
+
+class Ciudad
+attributes
+    nombre : String
+end
+
+associationclass Recorrido  between
+    Ciudad[1] role ciudadOrigen
+    Ciudad[0..*] role ciudadDestino
+    attributes
+        numKm : Real
+end
+
+class Taller 
+attributes
+    nombre : String
+end
+
+class TallerOficial < Taller
+attributes
+    tiempoGarantiaDias : Integer 
+end
+
+enum TipoRevision {Mantenimiento, Averia}
+
+class Revision
+attributes
+    fechaInicio : Integer
+    fechaFin : Integer
+    tipoRevision : TipoRevision
+end 
+
+----------Fin de clases-----------
+
+----------Asociaciones------------
+association ViajeCoche between
+    Coche[1] role cocheEnViaje
+    Viaje[0..*] role viaje
+end
+
+association RevisionCoche between
+    Coche[1] role cocheEnRevision
+    Revision[0..*] role revision
+end
+
+association RevisionTaller between
+    Taller[1] role taller
+    Revision[0..*] role revision
+end
+
+association ViajeRecorrido between
+    Viaje[0..*] role viajeRecorrido
+    Recorrido[1] role recorrido
+end
+
+association CocheCiudad between
+    Coche[0..*] role cocheEnCiudad
+    Ciudad[0..1] role ciudad
+end
+
+----------Composiciones------------
+
+composition CiudadTaller between
+    Ciudad[1] role localizacionTaller
+    Taller[0..*] role taller
+end
+
+----------Invariantes------------ 
+constraints
+--En el apartado A solo tendremos una única insatncia del objeto clock 
+--Para indicar esto crearemos una nueva invariante
+context Clock
+    inv unicoClock:
+        Clock.allInstances()->size() = 1
+
+context Recorrido
+    inv DistanciaMinima:
+        self.numKm > 5 
+
+context Coche
+    inv fechaMatriculacionValida:
+        self.fechaMatriculacion >= 0 and self.fechaMatriculacion <> null
+
+    inv tallerMismaCiudad:
+        let revisiones: Sequence(Revision) = self.revision-> sortedBy(fechaFin) -> asSequence() in
+        let hoy : Integer = Clock.allInstances()->any(true).now in
+        revisiones->forAll(r | 
+            (r.fechaInicio <= hoy and hoy <= r.fechaFin) implies 
+            r.taller.localizacionTaller = self.ciudad
+        )
+                            
+    inv ciudadDestinoEsCiudadOrigenSiguiente:
+        let viajesOrdenados : Sequence(Viaje) = self.viaje
+                ->sortedBy(fechaSalida)->asSequence() in
+        viajesOrdenados->forAll(v | 
+            viajesOrdenados->indexOf(v) < viajesOrdenados->size() implies 
+                v.recorrido.ciudadDestino = viajesOrdenados
+                    ->at(viajesOrdenados->indexOf(v) + 1).recorrido.ciudadOrigen
+        )
+        -- ordenamos los viajes registrados de un coche por fecha de salida
+        -- y comprobamos para todos los viajes que la siguiente ciudad de destino actual 
+        -- es la ciudad de origen de la siguiente
+
+    inv viajeDetrasDeOtro:
+        let viajesOrdenados : Sequence(Viaje) = self.viaje
+            ->sortedBy(fechaSalida)->asSequence() in
+        viajesOrdenados->forAll(v | 
+            viajesOrdenados->indexOf(v) < viajesOrdenados->size() implies 
+            v.fechaLlegada <= viajesOrdenados
+                    ->at(viajesOrdenados->indexOf(v) + 1).fechaSalida
+        )
+    -- Esta invariante comprueba que un si un viaje empieza el 1 y acaba el 2, 
+    -- el siguiente viaje tiene que empezar el 3 y asi sucesivamente
+    
+    -- En el siguiente apartado esta restriccion habria que modificarla ya que,
+    -- al modelar el paso del tiempo, no sabemos cuando va a llegar (enunciado)
+
+    inv cocheViajandoOEnCiudad:
+        let viajes : Sequence(Viaje) = self.viaje
+            ->sortedBy(fechaSalida)->asSequence() in
+        let hoy : Integer = Clock.allInstances()->any(true).now in
+        viajes->forAll(v | 
+            (v.fechaSalida <= hoy and hoy <= v.fechaLlegada) implies 
+            self.ciudad.oclIsUndefined() 
+        )
+    -- --------------------------IMPORTANTE (otro invariante)--------------------------------
+    -- (Punto 11 enunciado)
+    -- Comprobar que el coche esta en la ciudad adecuada, es decir, si now es antes del viaje
+    -- entonces la ciudad en la que se encuentra el coche es la ciudad de origen del viaje
+    -- si now es despues del viaje entonces la ciudad en la que se encuentra el coche es la 
+    -- ciudad de destino del viaje
+
+
+    inv CiudadAdecuada:
+        let viajes : Sequence(Viaje) = self.viaje
+            ->sortedBy(fechaSalida)->asSequence() in
+        let hoy : Integer = Clock.allInstances()->any(true).now in
+        viajes->select(v | v.fechaLlegada <= hoy)->last().recorrido.ciudadDestino = self.ciudad
+    
+    inv unaRevisionALaVez:
+        self.revision->forAll(r1,r2 | r1 <> r2 implies 
+            (r1.fechaInicio <> r2.fechaInicio and r1.fechaFin <> r2.fechaFin) and
+            not (r1.fechaInicio <= r2.fechaInicio and r2.fechaInicio <= r1.fechaFin) and
+            not (r1.fechaInicio <= r2.fechaFin and r2.fechaFin <= r1.fechaFin)
+        )
+
+        
+context Revision
+    inv fechasRevisionValidas:
+        ((self.fechaInicio <> null and self.fechaInicio>=0) and 
+        (self.fechaFin <> null and self.fechaFin>=0)) and 
+        (self.fechaInicio <= self.fechaFin)
+        
+    inv fechaRevisionPosteriorCoche:
+        self.cocheEnRevision.fechaMatriculacion <= self.fechaInicio
+
+context TallerOficial
+    inv garantiaValida:
+        self.tiempoGarantiaDias <> null and self.tiempoGarantiaDias > 0 
+
+context Ciudad 
+    inv solo1TallerOficial:
+        self.taller->select(t|t.oclIsTypeOf(TallerOficial))->size()<=1
+
+----------Fin invariantes------------
+--PREGUNTAS QUE HAY QUE HACER AL PROFESOR
+--1. ¿Hay que comprobar que las fechas sean positivas, no nulas y que sean razonables (inicio<fi)?
+--2. ¿Hay que comprobar que la ciudad en la que se encuentre el coche 
+--    es la misma que el destino del ultimo viaje realizado (inv CiudadAdecuada)?
+--3. ¿Hay que hacer un state machine?

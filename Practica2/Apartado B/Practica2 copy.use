@@ -1,0 +1,124 @@
+model Practica2
+
+----------Clases-----------
+class Clock
+attributes
+    now : Integer
+end
+
+class Coche 
+attributes
+    fechaMatriculacion : Integer
+    kmRecorridos : Real
+        derive : self.viaje.recorrido.numKm->sum()
+    kmAlDia : Real
+    enGarantia : Boolean
+        derive : (Clock.allInstances()->any(true).now - self.fechaMatriculacion) < 400
+    necesitaMantenimiento : Boolean
+        derive : (Clock.allInstances()->any(true).now - self.fechaMatriculacion) >= 400 or 
+            (Clock.allInstances()->any(true).now - self.revision->select(r | r.tipoRevision = TipoRevision::Mantenimiento)->sortedBy(fechaFin)->last().fechaFin) >= 100
+end
+
+class Viaje
+attributes
+    fechaSalida : Integer
+    fechaLlegada : Integer
+end
+
+class Ciudad
+attributes
+    nombre : String
+end
+
+associationclass Recorrido  between
+    Ciudad[1] role ciudadOrigen
+    Ciudad[0..*] role ciudadDestino
+    attributes
+        numKm : Real
+end
+
+class Taller 
+attributes
+    nombre : String
+end
+
+class TallerOficial< Taller
+attributes
+    tiempoGarantiaDias : Integer 
+end
+
+enum TipoRevision {Mantenimiento, Averia}
+
+class Revision
+attributes
+    fechaInicio : Integer
+    fechaFin : Integer
+    tipoRevision : TipoRevision
+end 
+
+----------Fin de clases-----------
+
+----------Asociaciones------------
+association ViajeCoche between
+    Coche[1] role cocheEnViaje
+    Viaje[0..*] role viaje
+end
+
+association RevisionCoche between
+    Coche[1] role cocheEnRevision
+    Revision[0..*] role revision
+end
+
+association RevisionTaller between
+    Taller[1] role taller
+    Revision[0..*] role revision
+end
+
+association ViajeRecorrido between
+    Viaje[0..*] role viajeRecorrido
+    Recorrido[1] role recorrido
+end
+
+association CocheCiudad between
+    Coche[0..*] role coche
+    Ciudad[0..1] role ciudad
+end
+
+----------Composiciones------------
+
+composition CiudadTaller between
+    Ciudad[1] role localizacionTaller
+    Taller[0..*] role taller
+end
+/*
+----------Invariantes------------ ESTO NO ESTA NI TERMINADO NI ASEGURO QUE SEA CORRECTO
+constraints
+
+context Recorrido
+    inv distanciaMinima:
+         self.numKm > 5
+
+context Coche
+    inv fechaMatriculacionPositiva:
+        self.fechaMatriculacion >= 0
+
+    inv ultimaCiudadDestinoEsSiguienteCiudadOrigen:
+        self.viaje->select(v | v.fechaSalida = self.viaje.fechaSalida->max())->recorrido.ciudadDestino = self.viaje->select(v | v.fechaSalida = self.viaje.fechaSalida->max())->recorrido.ciudadOrigen
+
+    
+context Revision
+    inv fechaInicioRevisionPositiva:
+        self.fechaInicio >= 0
+    inv fechaFinRevisionPosteriorInicio:
+        self.fechaFin >= fechaInicio
+    inv fechaRevisionPosteriorCoche:
+        self.cocheEnRevision.fechaMatriculacion <= self.fechaInicio
+
+context Taller
+    inv garantiaPositiva:
+        self.oclIsTypeOf(TallerOficial) implies self.tiempoGarantiaDias > 0
+
+context Ciudad 
+    inv solo1TallerOficial
+        self.taller -> select(t|t.oclIsTypeOf(TallerOficial)) -> size()<=1
+----------Fin invariantes------------

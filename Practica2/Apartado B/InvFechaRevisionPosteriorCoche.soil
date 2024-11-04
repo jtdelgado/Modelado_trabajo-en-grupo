@@ -1,0 +1,13 @@
+!new Coche('c1')
+!c1.fechaMatriculacion := 2
+-- para que el invariante no se cumpla se pone fechaMatriculacion 
+-- mayor que la fechaInicio de la revision
+
+!new Revision('r1')
+!r1.fechaInicio := 2
+!r1.fechaFin := 3
+
+
+!insert (c1,r1) into RevisionCoche
+
+check

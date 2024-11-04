@@ -1,0 +1,61 @@
+--PRUEBA DERIVADAS--
+--En este archivo se comproban las derivadas
+!new Clock ('clock')
+--!clock.now := 100
+!clock.now := 401
+--kmRecorridos--
+!new Coche ('c1')
+!c1.fechaMatriculacion := 1
+
+!new Ciudad ('ciudad1')
+!ciudad1.nombre := 'Madrid'
+
+!new Ciudad ('ciudad2')
+!ciudad2.nombre := 'Barcelona'
+
+!new Ciudad ('ciudad3')
+!ciudad1.nombre := 'Valencia'
+
+!new Ciudad ('ciudad4')
+!ciudad2.nombre := 'Granada'
+
+
+!insert (ciudad1,ciudad2) into Recorrido
+!Recorrido1.numKm := 400
+
+!insert (ciudad2,ciudad3) into Recorrido
+!Recorrido2.numKm := 100
+
+!insert (ciudad1,ciudad4) into Recorrido
+!Recorrido3.numKm := 50
+
+!new Viaje ('v1')
+!v1.fechaSalida := 1
+!v1.fechaLlegada := 4
+
+!new Viaje ('v2')
+!v2.fechaSalida := 6
+!v2.fechaLlegada := 7
+
+!insert (v1,Recorrido1) into ViajeRecorrido
+--!insert (v2,Recorrido3) into ViajeRecorrido
+!insert (v2,Recorrido2) into ViajeRecorrido
+
+!insert (c1,v1) into ViajeCoche
+!insert (c1,v2) into ViajeCoche
+
+--enGarantia--
+!new Coche ('c2')
+!c2.fechaMatriculacion := 1
+
+!new Revision ('r1')
+!r1.fechaInicio := 400
+!r1.fechaFin := 401
+!r1.tipoRevision := 'Mantenimiento'
+
+!insert (c2,r1) into RevisionCoche
+
+
+
+
+
