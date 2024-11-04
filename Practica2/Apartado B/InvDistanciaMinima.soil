@@ -1,9 +1,0 @@
-!new Ciudad('c1')
-!new Ciudad('c2')
-
-!insert (c1,c2) into Recorrido
-
-!Recorrido1.numKm := 6
--- para que el invariante no se cumpla se cambia ese 6 por un numero menor que 5
-
-check
