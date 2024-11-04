@@ -1,9 +1,8 @@
---PRUEBA DERIVADAS--
---En este archivo se comproban las derivadas
+
 !new Clock ('clock')
---!clock.now := 100
-!clock.now := 401
---kmRecorridos--
+!clock.now := 2
+--!clock.now := 8
+
 !new Coche ('c1')
 !c1.fechaMatriculacion := 1
 
@@ -43,17 +42,6 @@
 
 !insert (c1,v1) into ViajeCoche
 !insert (c1,v2) into ViajeCoche
-
---enGarantia--
-!new Coche ('c2')
-!c2.fechaMatriculacion := 1
-
-!new Revision ('r1')
-!r1.fechaInicio := 400
-!r1.fechaFin := 401
-!r1.tipoRevision := 'Mantenimiento'
-
-!insert (c2,r1) into RevisionCoche
 
 
 

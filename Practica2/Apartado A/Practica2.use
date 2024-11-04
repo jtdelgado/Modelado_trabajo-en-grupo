@@ -196,6 +196,13 @@ context Ciudad
     inv solo1TallerOficial:
         self.taller->select(t|t.oclIsTypeOf(TallerOficial))->size()<=1
 
+context Viaje
+    inv fechasViajeValidas: 
+        ((self.fechaSalida <> null and self.fechaSalida>=0) and 
+        (self.fechaLlegada <> null and self.fechaLlegada>=0)) and 
+        (self.fechaSalida <= self.fechaLlegada)
+    
+
 ----------Fin invariantes------------
 --PREGUNTAS QUE HAY QUE HACER AL PROFESOR
 --1. ¿Hay que comprobar que las fechas sean positivas, no nulas y que sean razonables (inicio<fi)?
