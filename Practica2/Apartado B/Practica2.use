@@ -41,7 +41,7 @@ end
 class Coche < ActiveObject
 attributes
     fechaMatriculacion : Integer
-    kmRecorridos : Integer
+    kmRecorridos : Integer init = 0
     kmAlDia : Integer -- APARTADO B
     enGarantia : Boolean 
         derive: (self.clock.now - self.fechaMatriculacion) < 400 or 
@@ -64,12 +64,14 @@ operations
     --recibir como parámetro el recorrido entre dos ciudades que debe realizar en su viaje.
     nuevoViaje(recorrido : Recorrido)
         begin
-            
             declare v:Viaje;
+            
+            v:= new Viaje;
             v.fechaSalida:=self.clock.now;
-            v.kilometrosRecorridos:=recorrido.numKm;
+            v.kilometrosRecorridos:= 0;
             insert(self, v) into ViajeCoche;
             insert(v, recorrido) into ViajeRecorrido;
+            delete (self, self.ciudad) from CocheCiudad;
             
         end
         pre OrigenRecorridoCorrecto :( not self.ciudad.oclIsUndefined() and Recorrido.allInstances()->exists(r | r = recorrido) and self.ciudad = recorrido.ciudadOrigen)
@@ -78,6 +80,7 @@ operations
     avanzar()
         begin
             declare kmQueRecorreAlAvanzar : Integer, viajeActual : Viaje, kmRestantesViajeActual : Integer;
+            viajeActual := new Viaje;
             
             if self.viaje -> exists(v | v.fechaLlegada.oclIsUndefined()) then --Hay  un invariante que comprueba que no haya más viajes en curso 
 
@@ -90,6 +93,7 @@ operations
                 else
                     kmQueRecorreAlAvanzar := kmRestantesViajeActual;
                     viajeActual.asignarFechaLlegada(self.clock.now);
+                    insert(self, viajeActual.recorrido.ciudadDestino) into CocheCiudad;
                 end;
 
                 viajeActual.sumarKilometrosRecorridos(kmQueRecorreAlAvanzar);
@@ -99,7 +103,8 @@ operations
             
         end
 --        pre viajeEnCurso : self.viaje -> exists(v | v.fechaLlegada = null)
-        post kilometrosActualizados: self.kmRecorridos = self.kmRecorridos@pre + kmQueRecorreAlAvanzar  
+        post kilometrosActualizados: self.kmRecorridos = (self.kmRecorridos@pre + self.kmAlDia) 
+        or (self.kmRecorridos = self.kmRecorridos@pre + ((self.viaje->sortedBy(v | v.fechaSalida)->last().recorrido.numKm - (self.viaje->sortedBy(v | v.fechaSalida)->last().kilometrosRecorridos))))
                                         
                                         -- if(kmRestantesViajeActual = kmQueRecorreAlAvanzar) then 
                                         --     viajeActual.fechaLlegada = self.clock.now endif
@@ -119,7 +124,7 @@ operations
         end
     asignarFechaLlegada(llegada : Integer)
         begin
-            self.fechaLlegada := llegada
+            self.fechaLlegada := llegada;
         end
 end
 
@@ -288,7 +293,7 @@ context Ciudad
 context Viaje
     inv fechasViajeValidas: 
         ((self.fechaSalida <> null and self.fechaSalida>=0) and 
-        (self.fechaLlegada <> null and self.fechaLlegada>=0)) and 
+        (self.fechaLlegada = null or self.fechaLlegada>=0)) and 
         (self.fechaSalida <= self.fechaLlegada)
 
 
