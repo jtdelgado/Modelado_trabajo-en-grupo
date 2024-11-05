@@ -1,5 +1,5 @@
 reset
 !new Viaje('viaje1')
-!viaje1.fechaSalida := 1
+!viaje1.fechaSalida := 3
 !viaje1.fechaLlegada := 2
 check 
