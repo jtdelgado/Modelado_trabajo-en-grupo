@@ -50,10 +50,10 @@ attributes
                             r.taller.oclAsType(TallerOficial).tiempoGarantiaDias)
 
     necesitaMantenimiento : Boolean
-        derive : (self.clock.now - self.fechaMatriculacion) >= 400 or 
+        derive : (self.clock.now - self.fechaMatriculacion) > 400 or 
             (self.clock.now - self.revision
                         ->select(r | r.tipoRevision = TipoRevision::Mantenimiento)
-                                    ->sortedBy(fechaFin)->last().fechaFin) >= 100
+                                    ->sortedBy(fechaFin)->last().fechaFin) > 100
 
 operations 
     tick()
@@ -242,31 +242,30 @@ context Coche
         )
     -- Esta invariante comprueba que un si un viaje empieza el 1 y acaba el 2, 
     -- el siguiente viaje tiene que empezar el 3 y asi sucesivamente
-    
-    -- En el siguiente apartado esta restriccion habria que modificarla ya que,
-    -- al modelar el paso del tiempo, no sabemos cuando va a llegar (enunciado)
 
     inv cocheViajandoOEnCiudad:
-        let viajes : Sequence(Viaje) = self.viaje
-            ->sortedBy(fechaSalida)->asSequence() in
+        let viajes : Sequence(Viaje) = self.viaje->sortedBy(fechaSalida)->asSequence() in
         let hoy : Integer = self.clock.now in
-        viajes->forAll(v | 
-            (v.fechaSalida <= hoy and hoy <= v.fechaLlegada) implies 
-            self.ciudad.oclIsUndefined() 
-        )
-    -- --------------------------IMPORTANTE (otro invariante)--------------------------------
-    -- (Punto 11 enunciado)
-    -- Comprobar que el coche esta en la ciudad adecuada, es decir, si now es antes del viaje
-    -- entonces la ciudad en la que se encuentra el coche es la ciudad de origen del viaje
-    -- si now es despues del viaje entonces la ciudad en la que se encuentra el coche es la 
-    -- ciudad de destino del viaje
-
-
-    inv CiudadAdecuada:
-        let viajes : Sequence(Viaje) = self.viaje
-            ->sortedBy(fechaSalida)->asSequence() in
-        let hoy : Integer = self.clock.now in
-        viajes->select(v | v.fechaLlegada <= hoy)->last().recorrido.ciudadDestino = self.ciudad
+        if self.viaje->isEmpty() then
+                -- si el coche no se encuentra en ningun viaje y no tiene ningun viaje pendiente
+                -- la ciudad del coche tiene que estar definida
+                not self.ciudad.oclIsUndefined()
+        else
+            if viajes->exists(v | v.fechaSalida <= hoy and hoy <= v.fechaLlegada) then
+                -- Si el coche está en un viaje, su ciudad debe ser indefinida
+                self.ciudad.oclIsUndefined()
+            else
+                if  not viajes->select(v | v.fechaSalida >= hoy)->isEmpty() then
+                    -- Si el coche no tiene viajes realizados pero tiene viajes pendientes, 
+                    -- su ciudad es la ciudad origen del primer viaje
+                    viajes->select(v | v.fechaSalida >= hoy)->first().recorrido.ciudadOrigen = self.ciudad
+                else
+                    -- Si tiene viajes realizados, su ciudad debe coincidir con el destino del último viaje finalizado
+                    viajes->select(v | v.fechaLlegada <= hoy)->last().recorrido.ciudadDestino = self.ciudad
+                    
+                endif
+            endif
+        endif
     
     inv unaRevisionALaVez:
         self.revision->forAll(r1,r2 | r1 <> r2 implies 
@@ -298,11 +297,3 @@ context Viaje
         ((self.fechaSalida <> null and self.fechaSalida>=0) and 
         (self.fechaLlegada = null or self.fechaLlegada>=0)) and 
         (self.fechaSalida <= self.fechaLlegada)
-
-
-----------Fin invariantes------------
---PREGUNTAS QUE HAY QUE HACER AL PROFESOR
---1. ¿Hay que comprobar que las fechas sean positivas, no nulas y que sean razonables (inicio<fi)?
---2. ¿Hay que comprobar que la ciudad en la que se encuentre el coche 
---    es la misma que el destino del ultimo viaje realizado (inv CiudadAdecuada)?
---3. ¿Hay que hacer un state machine?

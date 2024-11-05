@@ -9,7 +9,6 @@ end
 class Coche < ActiveObject
 attributes
     fechaMatriculacion : Integer
-    --Este hay que actualizarlo en el apartado B
     kmRecorridos : Real
         derive : self.viaje->select(v | v.fechaLlegada <= self.clock.now).recorrido.numKm->sum()
     --Este hay que actualizarlo en el apartado B
@@ -21,12 +20,17 @@ attributes
     --Este hay que actualizarlo en el apartado B
     -- probar que pasa cuando se hace un mantenimiento antes de los 400 dias
     necesitaMantenimiento : Boolean
-        derive: if self.revision->select(r | r.tipoRevision = TipoRevision::Mantenimiento)->notEmpty() then
-            (self.clock.now - self.revision->select(r | r.tipoRevision = TipoRevision::Mantenimiento)
-                                            ->sortedBy(fechaFin)->last().fechaFin) > 100
-        else
-            (self.clock.now - self.fechaMatriculacion) > 400
-        endif
+        derive : (self.clock.now - self.fechaMatriculacion) > 400 and
+                (self.clock.now - self.revision
+                            ->select(r | r.tipoRevision = TipoRevision::Mantenimiento)
+                                        ->sortedBy(fechaFin)->last().fechaFin) > 100
+        -- derive: if self.revision->select(r | r.tipoRevision = TipoRevision::Mantenimiento)->notEmpty()
+        --             and (self.clock.now - self.fechaMatriculacion) > 400 then
+        --     (self.clock.now - self.revision->select(r | r.tipoRevision = TipoRevision::Mantenimiento)
+        --                                     ->sortedBy(fechaFin)->last().fechaFin) > 100
+        -- else
+        --     (self.clock.now - self.fechaMatriculacion) > 400
+        -- endif
 end
 
 
