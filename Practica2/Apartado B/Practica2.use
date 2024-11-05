@@ -102,12 +102,11 @@ operations
             end;
             
         end
---        pre viajeEnCurso : self.viaje -> exists(v | v.fechaLlegada = null)
+
         post kilometrosActualizados: self.kmRecorridos = (self.kmRecorridos@pre + self.kmAlDia) 
         or (self.kmRecorridos = self.kmRecorridos@pre + ((self.viaje->sortedBy(v | v.fechaSalida)->last().recorrido.numKm - (self.viaje->sortedBy(v | v.fechaSalida)->last().kilometrosRecorridos))))
-                                        
-                                        -- if(kmRestantesViajeActual = kmQueRecorreAlAvanzar) then 
-                                        --     viajeActual.fechaLlegada = self.clock.now endif
+constraints
+    inv kmAlDiaPositivo: self.kmAlDia >= 0
 end
 
 
