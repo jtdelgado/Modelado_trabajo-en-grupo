@@ -162,20 +162,28 @@ context Coche
 
     --Este hay que actualizarlo en el apartado B
     inv cocheViajandoOEnCiudad:
-    let viajes : Sequence(Viaje) = self.viaje->sortedBy(fechaSalida)->asSequence() in
-    let hoy : Integer = self.clock.now in
-    if viajes->exists(v | v.fechaSalida <= hoy and hoy <= v.fechaLlegada) then
-        -- Si el coche está en viaje, su ciudad debe ser indefinida
-        self.ciudad.oclIsUndefined()
-    else
-        if viajes->select(v | v.fechaLlegada <= hoy)->isEmpty() then
-            -- Si el coche no tiene viajes realizados, su ciudad es la ciudad origen del primer viaje
-            viajes.select(v | v.fechaSalida >= hoy)->first().recorrido.ciudadOrigen = self.ciudad
+        let viajes : Sequence(Viaje) = self.viaje->sortedBy(fechaSalida)->asSequence() in
+        let hoy : Integer = self.clock.now in
+        if self.viaje->isEmpty() then
+                -- si el coche no se encuentra en ningun viaje y no tiene ningun viaje pendiente
+                -- la ciudad del coche tiene que estar definida
+                not self.ciudad.oclIsUndefined()
         else
-            -- Si tiene viajes realizados, su ciudad debe coincidir con el destino del último viaje finalizado
-            viajes->select(v | v.fechaLlegada <= hoy)->last().recorrido.ciudadDestino = self.ciudad
+            if viajes->exists(v | v.fechaSalida <= hoy and hoy <= v.fechaLlegada) then
+                -- Si el coche está en un viaje, su ciudad debe ser indefinida
+                self.ciudad.oclIsUndefined()
+            else
+                if  not viajes->select(v | v.fechaSalida >= hoy)->isEmpty() then
+                    -- Si el coche no tiene viajes realizados pero tiene viajes pendientes, 
+                    -- su ciudad es la ciudad origen del primer viaje
+                    viajes->select(v | v.fechaSalida >= hoy)->first().recorrido.ciudadOrigen = self.ciudad
+                else
+                    -- Si tiene viajes realizados, su ciudad debe coincidir con el destino del último viaje finalizado
+                    viajes->select(v | v.fechaLlegada <= hoy)->last().recorrido.ciudadDestino = self.ciudad
+                    
+                endif
+            endif
         endif
-    endif
     
     inv unaRevisionALaVez:
         self.revision->forAll(r1,r2 | r1 <> r2 implies 
