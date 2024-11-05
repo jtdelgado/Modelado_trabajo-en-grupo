@@ -1,6 +1,6 @@
 --El sistema parte del instante 0
 !new Clock ('clock')
-!clock.now := 0
+!clock.now := 6
 
 !new Coche('coche1')
 !coche1.fechaMatriculacion := 0
@@ -27,7 +27,8 @@
 !ciudad5.nombre := 'Barcelona'
 
 --El coche está inicialmente en Málaga
-!insert (coche1,ciudad1) into CocheCiudad
+!insert (coche1,ciudad3) into CocheCiudad
+!insert (coche2,ciudad4) into CocheCiudad
 
 --Recorrido entre malaga - sevilla 210 km y sevilla - granada 250 km
 !insert(ciudad1, ciudad2) into Recorrido
@@ -38,6 +39,9 @@
 
 !insert(ciudad1, ciudad4) into Recorrido
 !Recorrido3.numKm := 500
+
+!insert(ciudad4, ciudad5) into Recorrido
+!Recorrido4.numKm := 400
 
 --viaje 1
 !new Viaje ('viaje1')
@@ -53,8 +57,8 @@
 !viaje3.fechaLlegada := 5
 
 !new Viaje ('viaje4')
-!viaje4.fechaSalida := 7
-!viaje4.fechaLlegada := 8
+!viaje4.fechaSalida := 8
+!viaje4.fechaLlegada := 9
 
 
 !insert (coche1, viaje1) into ViajeCoche
@@ -62,9 +66,10 @@
 !insert (coche2, viaje3) into ViajeCoche
 !insert (coche2, viaje4) into ViajeCoche
 
-!insert (viaje1, recorrido1) into ViajeRecorrido
-!insert (viaje2, recorrido2) into ViajeRecorrido
-!
+!insert (viaje1, Recorrido1) into ViajeRecorrido
+!insert (viaje2, Recorrido2) into ViajeRecorrido
+!insert (viaje3, Recorrido3) into ViajeRecorrido
+!insert (viaje4, Recorrido4) into ViajeRecorrido
 
 !new Taller ('taller1')
 !taller1.nombre := 'taller1'
@@ -72,6 +77,10 @@
 !new TallerOficial ('taller2')
 !taller2.nombre := 'taller2'
 !taller2.tiempoGarantiaDias := 100
+
+!new TallerOficial ('taller3')
+!taller3.nombre := 'tallerAhmedSegarro'
+!taller3.tiempoGarantiaDias := 100
 
 !new Revision ('revision1')
 !revision1.fechaInicio := 2
@@ -82,16 +91,20 @@
 !revision2.fechaFin := 8
 
 !new Revision ('revision3')
-!revision3.fechaInicio := 5
-!revision3.fechaFin := 6
+!revision3.fechaInicio := 6
+!revision3.fechaFin := 7
 
 !insert (taller1, revision1) into RevisionTaller
 !insert (taller2, revision2) into RevisionTaller
+!insert (taller3, revision3) into RevisionTaller
+
 
 !insert (coche1, revision1) into RevisionCoche
 !insert (coche1, revision2) into RevisionCoche
+!insert (coche2, revision3) into RevisionCoche
 
 !insert (ciudad2, taller1) into CiudadTaller
 !insert(ciudad3, taller2) into CiudadTaller
+!insert(ciudad4, taller3) into CiudadTaller
 
-
+check

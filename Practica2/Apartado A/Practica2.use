@@ -119,6 +119,7 @@ end
 constraints
 --En el apartado A solo tendremos una única insatncia del objeto clock 
 --Para indicar esto crearemos una nueva invariante
+
 context Clock
     inv unicoClock:
         Clock.allInstances()->size() = 1
@@ -131,7 +132,6 @@ context Coche
     inv fechaMatriculacionValida:
         self.fechaMatriculacion >= 0 and self.fechaMatriculacion <> null
 
-    --Este hay que actualizarlo en el apartado B
     inv tallerMismaCiudad:
         let revisiones: Sequence(Revision) = self.revision-> sortedBy(fechaFin) -> asSequence() in
         let hoy : Integer = self.clock.now in
@@ -164,7 +164,6 @@ context Coche
     -- el siguiente viaje tiene que empezar el 3 y asi sucesivamente
 
 
-    --Este hay que actualizarlo en el apartado B
     inv cocheViajandoOEnCiudad:
         let viajes : Sequence(Viaje) = self.viaje->sortedBy(fechaSalida)->asSequence() in
         let hoy : Integer = self.clock.now in
