@@ -5,7 +5,11 @@
 !new Coche('coche1')
 !coche1.fechaMatriculacion := 0
 
+!new Coche('coche2')
+!coche2.fechaMatriculacion := 2
+
 !insert (clock, coche1) into Time
+!insert (clock, coche2) into Time
 
 !new Ciudad ('ciudad1')
 !ciudad1.nombre := 'Málaga'
@@ -15,6 +19,12 @@
 
 !new Ciudad ('ciudad3')
 !ciudad3.nombre := 'Granada'
+
+!new Ciudad('ciudad4') 
+!ciudad4.nombre := 'Madrid'
+
+!new Ciudad('ciudad5')
+!ciudad5.nombre := 'Barcelona'
 
 --El coche está inicialmente en Málaga
 !insert (coche1,ciudad1) into CocheCiudad
@@ -26,20 +36,35 @@
 !insert(ciudad2, ciudad3) into Recorrido
 !Recorrido2.numKm := 250
 
+!insert(ciudad1, ciudad4) into Recorrido
+!Recorrido3.numKm := 500
+
 --viaje 1
 !new Viaje ('viaje1')
 !viaje1.fechaSalida := 0
 !viaje1.fechaLlegada := 1
 
 !new Viaje ('viaje2')
-!viaje2.fechaSalida := 1
-!viaje2.fechaLlegada := 2
+!viaje2.fechaSalida := 4
+!viaje2.fechaLlegada := 5
+
+!new Viaje ('viaje3')
+!viaje3.fechaSalida := 4
+!viaje3.fechaLlegada := 5
+
+!new Viaje ('viaje4')
+!viaje4.fechaSalida := 7
+!viaje4.fechaLlegada := 8
 
 
 !insert (coche1, viaje1) into ViajeCoche
+!insert (coche1, viaje2) into ViajeCoche
+!insert (coche2, viaje3) into ViajeCoche
+!insert (coche2, viaje4) into ViajeCoche
+
 !insert (viaje1, recorrido1) into ViajeRecorrido
 !insert (viaje2, recorrido2) into ViajeRecorrido
-
+!
 
 !new Taller ('taller1')
 !taller1.nombre := 'taller1'
@@ -53,9 +78,20 @@
 !revision1.fechaFin := 3
 
 !new Revision ('revision2')
-!revision2.fechaInicio := 4
-!revision2.fechaFin := 4
+!revision2.fechaInicio := 6
+!revision2.fechaFin := 8
+
+!new Revision ('revision3')
+!revision3.fechaInicio := 5
+!revision3.fechaFin := 6
 
 !insert (taller1, revision1) into RevisionTaller
 !insert (taller2, revision2) into RevisionTaller
+
+!insert (coche1, revision1) into RevisionCoche
+!insert (coche1, revision2) into RevisionCoche
+
+!insert (ciudad2, taller1) into CiudadTaller
+!insert(ciudad3, taller2) into CiudadTaller
+
 

@@ -74,7 +74,9 @@ operations
             delete (self, self.ciudad) from CocheCiudad;
             
         end
+        --Añadir precondición en el que now >= fecha matriculación
         pre OrigenRecorridoCorrecto :( not self.ciudad.oclIsUndefined() and Recorrido.allInstances()->exists(r | r = recorrido) and self.ciudad = recorrido.ciudadOrigen)
+            
         post CreadoViajeConFechaSalidaNow : (self.viaje->exists(v | v.recorrido = recorrido and v.fechaSalida = self.clock.now))
 
     avanzar()
