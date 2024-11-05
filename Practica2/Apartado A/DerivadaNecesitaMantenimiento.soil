@@ -1,15 +1,15 @@
 !new Clock('reloj')
-!reloj.now := 250
+!reloj.now := 570
 
 --El coche Audi ha pasado más de 4 años desde la fecha de matriculación
 --entonces necesita mantenimiento
 !new Coche('Audi')
-!Audi.fechaMatriculacion := 50
+!Audi.fechaMatriculacion := 20
 
 !insert(reloj, Audi) into Time
 
 !new Revision('RevisionAudi')
-!RevisionAudi.fechaFin := 100
+!RevisionAudi.fechaFin := 421
 !RevisionAudi.tipoRevision := TipoRevision::Mantenimiento
 
 --El coche Seat no ha pasado 4 años desde la fecha de matriculación
@@ -36,11 +36,11 @@
 !RevisionCitroen.tipoRevision := TipoRevision::Mantenimiento
 
 !new Revision('RevisionCitroen2')
-!RevisionCitroen2.fechaFin := 551
-!RevisionCitroen2.tipoRevision := TipoRevision::Mantenimiento
+!RevisionCitroen2.fechaFin := 470
+!RevisionCitroen2.tipoRevision := TipoRevision::Averia
 
 !insert(CitroenC3, RevisionCitroen) into RevisionCoche
 !insert(Audi, RevisionAudi) into RevisionCoche
 !insert(Seat, RevisionSeat) into RevisionCoche
---!insert(CitroenC3, RevisionCitroen2) into RevisionCoche
+!insert(CitroenC3, RevisionCitroen2) into RevisionCoche
 
