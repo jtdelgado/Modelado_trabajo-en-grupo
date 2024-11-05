@@ -80,7 +80,6 @@ operations
     avanzar()
         begin
             declare kmQueRecorreAlAvanzar : Integer, viajeActual : Viaje, kmRestantesViajeActual : Integer;
-            viajeActual := new Viaje;
             
             if self.viaje -> exists(v | v.fechaLlegada.oclIsUndefined()) then --Hay  un invariante que comprueba que no haya más viajes en curso 
 
@@ -105,6 +104,7 @@ operations
 
         post kilometrosActualizados: self.kmRecorridos = (self.kmRecorridos@pre + self.kmAlDia) 
         or (self.kmRecorridos = self.kmRecorridos@pre + ((self.viaje->sortedBy(v | v.fechaSalida)->last().recorrido.numKm - (self.viaje->sortedBy(v | v.fechaSalida)->last().kilometrosRecorridos))))
+        or not self.viaje -> exists(v | v.fechaLlegada.oclIsUndefined()) 
 constraints
     inv kmAlDiaPositivo: self.kmAlDia >= 0
 end
@@ -246,26 +246,19 @@ context Coche
     inv cocheViajandoOEnCiudad:
         let viajes : Sequence(Viaje) = self.viaje->sortedBy(fechaSalida)->asSequence() in
         let hoy : Integer = self.clock.now in
-        if self.viaje->isEmpty() then
-                -- si el coche no se encuentra en ningun viaje y no tiene ningun viaje pendiente
-                -- la ciudad del coche tiene que estar definida
-                not self.ciudad.oclIsUndefined()
+        --Si está viajando no tiene ciudad
+        if viajes->last().fechaSalida <> null and viajes->last().fechaLlegada = null then
+            self.ciudad.oclIsUndefined()
         else
-            if viajes->exists(v | v.fechaSalida <= hoy and hoy <= v.fechaLlegada) then
-                -- Si el coche está en un viaje, su ciudad debe ser indefinida
-                self.ciudad.oclIsUndefined()
+        -- si no esta viajando y tiene viajes anteriores,su última ciudad es la de destino del último viaje terminado
+            if viajes->last().fechaSalida <> null and viajes->last().fechaLlegada <> null then
+                self.ciudad = viajes->last().recorrido.ciudadDestino
             else
-                if  not viajes->select(v | v.fechaSalida >= hoy)->isEmpty() then
-                    -- Si el coche no tiene viajes realizados pero tiene viajes pendientes, 
-                    -- su ciudad es la ciudad origen del primer viaje
-                    viajes->select(v | v.fechaSalida >= hoy)->first().recorrido.ciudadOrigen = self.ciudad
-                else
-                    -- Si tiene viajes realizados, su ciudad debe coincidir con el destino del último viaje finalizado
-                    viajes->select(v | v.fechaLlegada <= hoy)->last().recorrido.ciudadDestino = self.ciudad
-                    
-                endif
+            --si no hay viajes anteriores el coche está en alguna ciudad
+                not self.ciudad.oclIsUndefined()
             endif
         endif
+
     
     inv unaRevisionALaVez:
         self.revision->forAll(r1,r2 | r1 <> r2 implies 
@@ -294,6 +287,10 @@ context Ciudad
 
 context Viaje
     inv fechasViajeValidas: 
-        ((self.fechaSalida <> null and self.fechaSalida>=0) and 
-        (self.fechaLlegada = null or self.fechaLlegada>=0)) and 
-        (self.fechaSalida <= self.fechaLlegada)
+        ((self.fechaSalida <> null and self.fechaSalida>=0 ) and 
+        (self.fechaLlegada = null or self.fechaLlegada>=0)) and
+        (self.fechaLlegada <> null implies (self.fechaSalida <= self.fechaLlegada))
+
+--    inv kmRecorridosViajeCorrecto:
+--        self.fechaLlegada <> null implies self.kilometrosRecorridos = self.recorrido.numKm
+        

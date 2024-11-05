@@ -1,0 +1,61 @@
+--El sistema parte del instante 0
+!new Clock ('clock')
+!clock.now := 0
+
+!new Coche('coche1')
+!coche1.fechaMatriculacion := 0
+
+!insert (clock, coche1) into Time
+
+!new Ciudad ('ciudad1')
+!ciudad1.nombre := 'Málaga'
+ 
+!new Ciudad ('ciudad2')
+!ciudad2.nombre := 'Sevilla'
+
+!new Ciudad ('ciudad3')
+!ciudad3.nombre := 'Granada'
+
+--El coche está inicialmente en Málaga
+!insert (coche1,ciudad1) into CocheCiudad
+
+--Recorrido entre malaga - sevilla 210 km y sevilla - granada 250 km
+!insert(ciudad1, ciudad2) into Recorrido
+!Recorrido1.numKm := 210
+
+!insert(ciudad2, ciudad3) into Recorrido
+!Recorrido2.numKm := 250
+
+--viaje 1
+!new Viaje ('viaje1')
+!viaje1.fechaSalida := 0
+!viaje1.fechaLlegada := 1
+
+!new Viaje ('viaje2')
+!viaje2.fechaSalida := 1
+!viaje2.fechaLlegada := 2
+
+
+!insert (coche1, viaje1) into ViajeCoche
+!insert (viaje1, recorrido1) into ViajeRecorrido
+!insert (viaje2, recorrido2) into ViajeRecorrido
+
+
+!new Taller ('taller1')
+!taller1.nombre := 'taller1'
+
+!new TallerOficial ('taller2')
+!taller2.nombre := 'taller2'
+!taller2.tiempoGarantiaDias := 100
+
+!new Revision ('revision1')
+!revision1.fechaInicio := 2
+!revision1.fechaFin := 3
+
+!new Revision ('revision2')
+!revision2.fechaInicio := 4
+!revision2.fechaFin := 4
+
+!insert (taller1, revision1) into RevisionTaller
+!insert (taller2, revision2) into RevisionTaller
+
