@@ -121,10 +121,14 @@ operations
         begin
             self.kilometrosRecorridos := self.kilometrosRecorridos + km;
         end
+        pre kmRecorridosNoNulo: km <> null
+        post kmRecorridosActualizados: self.kilometrosRecorridos = self.kilometrosRecorridos@pre + km
     asignarFechaLlegada(llegada : Integer)
         begin
             self.fechaLlegada := llegada;
         end
+        pre fechaLlegadaNoNula: llegada <> null
+        post fechaLlegadaActualizada: self.fechaLlegada = llegada
 end
 
 class Ciudad
