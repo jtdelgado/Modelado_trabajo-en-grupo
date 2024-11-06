@@ -1,0 +1,32 @@
+!new Clock('clock')
+!clock.now := 10
+
+!new Coche('c1')
+!c1.fechaMatriculacion := 0
+
+!c1.kmAlDia := 20
+
+!insert(clock, c1) into Time
+
+!new Ciudad('malaga')
+!malaga.nombre := 'malaga'
+
+!new Ciudad('linares')
+!linares.nombre := 'linares'
+
+!insert (c1, linares) into CocheCiudad
+
+!insert (malaga, linares) into Recorrido
+!Recorrido1.numKm := 250
+
+!new Viaje('v1')
+!v1.kilometrosRecorridos := 250
+-- si cambiamos este valor o numKm del recorrido debería fallar la invariante
+!v1.fechaSalida := 2
+!v1.fechaLlegada := 3
+
+!insert (v1, Recorrido1) into ViajeRecorrido
+!insert (c1, v1) into ViajeCoche
+
+
+

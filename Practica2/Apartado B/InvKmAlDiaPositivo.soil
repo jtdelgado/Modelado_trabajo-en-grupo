@@ -1,0 +1,12 @@
+!new Clock('clock')
+!clock.now := 0
+
+
+
+!new Coche('coche1')
+!coche1.fechaMatriculacion := 0
+!coche1.kmAlDia := 2
+--Para que el invariante se incumpla colocar valores negativo,o comentando 
+
+!insert(clock, coche1) into Time
+

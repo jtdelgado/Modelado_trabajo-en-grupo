@@ -75,7 +75,7 @@ operations
             
         end
         --Añadir precondición en el que now >= fecha matriculación
-        pre OrigenRecorridoCorrecto :( not self.ciudad.oclIsUndefined() and Recorrido.allInstances()->exists(r | r = recorrido) and self.ciudad = recorrido.ciudadOrigen)
+        pre OrigenRecorridoCorrecto :(self.fechaMatriculacion<=clock.now and not self.ciudad.oclIsUndefined() and Recorrido.allInstances()->exists(r | r = recorrido) and self.ciudad = recorrido.ciudadOrigen)
             
         post CreadoViajeConFechaSalidaNow : (self.viaje->exists(v | v.recorrido = recorrido and v.fechaSalida = self.clock.now))
 
@@ -106,9 +106,7 @@ operations
 
         post kilometrosActualizados: self.kmRecorridos = (self.kmRecorridos@pre + self.kmAlDia) 
         or (self.kmRecorridos = self.kmRecorridos@pre + ((self.viaje->sortedBy(v | v.fechaSalida)->last().recorrido.numKm - (self.viaje->sortedBy(v | v.fechaSalida)->last().kilometrosRecorridos))))
-        or not self.viaje -> exists(v | v.fechaLlegada.oclIsUndefined()) 
-constraints
-    inv kmAlDiaPositivo: self.kmAlDia >= 0
+        or not self.viaje -> exists(v | v.fechaLlegada.oclIsUndefined())     
 end
 
 
@@ -268,6 +266,8 @@ context Coche
             not (r1.fechaInicio <= r2.fechaFin and r2.fechaFin <= r1.fechaFin)
         )
 
+    inv kmAlDiaPositivo: 
+        self.kmAlDia >= 0
         
 context Revision
     inv fechasRevisionValidas:
