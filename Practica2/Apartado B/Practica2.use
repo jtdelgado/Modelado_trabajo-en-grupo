@@ -291,7 +291,7 @@ context Viaje
         ((self.fechaSalida <> null and self.fechaSalida>=0 ) and 
         (self.fechaLlegada = null or self.fechaLlegada>=0)) and
         (self.fechaLlegada <> null implies (self.fechaSalida <= self.fechaLlegada))
---pREGUNTAR
---    inv kmRecorridosViajeCorrecto:
---        self.fechaLlegada <> null implies self.kilometrosRecorridos = self.recorrido.numKm
+
+    inv kmRecorridosViajeCorrecto:
+        self.fechaLlegada <> null implies self.kilometrosRecorridos = self.recorrido.numKm
         
