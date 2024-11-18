@@ -12,7 +12,9 @@ public class Adoptante extends Socio{
         //assert(animal.getRefugio().l)
 
     }
-    
+    public Enumeration<Adopcion> getAdopciones (){
+        return Collections.enumeration(this.adopciones);
+    }
     public void removeAdopcion (Adopcion adopcion){
         this.adopciones.remove(adopcion);
     }
