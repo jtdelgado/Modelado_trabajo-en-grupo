@@ -28,6 +28,10 @@ public class Donacion {
         return donante;
     }
     public void setDonante(Donante donanteAlQuePertenece) {
+        this.donante.removeDonacion(this); // Si queremos cambiar el donante hay que eliminar la donación del anterior
+
         this.donante = donanteAlQuePertenece;
+
+        this.donante.addDonacion(this);
     }
 }

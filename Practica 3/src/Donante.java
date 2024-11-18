@@ -1,11 +1,11 @@
 import java.util.*;
 
 public class Donante extends Socio{
-    private List<Donacion> donaciones;
+    private List<Donacion> donaciones= new LinkedList<>();
 
-    public Donante(Date registro, Refugio refugio){
+    public Donante(Date registro, Refugio refugio, Donacion donacion){
         super(refugio, registro);
-        donaciones = new ArrayList<>();
+        this.donaciones.add(donacion);
     }
 
     public void donar(float cantidadDonada){
@@ -21,7 +21,7 @@ public class Donante extends Socio{
         donaciones.remove(donacion);
     }
 
-    public List<Donacion> getDonaciones(){
-        return this.donaciones;
+    public Enumeration<Donacion> getDonaciones(){
+        return Collections.enumeration(this.donaciones);
     }
 }
