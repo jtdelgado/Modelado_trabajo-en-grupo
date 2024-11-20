@@ -5,12 +5,9 @@ public class Donacion {
     private float cantidad;
     private Date fecha;
 
-    private Donante donante;
-
-    public Donacion(float cantidad, Date fecha, Donante donante){
+    public Donacion(float cantidad, Date fecha){
         this.cantidad = cantidad;
         this.fecha = fecha;
-        this.donante = donante;
     }
 
     public float getCantidad() {
@@ -25,7 +22,8 @@ public class Donacion {
     public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
-    public Donante getDonante() {
+    
+    /*public Donante getDonante() {
         return donante;
     }
     public void setDonante(Donante donanteAlQuePertenece) {
@@ -34,5 +32,5 @@ public class Donacion {
         this.donante = donanteAlQuePertenece;
 
         this.donante.addDonacion(this);
-    }
+    }*/
 }

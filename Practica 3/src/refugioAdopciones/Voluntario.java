@@ -14,9 +14,8 @@ public class Voluntario extends Socio {
     }
 
     protected void tramitarAdopcion(Animal animalQueSeAdopta, Adoptante adoptante) {
-        assert (animalQueSeAdopta != null);
-        assert (adoptante != null);
-
+        // comprobar si el voluntario es del mismo refugio que el animal
+        assert (this.getRefugio().equals(animalQueSeAdopta.getRefugio()));
 
         // comprobar que el animal esta en el refugio
         List<Animal> animalesRefugiados = Collections.list(this.getRefugio().getAnimalesRefugiados());
@@ -24,25 +23,26 @@ public class Voluntario extends Socio {
 
         assert (estaAnimal);
 
-        // comprobar si el voluntario es del mismo refugio que el animal
-        assert (this.getRefugio().equals(animalQueSeAdopta.getRefugio()));
-
         //Comprobar que el animal esta pasado por parametro esta disponible para adopcion
         assert (animalQueSeAdopta.getEstado().equals(EstadoAnimal.disponible));
 
-        Date fechaAhora = new Date();
-        Adopcion nuevaAdopcion = new Adopcion(fechaAhora, this, animalQueSeAdopta, adoptante);
-        
         // El animal se elimina de la lista de animalesRefugiados cuando se adopta
         animalQueSeAdopta.getRefugio().rmAnimalRefugiado(animalQueSeAdopta);
-        
-        addTramite(nuevaAdopcion);
+
+        Date fechaAhora = new Date();
+        Adopcion nuevaAdopcion = new Adopcion(fechaAhora, this, animalQueSeAdopta, adoptante);
+
+        //El animal pasa a terner estado adoptado
+        animalQueSeAdopta.setEstado(EstadoAnimal.adoptado);
+    
+        tramites.add(nuevaAdopcion);
     }
 
     protected void registrar(Animal animal) {
         assert (animal != null);
 
         // Comprobar que el animal no se encuentra en la lista de animalesRefugiados
+        // si esta en la lista de animalesRefugiados no esta en la lista de registrados
         List<Animal> animalesRefugiados = Collections.list(this.getRefugio().getAnimalesRefugiados());
         assert (!animalesRefugiados.contains(animal));
 
@@ -60,9 +60,7 @@ public class Voluntario extends Socio {
         return Collections.enumeration(tramites);
     }
 
-    protected void addTramite(Adopcion tramite) {
-        tramites.add(tramite);
-    }
+    // no hay un add tramite porque el tramite se crea en el metodo tramitarAdopcion
 
     protected void rmTramite(Adopcion tramite) {
         tramites.remove(tramite);

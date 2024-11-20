@@ -43,7 +43,9 @@ public class Animal {
     public void addAdopcion(Adopcion adopcion) {
         this.adopcion = adopcion;
         this.refugio.rmAnimalRefugiado(this);
-        this.refugio = null;
+
+        // el atributo refugio del animal no se pone a el animal siempre tiene 
+        // que estar en el registro
     }
 
     public void removeAdopcion() {

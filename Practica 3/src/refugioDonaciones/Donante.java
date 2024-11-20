@@ -13,7 +13,7 @@ public class Donante extends Socio{
     }
 
     public void donar(float cantidadDonada){
-        addDonacion(new Donacion(cantidadDonada, new Date(), this));
+        addDonacion(new Donacion(cantidadDonada, new Date()));
         getRefugio().setLiquidez(getRefugio().getLiquidez() + cantidadDonada);
     }
 

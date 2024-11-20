@@ -21,9 +21,8 @@ public class Adopcion {
         this.animalAdoptado = animalAdoptado;
         this.encargadoAdopcion = encargadoAdopcion;
 
-        //El animal pasa a terner estado adoptado
-        animalAdoptado.setEstado(EstadoAnimal.adoptado);
-
+        //El animal se elimina de la lista de animalesRefugiados cuando se adopta
+        // esto lo hace el metiodo addAdopcion
         this.animalAdoptado.addAdopcion(this);
         this.adoptante.addAdopcion(this);
     }
