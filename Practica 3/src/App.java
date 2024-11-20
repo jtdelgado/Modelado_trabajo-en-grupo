@@ -8,6 +8,6 @@ import java.util.Random;
 public class App {
     public static void main(String[] args) throws Exception {
         Refugio refugioDeLeo = new Refugio(0);
-        Animal perro = new Animal(null, null, null)
+        Animal perro = new Animal(null, null, null);
     }
 }

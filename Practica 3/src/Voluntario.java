@@ -17,6 +17,7 @@ public class Voluntario extends Socio {
         assert (animalQueSeAdopta != null);
         assert (adoptante != null);
 
+        //Comprobar que el animal esta con estado DISPONIBLE
         Date fechaAhora = new Date();
         // List<Animal> animalesAdoptados = List.of(animalQueSeAdopta);
         Adopcion nuevaAdopcion = new Adopcion(fechaAhora, this, animalQueSeAdopta, adoptante);
