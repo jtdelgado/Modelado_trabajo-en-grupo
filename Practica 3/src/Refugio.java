@@ -7,6 +7,7 @@ public class Refugio {
     private float liquidez;
     private List<Animal> animalesRefugiados;
     private List<Animal> animalesRegistrados;
+    private List<Socio> socios;
 
     // ESTE CONSTRUCTOR NO SE PUEDE USAR, PERO EN EL DIAGRAMA DE LOS APUNTES SE
     // DEFINE ASI
@@ -19,12 +20,12 @@ public class Refugio {
         this.liquidez = liquidez;
         this.animalesRefugiados = new LinkedList<>();
         this.animalesRegistrados = new LinkedList<>();
+        this.socios= new LinkedList<>();
     }
 
     // Métodos para operar con la relación de AnimalesRefugiados
     // diapositiva 23
 
-    // PREGUNTAR: Hay que usar enumeration si o si? O se puede usar List?
     public Enumeration<Animal> getAnimalesRefugiados() {
 
         return Collections.enumeration(animalesRefugiados);
@@ -34,18 +35,46 @@ public class Refugio {
         animalesRefugiados.add(animal);
     }
 
-    public void removeAnimalRefugiado(Animal animal) {
+    public void rmAnimalRefugiado(Animal animal) {
         animalesRefugiados.remove(animal);
     }
 
-    public void removeAllAnimalesRegistrado() {
+    public void rmAllAnimalesRegistrado() {
         animalesRefugiados.clear();
     }
+
+    // ANIMALES REGISTRADOS
+    public Enumeration<Animal> getAnimalesRegistrados() {
+
+        return Collections.enumeration(animalesRegistrados);
+    } 
+
+    public Enumeration<Socio> getSocios() {
+
+        return Collections.enumeration(socios);
+    }
+
+    public void addSocios(Socio socio) {
+        socios.add(socio);
+    }
+
+    public void rmSocio(Socio socio) {
+        socios.remove(socio);
+    }
+
+    //SOCIOS DEL REFUGIO
+
+
 
     // ----------------------------------------------------------
 
     public void registrar(Animal a) {
-        // falta por completar
+        //No compruebo que animal no sea null
+        //porque ya se comprueba en el metodo registrar de Voluntario
+        
+        animalesRegistrados.add(a);
+        animalesRefugiados.add(a);
+        
     }
 
     public void setLiquidez(float liquidez) {

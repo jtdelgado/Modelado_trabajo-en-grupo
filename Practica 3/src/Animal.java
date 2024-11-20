@@ -7,14 +7,9 @@ public class Animal {
 
     private Adopcion adopcion;
 
-    public Animal(Date nacimiento, EstadoAnimal estado, Refugio refugio) {
-        assert (refugio != null);
+    public Animal(Date nacimiento) {
         assert (nacimiento != null);
-        assert (estado != null);
-
         this.nacimiento = nacimiento;
-        this.estado = estado;
-        this.refugio = refugio;
     }
 
     public Date getNacimiento() {
@@ -44,7 +39,7 @@ public class Animal {
     // Clase asociacion: ADOPCION
     public void addAdopcion(Adopcion adopcion) {
         this.adopcion = adopcion;
-        this.refugio.removeAnimalRefugiado(this);
+        this.refugio.rmAnimalRefugiado(this);
         this.refugio = null;
     }
 

@@ -1,5 +1,6 @@
 import java.util.*;
 
+
 public class Donante extends Socio{
     private List<Donacion> donaciones= new LinkedList<>();
 
@@ -17,7 +18,7 @@ public class Donante extends Socio{
         donaciones.add(nuevaDonacion);
     }
 
-    protected void removeDonacion(Donacion donacion){
+    protected void rmDonacion(Donacion donacion){
         donaciones.remove(donacion);
     }
 

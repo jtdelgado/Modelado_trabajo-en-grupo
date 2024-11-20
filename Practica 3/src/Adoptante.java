@@ -13,13 +13,8 @@ public class Adoptante extends Socio {
         assert(disponibleParaAdopcion != null);
         assert(encargadoAdopcion != null);
 
-        List<Animal> animalesRefugiados = Collections.list(this.getRefugio().getAnimalesRefugiados());
-        boolean estaAnimal = animalesRefugiados.contains(disponibleParaAdopcion);
-
-        assert (estaAnimal);
-
-        // comprobar si el encargadoAdopcion es del mismo refugio que el animal
-        assert (encargadoAdopcion.getRefugio().equals(disponibleParaAdopcion.getRefugio()));
+        // La comprobacion de si el animal es del refugio del adoptante
+        // y el voluntario esta en el mismo refugio que el animal se hace en el tramitarAdopcion
 
         encargadoAdopcion.tramitarAdopcion(disponibleParaAdopcion, this);
 
@@ -29,7 +24,7 @@ public class Adoptante extends Socio {
         return Collections.enumeration(this.adopciones);
     }
 
-    public void removeAdopcion(Adopcion adopcion) {
+    public void rmAdopcion(Adopcion adopcion) {
         this.adopciones.remove(adopcion);
     }
 
