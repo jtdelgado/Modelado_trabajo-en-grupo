@@ -9,8 +9,8 @@ import java.util.List;
 public class Voluntario extends Socio {
     private List<Adopcion> tramites = new LinkedList<>();
 
-    public Voluntario(Refugio refugio, Date registro) {
-        super(refugio, registro);
+    public Voluntario(Refugio refugio, Date registro,String nombre) {
+        super(refugio, registro,nombre);
     }
 
     protected void tramitarAdopcion(Animal animalQueSeAdopta, Adoptante adoptante) {

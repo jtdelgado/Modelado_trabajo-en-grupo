@@ -5,8 +5,8 @@ import java.util.*;
 public class Adoptante extends Socio {
     private List<Adopcion> adopciones = new LinkedList<>();
 
-    public Adoptante(Refugio refugio, Date registro, Voluntario voluntario) {
-        super(refugio, registro);
+    public Adoptante(Refugio refugio, Date registro, Voluntario voluntario,String nombre) {
+        super(refugio, registro,nombre);
         // como la relacion es de 0 a muchos entre animal y adoptante,
         // para que exista un adoptante no es necesario que haya adoptado un animal
     }

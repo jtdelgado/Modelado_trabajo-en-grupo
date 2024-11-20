@@ -11,6 +11,8 @@ public class Refugio {
     private List<Animal> animalesRegistrados;
     private List<Socio> socios;
 
+
+    private String nombre;
     // ESTE CONSTRUCTOR NO SE PUEDE USAR, PERO EN EL DIAGRAMA DE LOS APUNTES SE
     // DEFINE ASI
     // public Refugio(float liquidez, List<Animal> animalesRefugiados) {
@@ -18,11 +20,13 @@ public class Refugio {
     // this.animalesRefugiados = animalesRefugiados;
     // }
 
-    public Refugio(float liquidez) {
+    public Refugio(float liquidez, String nombre) {
         this.liquidez = liquidez;
         this.animalesRefugiados = new LinkedList<>();
         this.animalesRegistrados = new LinkedList<>();
         this.socios= new LinkedList<>();
+
+        this.nombre= nombre;
     }
 
     // Métodos para operar con la relación de AnimalesRefugiados
@@ -91,4 +95,11 @@ public class Refugio {
     public float getLiquidez() {
         return liquidez;
     }
+
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName()+": "+this.nombre;
+    }
+
+    
 }

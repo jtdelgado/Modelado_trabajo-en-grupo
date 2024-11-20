@@ -1,14 +1,14 @@
 package refugioDonaciones;
 import java.util.*;
-import java.util.List;
+
 import refugioAdopciones.*;
 
 
 public class Donante extends Socio{
     private List<Donacion> donaciones= new LinkedList<>();
 
-    public Donante(Date registro, Refugio refugio, Donacion donacion){
-        super(refugio, registro);
+    public Donante(Date registro, Refugio refugio, Donacion donacion,String nombre){
+        super(refugio, registro,nombre);
         this.donaciones.add(donacion);
     }
 

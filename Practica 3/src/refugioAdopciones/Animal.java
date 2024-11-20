@@ -8,11 +8,14 @@ public class Animal {
 
     private Adopcion adopcion;
 
+    private String nombre;
+
     // El animal no tiene un refugio ni estado asignado al principio ya que eso
     // se encarga el voluntario cuando lo registra
-    public Animal(Date nacimiento) {
+    public Animal(Date nacimiento,String nombre) {
         assert (nacimiento != null);
         this.nacimiento = nacimiento;
+        this.nombre= nombre;
     }
 
     public Date getNacimiento() {
@@ -54,5 +57,13 @@ public class Animal {
         this.refugio = sitioAcogida;
         this.adopcion = null;
     }
+
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName()+"=> "+ this.nombre +", estado: "+this.estado+", "+this.refugio;
+    }
+
+
+    
 
 }

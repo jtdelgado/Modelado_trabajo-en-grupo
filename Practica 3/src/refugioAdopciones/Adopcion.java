@@ -1,10 +1,11 @@
  package refugioAdopciones;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Adopcion {
     private Date fecha;
 
-    private Voluntario encargadoAdopcion; // habría que cambiar el nombre del atributo
+    private Voluntario encargadoAdopcion; 
     // private List<Animal> animalesAdoptados;
     private Adoptante adoptante;
     private Animal animalAdoptado;
@@ -44,4 +45,17 @@ public class Adopcion {
     }
 
     // No pondremos setters de adopcion por facilidad de codigo
+    @Override
+    public String toString() {
+        SimpleDateFormat formateador = new SimpleDateFormat("dd/MM/yy");
+
+        // Formatear la fecha
+        String fechaFormateada = formateador.format(this.fecha);
+
+        
+        return this.getClass().getSimpleName()+"=> \n\tFecha: "+fechaFormateada+", \n\tEncargado "+this.encargadoAdopcion
+                +", \n\t"+this.adoptante+", \n\t"+this.animalAdoptado+"\n";
+    }
+
+    
 }
