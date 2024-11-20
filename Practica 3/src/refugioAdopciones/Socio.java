@@ -1,4 +1,6 @@
- import java.util.Date;
+package refugioAdopciones;
+
+import java.util.Date;
 
  public class Socio{
    private Date registro;

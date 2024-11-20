@@ -1,3 +1,5 @@
+package refugioAdopciones;
+
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.LinkedList;
@@ -31,15 +33,18 @@ public class Refugio {
         return Collections.enumeration(animalesRefugiados);
     }
 
-    public void addAnimalRefugiado(Animal animal) {
+    // El metodo addAnimalRefugiado es protected porque un donante no puede acceder a el
+    protected void addAnimalRefugiado(Animal animal) {
         animalesRefugiados.add(animal);
     }
 
-    public void rmAnimalRefugiado(Animal animal) {
+    // El metodo rmAnimalRefugiado es protected porque un donante no puede acceder a el
+    protected void rmAnimalRefugiado(Animal animal) {
         animalesRefugiados.remove(animal);
     }
 
-    public void rmAllAnimalesRegistrado() {
+    // El metodo rmAllAnimalesRefugiados es protected porque un donante no puede acceder a el
+    protected void rmAllAnimalesRegistrado() {
         animalesRefugiados.clear();
     }
 
@@ -48,21 +53,23 @@ public class Refugio {
 
         return Collections.enumeration(animalesRegistrados);
     } 
+    //SOCIOS DEL REFUGIO
 
     public Enumeration<Socio> getSocios() {
 
         return Collections.enumeration(socios);
     }
 
-    public void addSocios(Socio socio) {
+    // El metodo addSocios es protected porque un donante no puede acceder a el
+    protected void addSocios(Socio socio) {
         socios.add(socio);
     }
 
-    public void rmSocio(Socio socio) {
+    // El metodo rmSocio es protected porque un donante no puede acceder a el
+    protected void rmSocio(Socio socio) {
         socios.remove(socio);
     }
 
-    //SOCIOS DEL REFUGIO
 
 
 

@@ -1,3 +1,4 @@
+ package refugioAdopciones;
 import java.util.Date;
 
 public class Adopcion {

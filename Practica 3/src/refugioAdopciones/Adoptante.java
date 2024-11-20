@@ -1,12 +1,14 @@
+package refugioAdopciones;
 import java.util.*;
 //Si el animal esta en tratamiento no puede ser adoptado
 
 public class Adoptante extends Socio {
     private List<Adopcion> adopciones = new LinkedList<>();
 
-    public Adoptante(Date registro, Refugio refugio, Animal animal, Voluntario voluntario) {
+    public Adoptante(Refugio refugio, Date registro, Voluntario voluntario) {
         super(refugio, registro);
-        adoptar(animal, voluntario);
+        // como la relacion es de 0 a muchos entre animal y adoptante,
+        // para que exista un adoptante no es necesario que haya adoptado un animal
     }
 
     public void adoptar(Animal disponibleParaAdopcion, Voluntario encargadoAdopcion) {

@@ -1,4 +1,7 @@
+package refugioDonaciones;
 import java.util.*;
+import java.util.List;
+import refugioAdopciones.*;
 
 
 public class Donante extends Socio{

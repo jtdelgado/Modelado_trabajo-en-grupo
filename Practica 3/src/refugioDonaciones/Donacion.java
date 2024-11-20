@@ -1,3 +1,4 @@
+package refugioDonaciones;
 import java.util.Date;
 
 public class Donacion {

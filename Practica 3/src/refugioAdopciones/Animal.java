@@ -1,3 +1,4 @@
+package refugioAdopciones;
 import java.util.Date;
 
 public class Animal {
@@ -7,6 +8,8 @@ public class Animal {
 
     private Adopcion adopcion;
 
+    // El animal no tiene un refugio ni estado asignado al principio ya que eso
+    // se encarga el voluntario cuando lo registra
     public Animal(Date nacimiento) {
         assert (nacimiento != null);
         this.nacimiento = nacimiento;

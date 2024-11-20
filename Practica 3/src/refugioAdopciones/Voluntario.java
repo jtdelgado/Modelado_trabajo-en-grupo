@@ -1,4 +1,4 @@
-//Clase y sus relaciones terminadas :)
+package refugioAdopciones;
 
 import java.util.Collections;
 import java.util.Date;
@@ -13,7 +13,7 @@ public class Voluntario extends Socio {
         super(refugio, registro);
     }
 
-    public void tramitarAdopcion(Animal animalQueSeAdopta, Adoptante adoptante) {
+    protected void tramitarAdopcion(Animal animalQueSeAdopta, Adoptante adoptante) {
         assert (animalQueSeAdopta != null);
         assert (adoptante != null);
 
@@ -35,10 +35,11 @@ public class Voluntario extends Socio {
         
         // El animal se elimina de la lista de animalesRefugiados cuando se adopta
         animalQueSeAdopta.getRefugio().rmAnimalRefugiado(animalQueSeAdopta);
+        
         addTramite(nuevaAdopcion);
     }
 
-    public void registrar(Animal animal) {
+    protected void registrar(Animal animal) {
         assert (animal != null);
 
         // Comprobar que el animal no se encuentra en la lista de animalesRefugiados
@@ -50,11 +51,12 @@ public class Voluntario extends Socio {
         assert (!animalesRegistrados.contains(animal));
 
         animal.setEstado(EstadoAnimal.disponible);
+        animal.setRefugio(this.getRefugio());
 
         this.getRefugio().registrar(animal);
     }
 
-    public Enumeration<Adopcion> getTramites() {
+    protected Enumeration<Adopcion> getTramites() {
         return Collections.enumeration(tramites);
     }
 
