@@ -21,6 +21,7 @@ public class Refugio {
     // }
 
     public Refugio(float liquidez, String nombre) {
+        
         this.liquidez = liquidez;
         this.animalesRefugiados = new LinkedList<>();
         this.animalesRegistrados = new LinkedList<>();

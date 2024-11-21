@@ -16,6 +16,7 @@ public class Voluntario extends Socio {
     protected void tramitarAdopcion(Animal animalQueSeAdopta, Adoptante adoptante) {
         // comprobar si el voluntario es del mismo refugio que el animal
         assert (this.getRefugio().equals(animalQueSeAdopta.getRefugio()));
+        System.out.println(this.getRefugio()+" "+animalQueSeAdopta.getRefugio());
 
         // comprobar que el animal esta en el refugio
         List<Animal> animalesRefugiados = Collections.list(this.getRefugio().getAnimalesRefugiados());

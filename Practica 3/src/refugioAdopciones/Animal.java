@@ -58,6 +58,14 @@ public class Animal {
         this.adopcion = null;
     }
 
+    public String getNombre(){
+        return this.nombre;
+    }
+
+    public void setNombre(String nombre){
+        this.nombre= nombre;
+    }
+
     @Override
     public String toString() {
         return this.getClass().getSimpleName()+"=> "+ this.nombre +", estado: "+this.estado+", "+this.refugio;
