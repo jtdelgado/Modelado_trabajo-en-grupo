@@ -5,7 +5,6 @@ public class Animal {
     private Date nacimiento;
     private EstadoAnimal estado;
     private Refugio refugio;
-
     private Adopcion adopcion;
 
     private String nombre;
@@ -44,18 +43,18 @@ public class Animal {
 
     // Clase asociacion: ADOPCION
     public void addAdopcion(Adopcion adopcion) {
+        //Añadimos la adopción al animal y lo eliminamos de la lista del refugio actual
         this.adopcion = adopcion;
         this.refugio.rmAnimalRefugiado(this);
 
-        // el atributo refugio del animal no se pone a el animal siempre tiene 
-        // que estar en el registro
+        
     }
 
-    public void removeAdopcion() {
-        Refugio sitioAcogida = adopcion.getAdoptante().getRefugio();
-        sitioAcogida.addAnimalRefugiado(this);
-        this.refugio = sitioAcogida;
+    protected void rmAdopcion() {
+        //Cuando eliminamos la adopción devolvemos el animal a su antiguo refugio
+        this.refugio.addAnimalRefugiado(this);
         this.adopcion = null;
+        this.estado = EstadoAnimal.disponible;
     }
 
     public String getNombre(){

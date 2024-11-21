@@ -7,6 +7,7 @@ public class Donacion {
     private Date fecha;
 
     public Donacion(float cantidad, Date fecha){
+        assert (cantidad>=0):"La cantidad a donar debe de ser positiva";
         this.cantidad = cantidad;
         this.fecha = fecha;
     }
@@ -23,15 +24,6 @@ public class Donacion {
     public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
-    
-    /*public Donante getDonante() {
-    return donante;
-    }
-    public void setDonante(Donante donanteAlQuePertenece) {
-    this.donante.rmDonacion(this); // Si queremos cambiar el donante hay que eliminar la donación del anterior
-    this.donante = donanteAlQuePertenece;
-    this.donante.addDonacion(this);
-    }*/
     @Override
     public String toString() {
         SimpleDateFormat formateador = new SimpleDateFormat("dd/MM/yy");

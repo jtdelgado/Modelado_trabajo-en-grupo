@@ -4,9 +4,7 @@ import java.util.Date;
 
 public class Adopcion {
     private Date fecha;
-
     private Voluntario encargadoAdopcion; 
-    // private List<Animal> animalesAdoptados;
     private Adoptante adoptante;
     private Animal animalAdoptado;
 
@@ -22,8 +20,7 @@ public class Adopcion {
         this.animalAdoptado = animalAdoptado;
         this.encargadoAdopcion = encargadoAdopcion;
 
-        //El animal se elimina de la lista de animalesRefugiados cuando se adopta
-        // esto lo hace el metiodo addAdopcion
+        //Las comprobaciones de si tienen el mismo refugio se realizan en tramitar adopción
         this.animalAdoptado.addAdopcion(this);
         this.adoptante.addAdopcion(this);
     }
@@ -42,6 +39,19 @@ public class Adopcion {
 
     public Adoptante getAdoptante() {
         return adoptante;
+    }
+
+    protected  void deleteAdopcion(){
+        this.adoptante.rmAdopcion(this);
+        this.animalAdoptado.rmAdopcion();
+        this.encargadoAdopcion.rmTramite(this);
+
+        this.fecha = null;
+        this.adoptante = null;
+        this.animalAdoptado = null;
+        this.encargadoAdopcion = null;
+
+        //No lo eliminamos de los trámites de el voluntario porque queremos mantener una memoria de las adopciones
     }
 
     // No pondremos setters de adopcion por facilidad de codigo

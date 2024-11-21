@@ -13,15 +13,10 @@ public class Refugio {
 
 
     private String nombre;
-    // ESTE CONSTRUCTOR NO SE PUEDE USAR, PERO EN EL DIAGRAMA DE LOS APUNTES SE
-    // DEFINE ASI
-    // public Refugio(float liquidez, List<Animal> animalesRefugiados) {
-    // this.liquidez = liquidez;
-    // this.animalesRefugiados = animalesRefugiados;
-    // }
 
     public Refugio(float liquidez, String nombre) {
-        
+        assert(liquidez>=0):"El valor liquidez debe de ser positivo o cero";
+
         this.liquidez = liquidez;
         this.animalesRefugiados = new LinkedList<>();
         this.animalesRegistrados = new LinkedList<>();
@@ -29,10 +24,8 @@ public class Refugio {
 
         this.nombre= nombre;
     }
-
-    // Métodos para operar con la relación de AnimalesRefugiados
-    // diapositiva 23
-
+    // ANIMALES REFUGIADOS
+    // ----------------------------------------------------------
     public Enumeration<Animal> getAnimalesRefugiados() {
 
         return Collections.enumeration(animalesRefugiados);
@@ -49,22 +42,33 @@ public class Refugio {
     }
 
     // El metodo rmAllAnimalesRefugiados es protected porque un donante no puede acceder a el
-    protected void rmAllAnimalesRegistrado() {
+    protected void rmAllAnimalesRefugiados() {
         animalesRefugiados.clear();
     }
 
+    //El metodo estaAnimal indica si el animal se encuentra en el refugio actualmente
+    protected boolean containsAnimal(Animal animal){
+        return this.animalesRefugiados.contains(animal);
+    }
+    // ----------------------------------------------------------
     // ANIMALES REGISTRADOS
+    // ----------------------------------------------------------
     public Enumeration<Animal> getAnimalesRegistrados() {
 
         return Collections.enumeration(animalesRegistrados);
     } 
-    //SOCIOS DEL REFUGIO
 
+    protected boolean containsAnimalRegistro(Animal animal){
+        return this.animalesRegistrados.contains(animal);
+    }
+    // ----------------------------------------------------------
+    //SOCIOS DEL REFUGIO
+    // ----------------------------------------------------------
     public Enumeration<Socio> getSocios() {
 
         return Collections.enumeration(socios);
     }
-
+    
     // El metodo addSocios es protected porque un donante no puede acceder a el
     protected void addSocios(Socio socio) {
         socios.add(socio);
@@ -74,10 +78,6 @@ public class Refugio {
     protected void rmSocio(Socio socio) {
         socios.remove(socio);
     }
-
-
-
-
     // ----------------------------------------------------------
 
     public void registrar(Animal a) {

@@ -3,10 +3,11 @@ import java.util.*;
 //Si el animal esta en tratamiento no puede ser adoptado
 
 public class Adoptante extends Socio {
-    private List<Adopcion> adopciones = new LinkedList<>();
+    private List<Adopcion> adopciones ;
 
     public Adoptante(Refugio refugio, Date registro,String nombre) {
         super(refugio, registro,nombre);
+        this.adopciones= new LinkedList<>();
         // como la relacion es de 0 a muchos entre animal y adoptante,
         // para que exista un adoptante no es necesario que haya adoptado un animal
     }
@@ -15,7 +16,7 @@ public class Adoptante extends Socio {
         assert(disponibleParaAdopcion != null): "El animal es null";
         assert(encargadoAdopcion != null):"El voluntario encargado es null";
 
-        assert(this.getRefugio() == encargadoAdopcion.getRefugio());
+        assert(this.getRefugio().equals(encargadoAdopcion.getRefugio())): "El adoptante y el voluntario no pertenecen al mismo refugio";
 
         // La comprobacion de si el animal es del refugio del adoptante
         // y el voluntario esta en el mismo refugio que el animal se hace en el tramitarAdopcion
@@ -28,7 +29,7 @@ public class Adoptante extends Socio {
         return Collections.enumeration(this.adopciones);
     }
 
-    public void rmAdopcion(Adopcion adopcion) {
+    protected void rmAdopcion(Adopcion adopcion) {
         this.adopciones.remove(adopcion);
     }
 

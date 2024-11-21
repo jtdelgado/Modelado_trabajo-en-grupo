@@ -74,7 +74,7 @@ public class App {
 
         //ADOPCIÓN 
         System.out.println("El adoptante "+adoptante1.getNombre()+ " adopta a "+cerdo.getNombre());
-        adoptante1.adoptar(conejo, voluntario1);
+        adoptante1.adoptar(cerdo, voluntario1);
 
 
 
