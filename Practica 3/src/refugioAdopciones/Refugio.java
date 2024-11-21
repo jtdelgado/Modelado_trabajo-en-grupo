@@ -101,6 +101,4 @@ public class Refugio {
     public String toString() {
         return this.getClass().getSimpleName()+": "+this.nombre;
     }
-
-    
 }

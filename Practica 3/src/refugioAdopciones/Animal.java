@@ -12,8 +12,8 @@ public class Animal {
 
     // El animal no tiene un refugio ni estado asignado al principio ya que eso
     // se encarga el voluntario cuando lo registra
-    public Animal(Date nacimiento,String nombre) {
-        assert (nacimiento != null):"El animal es null";
+    public Animal(Date nacimiento,String 0) {
+        assert (nacimiento != null):"La fecha es null";
         this.nacimiento = nacimiento;
         this.nombre= nombre;
     }
@@ -68,7 +68,7 @@ public class Animal {
 
     @Override
     public String toString() {
-        return this.getClass().getSimpleName()+"=> "+ this.nombre +", estado: "+this.estado+", "+this.refugio;
+        return this.getClass().getSimpleName()+"=> "+ this.nombre +", estado: "+this.estado+", "+this.refugio.toString();
     }
 
 

@@ -1,6 +1,5 @@
 package refugioDonaciones;
 import java.util.*;
-
 import refugioAdopciones.*;
 
 
@@ -13,6 +12,8 @@ public class Donante extends Socio{
     }
 
     public void donar(float cantidadDonada){
+        assert(cantidadDonada > 0):"Se debe donar una cantidad mayor que 0";
+
         addDonacion(new Donacion(cantidadDonada, new Date()));
         getRefugio().setLiquidez(getRefugio().getLiquidez() + cantidadDonada);
     }

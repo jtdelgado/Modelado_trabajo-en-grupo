@@ -11,11 +11,11 @@ public class Adopcion {
     private Animal animalAdoptado;
 
     public Adopcion(Date fecha, Voluntario encargadoAdopcion, Animal animalAdoptado, Adoptante adoptante) {
-        assert (fecha != null);
-        assert (encargadoAdopcion != null);
+        assert (fecha != null): "La fecha es null";
+        assert (encargadoAdopcion != null): "El encargado de la adopcion es null";
 
-        assert (animalAdoptado != null);
-        assert (adoptante != null);
+        assert (animalAdoptado != null): "el animal adoptado es null";
+        assert (adoptante != null): "el adoptante es null";
 
         this.fecha = fecha;
         this.adoptante = adoptante;

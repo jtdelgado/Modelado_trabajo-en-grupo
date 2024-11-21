@@ -1,5 +1,5 @@
 package refugioAdopciones;
-
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
  public class Socio{
@@ -45,6 +45,11 @@ import java.util.Date;
    @Override
    public String toString() {
        // TODO Auto-generated method stub
-       return this.getClass().getSimpleName() + "=> "+this.nombre+" ("+this.refugio+")";
+       SimpleDateFormat formateador = new SimpleDateFormat("dd/MM/yy");
+
+        // Formatear la fecha
+        String fechaFormateada = formateador.format(this.registro);
+
+       return this.getClass().getSimpleName() + "=> "+this.nombre+" ("+this.refugio+", "+fechaFormateada.toString()+")";
    }
 }

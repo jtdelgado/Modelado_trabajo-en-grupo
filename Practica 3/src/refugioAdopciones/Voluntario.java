@@ -45,11 +45,11 @@ public class Voluntario extends Socio {
         // Comprobar que el animal no se encuentra en la lista de animalesRefugiados
         // si esta en la lista de animalesRefugiados no esta en la lista de registrados
         List<Animal> animalesRefugiados = Collections.list(this.getRefugio().getAnimalesRefugiados());
-        assert (!animalesRefugiados.contains(animal));
+        assert (!animalesRefugiados.contains(animal)): "el animal ya está en la lista de refugiados";
 
         // Comprbar que el animal no se encuentra en la lista de animalesRegistrados
         List<Animal> animalesRegistrados = Collections.list(this.getRefugio().getAnimalesRegistrados());
-        assert (!animalesRegistrados.contains(animal));
+        assert (!animalesRegistrados.contains(animal)): "el animal ya está en la lista de registrados";
 
         animal.setEstado(EstadoAnimal.disponible);
         animal.setRefugio(this.getRefugio());
