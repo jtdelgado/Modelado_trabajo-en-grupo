@@ -42,7 +42,7 @@ public class Animal {
     }
 
     // Clase asociacion: ADOPCION
-    public void addAdopcion(Adopcion adopcion) {
+    protected void addAdopcion(Adopcion adopcion) {
         //Añadimos la adopción al animal y lo eliminamos de la lista del refugio actual
         this.adopcion = adopcion;
         this.refugio.rmAnimalRefugiado(this);

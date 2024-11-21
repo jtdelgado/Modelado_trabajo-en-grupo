@@ -80,7 +80,7 @@ public class Refugio {
     }
     // ----------------------------------------------------------
 
-    public void registrar(Animal a) {
+    protected void registrar(Animal a) {
         //No compruebo que animal no sea null
         //porque ya se comprueba en el metodo registrar de Voluntario
         
@@ -89,7 +89,7 @@ public class Refugio {
         
     }
 
-    public void setLiquidez(float liquidez) {
+    protected void setLiquidez(float liquidez) {
         this.liquidez = liquidez;
     }
 

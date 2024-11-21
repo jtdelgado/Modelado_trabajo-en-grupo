@@ -33,7 +33,7 @@ public class Adoptante extends Socio {
         this.adopciones.remove(adopcion);
     }
 
-    public void addAdopcion(Adopcion adopcion) {
+    protected  void addAdopcion(Adopcion adopcion) {
         this.adopciones.add(adopcion);
     }
 }
