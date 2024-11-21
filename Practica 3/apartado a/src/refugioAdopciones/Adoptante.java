@@ -15,6 +15,8 @@ public class Adoptante extends Socio {
         assert(disponibleParaAdopcion != null): "El animal es null";
         assert(encargadoAdopcion != null):"El voluntario encargado es null";
 
+        assert(this.getRefugio() == encargadoAdopcion.getRefugio());
+
         // La comprobacion de si el animal es del refugio del adoptante
         // y el voluntario esta en el mismo refugio que el animal se hace en el tramitarAdopcion
 

@@ -50,8 +50,8 @@ public class App {
         Voluntario voluntario2= new Voluntario(refugio2, new Date(), "teresa");
 
 
-        Adoptante adoptante1 = new Adoptante(refugio1, new Date(), voluntario1, "paco");
-        Adoptante adoptante2 = new Adoptante(refugio2, new Date(), voluntario2, "lidia");
+        Adoptante adoptante1 = new Adoptante(refugio1, new Date(), "paco");
+        Adoptante adoptante2 = new Adoptante(refugio2, new Date(), "lidia");
 
 
         Donante donante = new Donante(new Date(), refugio2, null, "lop");
@@ -74,7 +74,7 @@ public class App {
 
         //ADOPCIÓN 
         System.out.println("El adoptante "+adoptante1.getNombre()+ " adopta a "+cerdo.getNombre());
-        adoptante1.adoptar(cerdo, voluntario2);
+        adoptante1.adoptar(conejo, voluntario1);
 
 
 
