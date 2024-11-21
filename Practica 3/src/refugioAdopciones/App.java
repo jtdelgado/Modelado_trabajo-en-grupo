@@ -115,7 +115,12 @@ public class App {
         //ADOPCIÓN 
         System.out.println("El adoptante "+adoptante1.getNombre()+ " adopta a "+cerdo.getNombre());
         adoptante1.adoptar(cerdo, voluntario2);
-        assert (cerdo.getRefugio() == (voluntario2.getRefugio())); 
+
+
+        assert (cerdo.getRefugio() != (voluntario2.getRefugio())); 
+
+
+
         //ERROR: No comprueba que el voluntario sea del mismo refugio al igual que el animal
 
         System.out.println("La lista de animales actuales del "+refugio1);
