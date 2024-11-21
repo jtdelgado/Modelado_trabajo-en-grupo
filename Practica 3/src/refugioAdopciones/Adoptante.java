@@ -12,8 +12,8 @@ public class Adoptante extends Socio {
     }
 
     public void adoptar(Animal disponibleParaAdopcion, Voluntario encargadoAdopcion) {
-        assert(disponibleParaAdopcion != null);
-        assert(encargadoAdopcion != null);
+        assert(disponibleParaAdopcion != null): "El animal es null";
+        assert(encargadoAdopcion != null):"El voluntario encargado es null";
 
         // La comprobacion de si el animal es del refugio del adoptante
         // y el voluntario esta en el mismo refugio que el animal se hace en el tramitarAdopcion

@@ -9,8 +9,8 @@ import java.util.Date;
    private String nombre;
 
    public Socio (Refugio refugio, Date registro,String nombre){
-      assert(refugio!= null);
-      assert(registro!= null);
+      assert(refugio!= null):"El refugio es null";
+      assert(registro!= null):"El registro es null";
 
       this.registro= registro;
       this.refugio= refugio;

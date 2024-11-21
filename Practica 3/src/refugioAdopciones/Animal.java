@@ -13,7 +13,7 @@ public class Animal {
     // El animal no tiene un refugio ni estado asignado al principio ya que eso
     // se encarga el voluntario cuando lo registra
     public Animal(Date nacimiento,String nombre) {
-        assert (nacimiento != null);
+        assert (nacimiento != null):"El animal es null";
         this.nacimiento = nacimiento;
         this.nombre= nombre;
     }
