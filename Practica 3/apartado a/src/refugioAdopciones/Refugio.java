@@ -89,7 +89,7 @@ public class Refugio {
         
     }
 
-    protected void setLiquidez(float liquidez) {
+    public void setLiquidez(float liquidez) {
         this.liquidez = liquidez;
     }
 
