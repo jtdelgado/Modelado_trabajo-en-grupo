@@ -1,7 +1,7 @@
 package refugioAdopciones;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
  public class Socio{
@@ -13,7 +13,7 @@ import java.util.List;
    private List<Rol> roles = new ArrayList<>(3);
 
    public Socio (Refugio refugio, Date registro,String nombre){
-      roles = new LinkedList<>();
+      //roles = new LinkedList<>();
       assert(refugio!= null):"El refugio es null";
       assert(registro!= null):"El registro es null";
 

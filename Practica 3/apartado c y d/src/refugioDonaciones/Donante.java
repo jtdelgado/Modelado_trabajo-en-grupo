@@ -6,8 +6,8 @@ import refugioAdopciones.*;
 public class Donante extends Rol{
     private List<Donacion> donaciones= new LinkedList<>();
 
-    public Donante(tipoSocio rol){
-        super(rol);
+    public Donante(){
+        super(tipoSocio.donante);
     }
 
     public void donar(float cantidadDonada, Refugio refugio){

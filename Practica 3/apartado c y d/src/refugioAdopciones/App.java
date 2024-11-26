@@ -48,21 +48,21 @@ public class App {
         Animal cerdo = new Animal(new Date(2015,10,3),"GORDI(CERDO)");
         Animal tortuga = new Animal(new Date(2015,10,3), "CAPI(TORTUGA)");
         Socio voluntario1= new Socio(refugio1, new Date(), "luis");
-        voluntario1.addRol(new Voluntario(tipoSocio.voluntario));
+        voluntario1.addRol(new Voluntario());
         Socio voluntario2= new Socio(refugio2, new Date(), "teresa");
-        voluntario2.addRol(new Voluntario(tipoSocio.voluntario));
+        voluntario2.addRol(new Voluntario());
 
         Socio adoptanteDonante1 = new Socio(refugio1, new Date(), "paco");
-        adoptanteDonante1.addRol(new Adoptante(tipoSocio.adoptante));
-        adoptanteDonante1.addRol(new Donante(tipoSocio.donante));
+        adoptanteDonante1.addRol(new Adoptante());
+        adoptanteDonante1.addRol(new Donante());
 
         Socio adoptante2 = new Socio(refugio2, new Date(), "lidia");
-        adoptante2.addRol(new Adoptante(tipoSocio.adoptante));
+        adoptante2.addRol(new Adoptante());
 
 
         Socio adoptanteVoluntario = new Socio(refugio2, new Date(), "lop");
-        adoptanteVoluntario.addRol(new Adoptante(tipoSocio.adoptante));
-        adoptanteVoluntario.addRol(new Voluntario(tipoSocio.voluntario));
+        adoptanteVoluntario.addRol(new Adoptante());
+        adoptanteVoluntario.addRol(new Voluntario());
 
         //Añadimos los animales a los refugios
 
@@ -89,7 +89,7 @@ public class App {
         System.out.println("El adoptante/donante: "+adoptanteDonante1.getNombre()+ " adopta a "+gato.getNombre());
 
         ((Adoptante) adoptanteDonante1.getRol(tipoSocio.adoptante))
-                    .adoptar(gato, voluntario2, refugio1, adoptanteDonante1);
+                    .adoptar(gato, voluntario1, refugio1, adoptanteDonante1);
 
         System.out.println("· La lista de animales actuales del "+refugio1);
         imprimirLista(refugio1.getAnimalesRefugiados());

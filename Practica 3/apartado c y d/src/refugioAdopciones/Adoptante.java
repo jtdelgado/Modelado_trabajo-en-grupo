@@ -5,8 +5,8 @@ import java.util.*;
 public class Adoptante extends Rol {
     private List<Adopcion> adopciones = new LinkedList<>();
 
-    public Adoptante(tipoSocio rol) {
-        super(rol);
+    public Adoptante() {
+        super(tipoSocio.adoptante);
         // como la relacion es de 0 a muchos entre animal y adoptante,
         // para que exista un adoptante no es necesario que haya adoptado un animal
     }

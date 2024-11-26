@@ -1,15 +1,12 @@
 package refugioAdopciones;
 
-import java.util.Collections;
-import java.util.Date;
-import java.util.Enumeration;
-import java.util.List;
+import java.util.*;
 
 public class Voluntario extends Rol {
     private List<Adopcion> tramites;
 
-    public Voluntario(tipoSocio rol) {
-        super(rol);
+    public Voluntario() {
+        super(tipoSocio.voluntario);
         this.tramites = new LinkedList<>();
     }
 
