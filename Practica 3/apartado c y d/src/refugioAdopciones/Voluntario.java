@@ -13,10 +13,10 @@ public class Voluntario extends Rol {
         super(rol);
     }
 
-    protected void tramitarAdopcion(Animal animalQueSeAdopta, Socio adoptante, Refugio refugio, Socio socio) {
+    protected void tramitarAdopcion(Animal animalQueSeAdopta, Socio adoptante, Refugio refugio, Socio voluntario) {
         // comprobar si el voluntario es del mismo refugio que el animal
         assert (refugio.equals(animalQueSeAdopta.getRefugio())): "El animal y el voluntario no tienen el mismo refugio";
-        System.out.println(refugio+" "+animalQueSeAdopta.getRefugio());
+        assert (voluntario.getRefugio().equals(refugio)): "El voluntario y el animal no tienen el mismo refugio";
 
         // comprobar que el animal esta en el refugio
         List<Animal> animalesRefugiados = Collections.list(refugio.getAnimalesRefugiados());
@@ -31,7 +31,7 @@ public class Voluntario extends Rol {
         animalQueSeAdopta.getRefugio().rmAnimalRefugiado(animalQueSeAdopta);
 
         Date fechaAhora = new Date();
-        Adopcion nuevaAdopcion = new Adopcion(fechaAhora, socio, animalQueSeAdopta, adoptante);
+        Adopcion nuevaAdopcion = new Adopcion(fechaAhora, voluntario, animalQueSeAdopta, adoptante);
 
         //El animal pasa a terner estado adoptado
         animalQueSeAdopta.setEstado(EstadoAnimal.adoptado);

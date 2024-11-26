@@ -12,10 +12,10 @@ public class Adoptante extends Rol {
     }
 
     public void adoptar(Animal disponibleParaAdopcion, Socio encargadoAdopcion, Refugio refugio, Socio socio) { 
-        assert(disponibleParaAdopcion != null): "El animal es null";
-        assert(encargadoAdopcion != null):"El voluntario encargado es null";
+        assert (disponibleParaAdopcion != null): "El animal es null";
+        assert (encargadoAdopcion != null):"El voluntario encargado es null";
 
-        assert(refugio == encargadoAdopcion.getRefugio());
+        assert (refugio.equals(disponibleParaAdopcion.getRefugio())) :"El refugio no es igual al refugio del animal";
 
         // La comprobacion de si el animal es del refugio del adoptante
         // y el voluntario esta en el mismo refugio que el animal se hace en el tramitarAdopcion

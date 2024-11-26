@@ -97,8 +97,14 @@ public class Refugio {
         return liquidez;
     }
 
+    public String getNombre(){
+        return nombre;
+    }
+
     @Override
     public String toString() {
         return this.getClass().getSimpleName()+": "+this.nombre;
     }
+
+    
 }
