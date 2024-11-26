@@ -13,12 +13,7 @@ public class Refugio {
 
 
     private String nombre;
-    // ESTE CONSTRUCTOR NO SE PUEDE USAR, PERO EN EL DIAGRAMA DE LOS APUNTES SE
-    // DEFINE ASI
-    // public Refugio(float liquidez, List<Animal> animalesRefugiados) {
-    // this.liquidez = liquidez;
-    // this.animalesRefugiados = animalesRefugiados;
-    // }
+    
 
     public Refugio(float liquidez, String nombre) {
         
@@ -53,11 +48,20 @@ public class Refugio {
         animalesRefugiados.clear();
     }
 
+    //El metodo estaAnimal indica si el animal se encuentra en el refugio actualmente
+    protected boolean containsAnimal(Animal animal){
+        return this.animalesRefugiados.contains(animal);
+    }
+
     // ANIMALES REGISTRADOS
     public Enumeration<Animal> getAnimalesRegistrados() {
 
         return Collections.enumeration(animalesRegistrados);
     } 
+
+    protected boolean containsAnimalRegistro(Animal animal){
+        return this.animalesRegistrados.contains(animal);
+    }
     //SOCIOS DEL REFUGIO
 
     public Enumeration<Socio> getSocios() {

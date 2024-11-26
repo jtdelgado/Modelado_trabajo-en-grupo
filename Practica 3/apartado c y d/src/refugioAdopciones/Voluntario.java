@@ -3,14 +3,14 @@ package refugioAdopciones;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Enumeration;
-import java.util.LinkedList;
 import java.util.List;
 
 public class Voluntario extends Rol {
-    private List<Adopcion> tramites = new LinkedList<>();
+    private List<Adopcion> tramites;
 
     public Voluntario(tipoSocio rol) {
         super(rol);
+        this.tramites = new LinkedList<>();
     }
 
     protected void tramitarAdopcion(Animal animalQueSeAdopta, Socio adoptante, Refugio refugio, Socio voluntario) {

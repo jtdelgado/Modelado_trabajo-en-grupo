@@ -45,6 +45,18 @@ public class Adopcion {
     public Socio getAdoptante() {
         return adoptante;
     }
+    protected  void deleteAdopcion(){
+        this.adoptante.rmAdopcion(this);
+        this.animalAdoptado.rmAdopcion();
+        this.encargadoAdopcion.rmTramite(this);
+
+        this.fecha = null;
+        this.adoptante = null;
+        this.animalAdoptado = null;
+        this.encargadoAdopcion = null;
+
+        //No lo eliminamos de los trámites de el voluntario porque queremos mantener una memoria de las adopciones
+    }
 
     // No pondremos setters de adopcion por facilidad de codigo
     @Override

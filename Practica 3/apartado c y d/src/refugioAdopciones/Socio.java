@@ -10,7 +10,7 @@ import java.util.List;
 
    private String nombre;
 
-   private List<Rol> roles;
+   private List<Rol> roles = new ArrayList<>(3);
 
    public Socio (Refugio refugio, Date registro,String nombre){
       roles = new LinkedList<>();

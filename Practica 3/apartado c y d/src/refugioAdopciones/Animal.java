@@ -51,7 +51,7 @@ public class Animal {
         // que estar en el registro
     }
 
-    public void removeAdopcion() {
+    public void rmAdopcion() {
         Refugio sitioAcogida = adopcion.getAdoptante().getRefugio();
         sitioAcogida.addAnimalRefugiado(this);
         this.refugio = sitioAcogida;

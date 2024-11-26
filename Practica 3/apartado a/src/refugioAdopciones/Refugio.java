@@ -96,6 +96,10 @@ public class Refugio {
     public float getLiquidez() {
         return liquidez;
     }
+    
+    public String getNombre(){
+        return nombre;
+    }
 
     @Override
     public String toString() {
