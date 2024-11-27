@@ -5,18 +5,18 @@ import java.util.*;
 public class Voluntario extends Rol {
     private List<Adopcion> tramites;
 
-    public Voluntario() {
-        super(tipoSocio.voluntario);
+    public Voluntario(Socio socio) {
+        super(tipoSocio.voluntario, socio);
+        
         this.tramites = new LinkedList<>();
     }
 
-    protected void tramitarAdopcion(Animal animalQueSeAdopta, Socio adoptante, Refugio refugio, Socio voluntario) {
+    protected void tramitarAdopcion(Animal animalQueSeAdopta, Socio adoptante) {
         // comprobar si el voluntario es del mismo refugio que el animal
-        assert (refugio.equals(animalQueSeAdopta.getRefugio())): "El animal y el voluntario no tienen el mismo refugio";
-        assert (voluntario.getRefugio().equals(refugio)): "El voluntario y el animal no tienen el mismo refugio";
+        assert (this.getSocio().getRefugio().equals(animalQueSeAdopta.getRefugio())): "El voluntario y el animal no tienen el mismo refugio";
 
         // comprobar que el animal esta en el refugio
-        List<Animal> animalesRefugiados = Collections.list(refugio.getAnimalesRefugiados());
+        List<Animal> animalesRefugiados = Collections.list(this.getSocio().getRefugio().getAnimalesRefugiados());
         boolean estaAnimal = animalesRefugiados.contains(animalQueSeAdopta);
 
         assert (estaAnimal):"El animal no está en el refugio";
@@ -28,7 +28,7 @@ public class Voluntario extends Rol {
         animalQueSeAdopta.getRefugio().rmAnimalRefugiado(animalQueSeAdopta);
 
         Date fechaAhora = new Date();
-        Adopcion nuevaAdopcion = new Adopcion(fechaAhora, voluntario, animalQueSeAdopta, adoptante);
+        Adopcion nuevaAdopcion = new Adopcion(fechaAhora, this.getSocio(), animalQueSeAdopta, adoptante);
 
         //El animal pasa a terner estado adoptado
         animalQueSeAdopta.setEstado(EstadoAnimal.adoptado);
@@ -36,22 +36,22 @@ public class Voluntario extends Rol {
         tramites.add(nuevaAdopcion);
     }
 
-    protected void registrar(Animal animal, Refugio refugio) {
+    protected void registrar(Animal animal) {
         assert ((animal != null )): "El animal es null";
 
         // Comprobar que el animal no se encuentra en la lista de animalesRefugiados
         // si esta en la lista de animalesRefugiados no esta en la lista de registrados
-        List<Animal> animalesRefugiados = Collections.list(refugio.getAnimalesRefugiados());
+        List<Animal> animalesRefugiados = Collections.list(this.getSocio().getRefugio().getAnimalesRefugiados());
         assert (!animalesRefugiados.contains(animal)): "el animal ya está en la lista de refugiados";
 
         // Comprbar que el animal no se encuentra en la lista de animalesRegistrados
-        List<Animal> animalesRegistrados = Collections.list(refugio.getAnimalesRegistrados());
+        List<Animal> animalesRegistrados = Collections.list(this.getSocio().getRefugio().getAnimalesRegistrados());
         assert (!animalesRegistrados.contains(animal)): "el animal ya está en la lista de registrados";
 
         animal.setEstado(EstadoAnimal.disponible);
-        animal.setRefugio(refugio);
+        animal.setRefugio(this.getSocio().getRefugio());
 
-        refugio.registrar(animal);
+        this.getSocio().getRefugio().registrar(animal);
     }
 
     protected Enumeration<Adopcion> getTramites() {

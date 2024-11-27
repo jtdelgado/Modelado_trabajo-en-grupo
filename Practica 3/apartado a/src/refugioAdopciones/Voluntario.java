@@ -38,7 +38,7 @@ public class Voluntario extends Socio {
     }
 
     protected void registrar(Animal animal) {
-        assert ((animal != null )): "El animal es null";
+        assert ((animal != null)): "El animal es null";
 
         // Comprobar que el animal no se encuentra en la lista de animalesRefugiados
         // si esta en la lista de animalesRefugiados no esta en la lista de registrados

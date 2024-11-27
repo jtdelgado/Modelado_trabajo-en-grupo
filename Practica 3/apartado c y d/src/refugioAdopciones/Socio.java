@@ -48,6 +48,7 @@ import java.util.List;
    }
 
    public void addRol(Rol rol){
+      assert(this.equals(rol.getSocio())) : "El socio no corresponde al socio asociado al rol";
       tipoSocio tipo = rol.getRol();
 
       boolean tieneRol = false;

@@ -4,7 +4,7 @@ import java.util.*;
 import refugioDonaciones.*;
 
 
-public class App {
+public class MainA {
     public static void main(String[] args) throws Exception {
         //COMPROBACION DE LOS TOSTRING() HACIA ABAJO
 
@@ -59,13 +59,17 @@ public class App {
 
         //Añadimos los animales a los refugios
 
-        //REFUGIO 1        
+        //REFUGIO 1
+        System.out.println("\nEl voluntario: " + voluntario1.getNombre() + " registra a " + cerdo.getNombre()
+                + "y a " + gato.getNombre() + " en el refugio " + refugio1);
         voluntario1.registrar(cerdo);
         voluntario1.registrar(gato);
         System.out.println("La lista de animales actuales del "+refugio1);
         imprimirLista(refugio1.getAnimalesRefugiados());
 
         //REFUGIO 2
+        System.out.println("El voluntario: " + voluntario2.getNombre() + " registra a " + perro.getNombre()
+                + "y a " + conejo.getNombre() + " en el refugio " + refugio2);
         voluntario2.registrar(perro);
         voluntario2.registrar(conejo);
         System.out.println("La lista de animales actuales del "+refugio2);
@@ -73,15 +77,29 @@ public class App {
 
 
         //ADOPCIÓN 
-        System.out.println("El adoptante "+adoptante1.getNombre()+ " adopta a "+cerdo.getNombre());
+        System.out.println("El adoptante "+adoptante1.getNombre()+ " adopta a "+cerdo.getNombre()
+                                 + " del refugio " + cerdo.getRefugio());
         adoptante1.adoptar(cerdo, voluntario1);
+        System.out.println("La lista de animales actuales del "+refugio1);
+        imprimirLista(refugio1.getAnimalesRefugiados());
 
 
+        System.out.println("El adoptante "+adoptante2.getNombre()+ " adopta a "+conejo.getNombre()
+                                    + " del refugio " + conejo.getRefugio());
+        adoptante1.adoptar(conejo, voluntario2);
+        System.out.println("La lista de animales actuales del "+refugio2);
+        imprimirLista(refugio2.getAnimalesRefugiados());
 
+        //DONACION
+        System.out.println("El donante: "+donante.getNombre()+ " dona 1000 al refugio "+refugio2);
+        donante.donar(1000);
+        System.out.println("La liquidez del refugio: " + donante.getRefugio() + " es "
+                            + donante.getRefugio().getLiquidez() + "\n");
 
 
         //ERROR: No comprueba que el voluntario sea del mismo refugio al igual que el animal
 
+        System.out.println("--------------------------------------------------------------------\n");
         System.out.println("La lista de animales actuales del "+refugio1);
         imprimirLista(refugio1.getAnimalesRefugiados());
 
@@ -99,14 +117,16 @@ public class App {
         
         
     public static void imprimirLista (Enumeration<?> lista){
-        System.out.println("-------------------- ");
         int i=0;
         while(lista.hasMoreElements()){
-            System.out.println(i+"- "+lista.nextElement());
+            System.out.println("\t" + i+"- "+lista.nextElement());
             i++;
         }
+
+        if(i>0){
+            System.out.println("\n");
+        }
         if(i==0) System.out.println("No hay elementos ");
-        System.out.println("-------------------- \n");
 
     }
 }

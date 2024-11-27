@@ -5,24 +5,25 @@ import java.util.*;
 public class Adoptante extends Rol {
     private List<Adopcion> adopciones = new LinkedList<>();
 
-    public Adoptante() {
-        super(tipoSocio.adoptante);
+    public Adoptante(Socio socio) {
+        super(tipoSocio.adoptante, socio);
+        
         // como la relacion es de 0 a muchos entre animal y adoptante,
         // para que exista un adoptante no es necesario que haya adoptado un animal
     }
 
-    public void adoptar(Animal disponibleParaAdopcion, Socio encargadoAdopcion, Refugio refugio, Socio socio) { 
+    public void adoptar(Animal disponibleParaAdopcion, Socio encargadoAdopcion) { 
         assert (disponibleParaAdopcion != null): "El animal es null";
         assert (encargadoAdopcion != null):"El voluntario encargado es null";
 
-        assert (refugio.equals(disponibleParaAdopcion.getRefugio())) :"El refugio no es igual al refugio del animal";
+        assert (this.getSocio().getRefugio().equals(disponibleParaAdopcion.getRefugio())) :"El refugio no es igual al refugio del animal";
 
         // La comprobacion de si el animal es del refugio del adoptante
         // y el voluntario esta en el mismo refugio que el animal se hace en el tramitarAdopcion
 
         Voluntario voluntario = (Voluntario) encargadoAdopcion.getRol(tipoSocio.voluntario);
 
-        voluntario.tramitarAdopcion(disponibleParaAdopcion, socio, refugio, encargadoAdopcion);
+        voluntario.tramitarAdopcion(disponibleParaAdopcion, this.getSocio());
 
     }
 

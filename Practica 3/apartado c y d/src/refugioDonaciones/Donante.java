@@ -6,15 +6,15 @@ import refugioAdopciones.*;
 public class Donante extends Rol{
     private List<Donacion> donaciones= new LinkedList<>();
 
-    public Donante(){
-        super(tipoSocio.donante);
+    public Donante(Socio socio){
+        super(tipoSocio.donante,socio);
     }
 
-    public void donar(float cantidadDonada, Refugio refugio){
+    public void donar(float cantidadDonada){
         assert(cantidadDonada > 0):"Se debe donar una cantidad mayor que 0";
 
         addDonacion(new Donacion(cantidadDonada, new Date()));
-        refugio.setLiquidez(refugio.getLiquidez() + cantidadDonada);
+        this.getSocio().getRefugio().setLiquidez(this.getSocio().getRefugio().getLiquidez() + cantidadDonada);
     }
 
     protected void addDonacion(Donacion nuevaDonacion){
