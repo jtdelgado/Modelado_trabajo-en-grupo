@@ -99,7 +99,8 @@ public class MainCD {
         System.out.println("· La lista de animales actuales del "+refugio1);
         imprimirLista(refugio1.getAnimalesRefugiados());
 
-        System.out.println("El adoptante/donante: "+adoptanteDonante1.getNombre()+ " dona 1000 al refugio "+refugio2);
+        System.out.println("El adoptante/donante: "+adoptanteDonante1.getNombre()+ " dona 1000 al refugio "
+                                        +adoptanteDonante1.getRefugio());
         ((Donante) adoptanteDonante1.getRol(tipoSocio.donante)).donar(1000);
 
         System.out.println("El refugio " + adoptanteDonante1.getRefugio() + " tiene una liquidez de "

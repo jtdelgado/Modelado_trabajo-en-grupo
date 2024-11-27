@@ -52,7 +52,7 @@ public class Animal {
     }
 
     public void rmAdopcion() {
-        Refugio sitioAcogida = adopcion.getAdoptante().getRefugio();
+        Refugio sitioAcogida = adopcion.getAnimalAdoptado().getRefugio();
         sitioAcogida.addAnimalRefugiado(this);
         this.refugio = sitioAcogida;
         this.adopcion = null;

@@ -28,7 +28,10 @@ public class Voluntario extends Rol {
         animalQueSeAdopta.getRefugio().rmAnimalRefugiado(animalQueSeAdopta);
 
         Date fechaAhora = new Date();
-        Adopcion nuevaAdopcion = new Adopcion(fechaAhora, this.getSocio(), animalQueSeAdopta, adoptante);
+
+        Adoptante adop = (Adoptante)adoptante.getRol(tipoSocio.adoptante);
+
+        Adopcion nuevaAdopcion = new Adopcion(fechaAhora, this, animalQueSeAdopta, adop);
 
         //El animal pasa a terner estado adoptado
         animalQueSeAdopta.setEstado(EstadoAnimal.adoptado);

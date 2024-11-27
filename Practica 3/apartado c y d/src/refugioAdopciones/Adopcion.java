@@ -5,12 +5,12 @@ import java.util.Date;
 public class Adopcion {
     private Date fecha;
 
-    private Socio encargadoAdopcion; 
+    private Voluntario encargadoAdopcion;
     // private List<Animal> animalesAdoptados;
-    private Socio adoptante;
+    private Adoptante adoptante;
     private Animal animalAdoptado;
 
-    public Adopcion(Date fecha, Socio encargadoAdopcion, Animal animalAdoptado, Socio adoptante) {
+    public Adopcion(Date fecha, Voluntario encargadoAdopcion, Animal animalAdoptado, Adoptante adoptante) {
         assert (fecha != null): "La fecha es null";
         assert (encargadoAdopcion != null): "El encargado de la adopcion es null";
 
@@ -26,15 +26,15 @@ public class Adopcion {
         // esto lo hace el metiodo addAdopcion
         this.animalAdoptado.addAdopcion(this);
 
-        Adoptante rolAdoptante = (Adoptante) adoptante.getRol(tipoSocio.adoptante);
-        rolAdoptante.addAdopcion(this);
+
+        adoptante.addAdopcion(this);
     }
 
     public Date getFecha() {
         return fecha;
     }
 
-    public Socio getEncargadoAdopcion() {
+    public Voluntario getEncargadoAdopcion() {
         return encargadoAdopcion;
     }
 
@@ -42,7 +42,7 @@ public class Adopcion {
         return animalAdoptado;
     }
 
-    public Socio getAdoptante() {
+    public Adoptante getAdoptante() {
         return adoptante;
     }
     protected  void deleteAdopcion(){
