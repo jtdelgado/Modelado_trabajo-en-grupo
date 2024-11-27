@@ -61,7 +61,7 @@ public class MainA {
 
         //REFUGIO 1
         System.out.println("\nEl voluntario: " + voluntario1.getNombre() + " registra a " + cerdo.getNombre()
-                + "y a " + gato.getNombre() + " en el refugio " + refugio1);
+                + "y a " + gato.getNombre() + " en el refugio " + voluntario1.getRefugio());
         voluntario1.registrar(cerdo);
         voluntario1.registrar(gato);
         System.out.println("La lista de animales actuales del "+refugio1);
@@ -69,7 +69,7 @@ public class MainA {
 
         //REFUGIO 2
         System.out.println("El voluntario: " + voluntario2.getNombre() + " registra a " + perro.getNombre()
-                + "y a " + conejo.getNombre() + " en el refugio " + refugio2);
+                + "y a " + conejo.getNombre() + " en el refugio " + voluntario2.getRefugio());
         voluntario2.registrar(perro);
         voluntario2.registrar(conejo);
         System.out.println("La lista de animales actuales del "+refugio2);
@@ -91,7 +91,7 @@ public class MainA {
         imprimirLista(refugio2.getAnimalesRefugiados());
 
         //DONACION
-        System.out.println("El donante: "+donante.getNombre()+ " dona 1000 al refugio "+refugio2);
+        System.out.println("El donante: "+donante.getNombre()+ " dona 1000 al refugio "+donante.getRefugio());
         donante.donar(1000);
         System.out.println("La liquidez del refugio: " + donante.getRefugio() + " es "
                             + donante.getRefugio().getLiquidez() + "\n");
