@@ -3,6 +3,7 @@ import java.util.*;
 public class Rental {
     private Date startDate;
     private Date endDate;
+    private RentalOffice pickUpOffice;
 
     public Rental(Date startDate, Date endDate){
         this.startDate = startDate;
@@ -24,4 +25,5 @@ public class Rental {
     public void getEndDate(Date endDate){
         this.endDate = endDate;
     }
+    
 }

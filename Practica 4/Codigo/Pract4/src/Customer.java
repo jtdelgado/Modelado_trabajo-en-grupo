@@ -1,12 +1,27 @@
+import java.util.*;
+
 public class Customer {
     private String name;
     private String dni;
+    private RentalIterator iterator;
+    private Collection<Rental> rentals;
 
     public Customer(String nombre, String id){
         this.name = nombre;
         this.dni = id;
     }
 
+    public int numberOfRentalsWithDifferentOffices(){
+        ConcreteRentalIterator iterador = new ConcreteRentalIterator(rentals);
+        int count = 0;
+        while (iterador.hasNext()) {
+            Rental alquiler = iterador.next();
+            count++;
+        }
+        return count;
+    }
+
+    //public Rental 
     public String getName(){
         return this.name;
     }

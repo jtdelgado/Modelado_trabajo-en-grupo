@@ -16,6 +16,12 @@ public class RentalOffice{
         return address;
     }
 
-    public void setfeeForDelivery
+    public void setFeeForDelivery(int feeForDelivery){
+        this.feeForDelivery = feeForDelivery;
+    }
+
+    public void setAddress(String address){
+        this.address = address;
+    }
 
 }
