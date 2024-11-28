@@ -2,31 +2,26 @@ import java.util.*;
 
 public class ConcreteRentalIterator implements RentalIterator {
     private Collection<Rental> rentals;
-    private int currentRental =0;
+    private Iterator<Rental> iterator;
 
     public ConcreteRentalIterator(Collection<Rental> rentals){
 
-        this.rentals=rentals;
+        this.iterator = rentals.iterator();
     }
 
     @Override
     public Rental next() {
-        // TODO Auto-generated method stub
-        if(this.hasNext()){
-            currentRental++;
-            return rentals.get(currentRental);
+        if(iterator.hasNext()){
+            return iterator.next();
         }
         else{
-            // throw new NoSuchElementException();
-            return null;
+            throw new NoSuchElementException();
         }
-
     }
 
     @Override
     public boolean hasNext() {
-        // TODO Auto-generated method stub
-        return currentRental<rentals.size();
+        return iterator.hasNext();
     }
 
    

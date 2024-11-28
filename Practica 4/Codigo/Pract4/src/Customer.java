@@ -22,7 +22,7 @@ public class Customer {
     }
 
     //public Rental getRental(int i){
-    }
+    //}
     public String getName(){
         return this.name;
     }
