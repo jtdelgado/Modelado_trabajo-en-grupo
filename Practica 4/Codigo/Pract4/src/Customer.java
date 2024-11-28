@@ -21,7 +21,8 @@ public class Customer {
         return count;
     }
 
-    //public Rental 
+    //public Rental getRental(int i){
+    }
     public String getName(){
         return this.name;
     }
