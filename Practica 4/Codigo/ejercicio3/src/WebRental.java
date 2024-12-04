@@ -1,15 +1,15 @@
+import java.time.LocalDate;
 import java.util.*;
 
 public class WebRental extends Rental {
     // deliveryTime es [0..1], es decir, puede ser "null"
     private int deliveryTime;
-    private RentalOffice deliveryOffice; //asociacion delliveryOffice
+    private RentalOffice deliveryOffice; // asociacion delliveryOffice
 
+    public WebRental(LocalDate startDate, LocalDate endDate, Customer customer, Car car,
+            RentalOffice pickUpOffice, int deliveryTime, RentalOffice deliveryOffice, PromotionStrategy promotion) {
 
-    public WebRental(Date startDate, Date endDate, Customer customer, Car car, 
-                    RentalOffice pickUpOffice, int deliveryTime, RentalOffice deliveryOffice) {
-
-        super(startDate,endDate, customer, car, pickUpOffice);
+        super(startDate, endDate, customer, car, pickUpOffice, promotion);
         this.deliveryTime = deliveryTime;
         this.deliveryOffice = deliveryOffice;
     }

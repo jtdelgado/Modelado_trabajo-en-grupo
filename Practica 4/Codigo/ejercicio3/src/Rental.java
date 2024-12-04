@@ -1,59 +1,77 @@
-import java.util.*;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 public abstract class Rental {
-    private Date startDate;
-    private Date endDate;
-    
-    private RentalOffice pickUpOffice; //asociacion pickUpOffice
-    private Customer customer; //asociacion Makes
-    private Car car; //asociacion isFor1
+    private LocalDate startDate;
+    private LocalDate endDate;
 
-    public Rental(Date startDate, Date endDate, Customer customer, Car car, RentalOffice pickUpOffice){
+    private RentalOffice pickUpOffice; // asociacion pickUpOffice
+    private Customer customer; // asociacion Makes
+    private Car car; // asociacion isFor1
+    private PromotionStrategy promotion;
+
+    public Rental(LocalDate startDate, LocalDate endDate, Customer customer, Car car, RentalOffice pickUpOffice,
+            PromotionStrategy promotion) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.customer = customer;
         this.car = car;
         this.pickUpOffice = pickUpOffice;
+        this.promotion = promotion;
     }
 
-    public Date getStartDate(){
+    public int getPrice() {
+        // Calculate the number of rental days
+        long rentalDays = ChronoUnit.DAYS.between(startDate, endDate);
+        int basePrice = (int) (car.getModel().getPricePerDay() * rentalDays);
+
+        // Apply promotion
+        return promotion.applyDiscount(basePrice);
+    }
+
+    // Permitir actualizar la promoción
+    public void setPromotion(PromotionStrategy promotion) {
+        this.promotion = promotion;
+    }
+
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate){
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
-    public Date getEndDate(){
+    public LocalDate getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate){
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 
-    public Customer getCustomer(){
+    public Customer getCustomer() {
         return customer;
     }
 
-    public Customer setCustomer(){
+    public Customer setCustomer() {
         return customer;
     }
 
-    public Car getCar(){
+    public Car getCar() {
         return car;
     }
 
-    public Car setCar(){
+    public Car setCar() {
         return car;
     }
 
-    public RentalOffice getPickUpOffice(){
+    public RentalOffice getPickUpOffice() {
         return pickUpOffice;
     }
 
-    public RentalOffice setPickUpOffice(){
+    public RentalOffice setPickUpOffice() {
         return pickUpOffice;
     }
-    
+
 }
