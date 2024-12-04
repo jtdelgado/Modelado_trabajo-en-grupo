@@ -1,25 +1,17 @@
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
 
 public class Customer {
     private String name;
     private String dni;
-    private RentalIterator iterator;
 
     private List<Rental> rentals; //asociacion Makes
 
     public Customer(String nombre, String id){
         this.name = nombre;
         this.dni = id;
-    }
-
-    public int numberOfRentalsWithDifferentOffices(){
-        ConcreteRentalIterator iterador = new ConcreteRentalIterator(rentals);
-        int count = 0;
-        while (iterador.hasNext()) {
-            iterador.next();
-            count++;
-        }
-        return count;
+        this.rentals = new ArrayList<Rental>();
     }
 
     public String getName(){
@@ -38,8 +30,23 @@ public class Customer {
         this.dni = d;
     }
 
+    // dateStart1 = 11/10
+    // dateEnd1 = 21/10
+
+    // dateStart2 = 16/10
+    // dateEnd2 = 20/10
     public void addRental(Rental rental){
-        rentals.add(rental);
+        for (Rental r : rentals) {
+            if(r.getEndDate().isBefore(rental.getStartDate()) 
+                        || rental.getEndDate().isBefore(rental.getStartDate())){
+
+                rentals.add(rental);
+            }
+            else{
+                assert(false):"Error: la fecha de inicio o fin de la renta se superpone con otra renta.";
+            }
+        }
+
     }
 
     public void removeRental(Rental rental){

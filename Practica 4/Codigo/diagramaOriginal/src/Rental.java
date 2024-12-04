@@ -1,14 +1,17 @@
+import java.time.LocalDate;
 import java.util.*;
 
 public abstract class Rental {
-    private Date startDate;
-    private Date endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
     
     private RentalOffice pickUpOffice; //asociacion pickUpOffice
     private Customer customer; //asociacion Makes
     private Car car; //asociacion isFor1
 
-    public Rental(Date startDate, Date endDate, Customer customer, Car car, RentalOffice pickUpOffice){
+    public Rental(LocalDate startDate, LocalDate endDate, Customer customer, Car car, RentalOffice pickUpOffice){
+        if(!FechasValidas(startDate,endDate)) 
+            // throw new Exception("Error: el formato de las fechas es inválido.");
         this.startDate = startDate;
         this.endDate = endDate;
         this.customer = customer;
@@ -16,20 +19,27 @@ public abstract class Rental {
         this.pickUpOffice = pickUpOffice;
     }
 
-    public Date getStartDate(){
+    public boolean FechasValidas(LocalDate starDate,LocalDate endDate){
+        boolean valido = true;
+        if((starDate== null || endDate== null) && starDate.isAfter(endDate)) valido= false;
+        return valido;
+    }
+
+    public LocalDate getStartDate(){
         return startDate;
     }
 
-    public void setStartDate(Date startDate){
-        this.startDate = startDate;
+    public void setStartDate(LocalDate startDate){
+        if(FechasValidas(startDate,this.endDate))this.startDate = startDate;
     }
 
-    public Date getEndDate(){
+    public LocalDate getEndDate(){
         return endDate;
     }
 
-    public void setEndDate(Date endDate){
-        this.endDate = endDate;
+    public void setEndDate(LocalDate endDate){
+        if(FechasValidas(this.startDate,endDate))this.endDate = endDate;
+        //else 
     }
 
     public Customer getCustomer(){
@@ -52,8 +62,8 @@ public abstract class Rental {
         return pickUpOffice;
     }
 
-    public RentalOffice setPickUpOffice(){
-        return pickUpOffice;
+    public void setPickUpOffice(RentalOffice pickUpOffice){
+        this.pickUpOffice = pickUpOffice;
     }
     
 }
