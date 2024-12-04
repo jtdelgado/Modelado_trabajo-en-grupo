@@ -16,8 +16,14 @@ public class Customer {
         ConcreteRentalIterator iterador = new ConcreteRentalIterator(rentals);
         int count = 0;
         while (iterador.hasNext()) {
-            iterador.next();
-            count++;
+            Rental r = iterador.next();
+
+            if(r instanceof WebRental){
+                WebRental wr = (WebRental) r;
+                if(wr.getPickUpOffice() != wr.getDeliveryOffice()){
+                    count++;
+                }
+            }
         }
         return count;
     }

@@ -11,6 +11,9 @@ public class RentalOffice{
     public RentalOffice(String address, int feeForDelivery){
         this.address = address;
         this.feeForDelivery = feeForDelivery;
+        this.cars = new ArrayList<Car>();
+        this.webRentals = new ArrayList<WebRental>();
+        this.rentals = new ArrayList<Rental>();
     }
 
     public int getfeeForDelivery(){
