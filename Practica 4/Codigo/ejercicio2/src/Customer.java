@@ -3,23 +3,12 @@ import java.util.*;
 public class Customer {
     private String name;
     private String dni;
-    private RentalIterator iterator;
 
     private List<Rental> rentals; //asociacion Makes
 
     public Customer(String nombre, String id){
         this.name = nombre;
         this.dni = id;
-    }
-
-    public int numberOfRentalsWithDifferentOffices(){
-        ConcreteRentalIterator iterador = new ConcreteRentalIterator(rentals);
-        int count = 0;
-        while (iterador.hasNext()) {
-            iterador.next();
-            count++;
-        }
-        return count;
     }
 
     public String getName(){

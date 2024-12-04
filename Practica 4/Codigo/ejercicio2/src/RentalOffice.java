@@ -11,6 +11,10 @@ public class RentalOffice{
     public RentalOffice(String address, int feeForDelivery){
         this.address = address;
         this.feeForDelivery = feeForDelivery;
+        cars = new ArrayList<>();
+        webRentals = new ArrayList<>();
+        rentals = new ArrayList<>();
+    
     }
 
     public int getfeeForDelivery(){

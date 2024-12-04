@@ -9,6 +9,13 @@ public abstract class Rental {
     private Car car; //asociacion isFor1
 
     public Rental(Date startDate, Date endDate, Customer customer, Car car, RentalOffice pickUpOffice){
+        if (!car.isAvailableForRental()) {
+            this.car = car.getCocheSustituto();
+            if (this.car == null) {
+                throw new IllegalArgumentException("No hay coches disponibles");
+            }
+        }
+        
         this.startDate = startDate;
         this.endDate = endDate;
         this.customer = customer;
