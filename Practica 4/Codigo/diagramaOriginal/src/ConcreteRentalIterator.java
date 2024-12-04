@@ -5,7 +5,6 @@ public class ConcreteRentalIterator implements RentalIterator {
     private Iterator<Rental> iterator;
 
     public ConcreteRentalIterator(Collection<Rental> rentals){
-
         this.iterator = rentals.iterator();
     }
 

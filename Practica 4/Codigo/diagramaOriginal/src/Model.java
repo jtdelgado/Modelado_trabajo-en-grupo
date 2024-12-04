@@ -1,6 +1,10 @@
+import java.util.*;
+
 public class Model {
     private String name;
     private Integer pricePerDay;
+    
+    private List<Car> cars; //asociacion BelongsTo
 
     public Model (String name,Integer pricePerDay ){
         this.name = name;
@@ -21,6 +25,18 @@ public class Model {
 
     public void setPricePerDay(Integer price){
         this.pricePerDay =price;
+    }
+
+    public Enumeration<Car> getCars(){
+        return Collections.enumeration(cars);
+    }
+
+    public void addCar(Car car){
+        cars.add(car);
+    }
+
+    public void removeCar(Car car){
+        cars.remove(car);
     }
 
 }

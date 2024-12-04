@@ -4,7 +4,8 @@ public class Customer {
     private String name;
     private String dni;
     private RentalIterator iterator;
-    private Collection<Rental> rentals;
+
+    private List<Rental> rentals; //asociacion Makes
 
     public Customer(String nombre, String id){
         this.name = nombre;
@@ -15,14 +16,12 @@ public class Customer {
         ConcreteRentalIterator iterador = new ConcreteRentalIterator(rentals);
         int count = 0;
         while (iterador.hasNext()) {
-            Rental alquiler = iterador.next();
+            iterador.next();
             count++;
         }
         return count;
     }
 
-    //public Rental getRental(int i){
-    //}
     public String getName(){
         return this.name;
     }
@@ -38,4 +37,17 @@ public class Customer {
     public void setDNI(String d){
         this.dni = d;
     }
+
+    public void addRental(Rental rental){
+        rentals.add(rental);
+    }
+
+    public void removeRental(Rental rental){
+        rentals.remove(rental);
+    }
+
+    public Enumeration<Rental> getRentals(){
+        return Collections.enumeration(this.rentals);
+    }
+
 }
