@@ -3,7 +3,7 @@ import java.util.*;
 public class Customer {
     private String name;
     private String dni;
-    private RentalIterator iterator;
+    private RentalIteratorInterface iterator;
 
     private List<Rental> rentals; //asociacion Makes
 
@@ -13,7 +13,7 @@ public class Customer {
     }
 
     public int numberOfRentalsWithDifferentOffices(){
-        ConcreteRentalIterator iterador = new ConcreteRentalIterator(rentals);
+        RentalIterator iterador = new RentalIterator(rentals);
         int count = 0;
         while (iterador.hasNext()) {
             Rental r = iterador.next();

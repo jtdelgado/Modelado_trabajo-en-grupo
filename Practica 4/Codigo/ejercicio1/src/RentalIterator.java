@@ -1,13 +1,28 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
+import java.util.*;
 
-/**
- *
- * @author mpord
- */
-public interface RentalIterator {
-    Rental next();
-    boolean hasNext();
+public class RentalIterator implements RentalIteratorInterface {
+    private Collection<Rental> rentals;
+    private Iterator<Rental> iterator;
+
+    public RentalIterator(Collection<Rental> rentals){
+        this.iterator = rentals.iterator();
+    }
+
+    @Override
+    public Rental next() {
+        if(iterator.hasNext()){
+            return iterator.next();
+        }
+        else{
+            throw new NoSuchElementException();
+        }
+    }
+
+    @Override
+    public boolean hasNext() {
+        return iterator.hasNext();
+    }
+
+   
+    
 }
