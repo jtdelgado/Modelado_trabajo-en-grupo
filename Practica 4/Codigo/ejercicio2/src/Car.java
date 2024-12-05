@@ -11,7 +11,9 @@ public class Car {
     Car cocheSustituto; //variable que se usa para buscar un coche sustituto
     private boolean esSustituto;
 
-    public Car(String licensePlate, Model model,RentalOffice rentalOffice, EstadoCoche estado){ 
+    public Car(String licensePlate, Model model,RentalOffice rentalOffice, EstadoCoche estado){
+        assert(rentalOffice != null):"RentalOffice no puede ser nulo"; 
+        assert(model != null) : "Modelo no puede ser nulo";
         this.licensePlate = licensePlate;
         this.model = model;
         this.rentalAssigned= rentalOffice;
@@ -33,6 +35,7 @@ public class Car {
     }
 
     public void setModel(Model model) {
+        assert (model != null) : "Modelo no puede ser nulo";
         this.model = model;
     }
 
@@ -41,6 +44,7 @@ public class Car {
     }
 
     public void setrentalAssigned(RentalOffice rentalOffice){
+        assert(rentalOffice != null):"RentalOffice no puede ser nulo"; 
         this.rentalAssigned = rentalOffice;
     }
 

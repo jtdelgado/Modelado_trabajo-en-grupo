@@ -8,6 +8,8 @@ public class Car {
     private List<Rental> rentals; // asociacion isFor1
 
     public Car(String licensePlate, Model model,RentalOffice rentalOffice) {
+        assert(rentalOffice != null):"RentalOffice no puede ser nulo"; 
+        assert(model != null) : "Modelo no puede ser nulo";
         this.licensePlate = licensePlate;
         this.model = model;
         this.rentalAssigned= rentalOffice;
@@ -26,6 +28,7 @@ public class Car {
     }
 
     public void setModel(Model model) {
+        assert(model != null) : "Modelo no puede ser nulo";
         this.model = model;
     }
 
@@ -34,6 +37,7 @@ public class Car {
     }
 
     public void setrentalAssigned(RentalOffice rentalOffice){
+        assert(rentalOffice != null):"RentalOffice no puede ser nulo"; 
         this.rentalAssigned = rentalOffice;
     }
 

@@ -9,6 +9,10 @@ public abstract class Rental {
     private Car car; //asociacion isFor1
 
     public Rental(Date startDate, Date endDate, Customer customer, Car car, RentalOffice pickUpOffice){
+        assert(customer != null) : "Customer no puede ser nulo";
+        assert(car != null) : "Car no puede ser nulo";
+        assert(pickUpOffice != null) : "pickUpOffice no puede ser nulo";
+
         if (!car.isAvailableForRental()) {
             this.car = car.getCocheSustituto();
             if (this.car == null) {
@@ -43,24 +47,27 @@ public abstract class Rental {
         return customer;
     }
 
-    public Customer setCustomer(){
-        return customer;
+    public void setCustomer(Customer customer){
+        assert(customer != null) : "Customer no puede ser nulo";
+        this.customer = customer;
     }
 
     public Car getCar(){
         return car;
     }
 
-    public Car setCar(){
-        return car;
+    public void setCar(Car car){
+        assert (car != null) : "Car no puede ser nulo";
+        this.car = car;
     }
 
     public RentalOffice getPickUpOffice(){
         return pickUpOffice;
     }
 
-    public RentalOffice setPickUpOffice(){
-        return pickUpOffice;
+    public void setPickUpOffice(RentalOffice pickUpOffice){
+        assert(pickUpOffice != null) : "pickUpOffice no puede ser null";
+        this.pickUpOffice = pickUpOffice;
     }
     
 }

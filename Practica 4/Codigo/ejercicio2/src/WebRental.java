@@ -2,23 +2,27 @@ import java.util.*;
 
 public class WebRental extends Rental {
     // deliveryTime es [0..1], es decir, puede ser "null"
-    private int deliveryTime;
+    private Integer deliveryTime;
     private RentalOffice deliveryOffice; //asociacion delliveryOffice
 
 
     public WebRental(Date startDate, Date endDate, Customer customer, Car car, 
-                    RentalOffice pickUpOffice, int deliveryTime, RentalOffice deliveryOffice) {
+                    RentalOffice pickUpOffice, Integer deliveryTime, RentalOffice deliveryOffice) {
 
         super(startDate,endDate, customer, car, pickUpOffice);
+
+        assert (deliveryOffice != null) : "deliveryOffice no puede ser nulo";
+
+
         this.deliveryTime = deliveryTime;
         this.deliveryOffice = deliveryOffice;
     }
 
-    public int getDeliveryTime() {
+    public Integer getDeliveryTime() {
         return deliveryTime;
     }
 
-    public void setDeliveryTime(int deliveryTime) {
+    public void setDeliveryTime(Integer deliveryTime) {
         this.deliveryTime = deliveryTime;
     }
 
@@ -27,6 +31,7 @@ public class WebRental extends Rental {
     }
 
     public void setDeliveryOffice(RentalOffice deliveryOffice) {
+        assert (deliveryOffice != null) : "deliveryOffice no puede ser nulo";
         this.deliveryOffice = deliveryOffice;
     }
 }
