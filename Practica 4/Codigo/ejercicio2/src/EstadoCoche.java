@@ -1,3 +1,2 @@
-public enum EstadoCoche {
-    EnServicio, FueraDeServicio
+public interface EstadoCoche {
 }

@@ -12,6 +12,9 @@ public abstract class Rental {
 
     public Rental(LocalDate startDate, LocalDate endDate, Customer customer, Car car, RentalOffice pickUpOffice,
             PromotionStrategy promotion) {
+        assert(customer != null) : "Customer no puede ser nulo";
+        assert(car != null) : "Car no puede ser nulo";
+        assert(pickUpOffice != null) : "pickUpOffice no puede ser nulo";
         this.startDate = startDate;
         this.endDate = endDate;
         this.customer = customer;
@@ -54,24 +57,27 @@ public abstract class Rental {
         return customer;
     }
 
-    public Customer setCustomer() {
-        return customer;
+    public void setCustomer(Customer c) {
+        assert(customer != null) : "Customer no puede ser nulo";
+        this.customer =  c;
     }
 
     public Car getCar() {
         return car;
     }
 
-    public Car setCar() {
-        return car;
+    public void setCar(Car car) {
+        assert(car != null) : "Car no puede ser nulo";
+        this.car = car;
     }
 
     public RentalOffice getPickUpOffice() {
         return pickUpOffice;
     }
 
-    public RentalOffice setPickUpOffice() {
-        return pickUpOffice;
+    public void setPickUpOffice(RentalOffice pickUpOffice) {
+        assert(pickUpOffice != null) : "pickUpOffice no puede ser nulo";
+        this.pickUpOffice= pickUpOffice;
     }
 
 }
