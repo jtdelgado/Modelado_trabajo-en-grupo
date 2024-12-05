@@ -14,6 +14,7 @@ public class Car {
         this.licensePlate = licensePlate;
         this.model = model;
         this.rentalAssigned= rentalOffice;
+        this.rentals = new ArrayList<Rental>();
     }
 
     public String getLicensePlate() {

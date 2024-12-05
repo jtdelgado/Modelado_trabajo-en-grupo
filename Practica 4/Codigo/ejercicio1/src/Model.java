@@ -9,6 +9,7 @@ public class Model {
     public Model (String name,Integer pricePerDay ){
         this.name = name;
         this.pricePerDay = pricePerDay;
+        this.cars = new ArrayList<Car>();
     }
 
     public String getName(){

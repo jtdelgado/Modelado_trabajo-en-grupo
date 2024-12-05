@@ -10,6 +10,7 @@ public class Customer {
     public Customer(String nombre, String id){
         this.name = nombre;
         this.dni = id;
+        this.rentals = new ArrayList<Rental>();
     }
 
     public int numberOfRentalsWithDifferentOffices(){
