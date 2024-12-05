@@ -75,7 +75,7 @@ public class Car {
             Car coche = cochesEnLaOficina.nextElement();
     
             // Comprobamos que sea del mismo modelo y que esté en servicio
-            if (coche.getModel().equals(this.model) && estado.isAvailableForRental()) {
+            if (coche.getModel().equals(this.model) && coche.estado.isAvailableForRental()) {
                 coche.setEsSustituto(true);
                 return coche; // Retornamos el primer coche que cumple las condiciones
             }
