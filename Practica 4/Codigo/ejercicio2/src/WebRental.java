@@ -1,4 +1,5 @@
 import java.util.*;
+import java.time.*;
 
 public class WebRental extends Rental {
     // deliveryTime es [0..1], es decir, puede ser "null"
@@ -6,7 +7,7 @@ public class WebRental extends Rental {
     private RentalOffice deliveryOffice; //asociacion delliveryOffice
 
 
-    public WebRental(Date startDate, Date endDate, Customer customer, Car car, 
+    public WebRental(LocalDate startDate, LocalDate endDate, Customer customer, Car car, 
                     RentalOffice pickUpOffice, Integer deliveryTime, RentalOffice deliveryOffice) {
 
         super(startDate,endDate, customer, car, pickUpOffice);
