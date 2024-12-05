@@ -24,11 +24,11 @@ public abstract class Rental {
     }
 
     public int getPrice() {
-        // Calculate the number of rental days
+        // Calcular el numero de días de alquiler
         long rentalDays = ChronoUnit.DAYS.between(startDate, endDate);
         int basePrice = (int) (car.getModel().getPricePerDay() * rentalDays);
 
-        // Apply promotion
+        // Aplicar promoción
         return promotion.applyDiscount(basePrice);
     }
 
