@@ -1,4 +1,3 @@
-import java.util.*;
 import java.time.LocalDate;
 
 public abstract class Rental {
@@ -14,7 +13,7 @@ public abstract class Rental {
         assert(car != null) : "Car no puede ser nulo";
         assert(pickUpOffice != null) : "pickUpOffice no puede ser nulo";
 
-        if (!car.isAvailableForRental()) {
+        if (!car.getEstado().isAvailableForRental()) {
             this.car = car.getCocheSustituto();
             if (this.car == null) {
                 throw new IllegalArgumentException("No hay coches disponibles");
@@ -32,7 +31,7 @@ public abstract class Rental {
         return startDate;
     }
 
-    public void setStartDate(Date startDate){
+    public void setStartDate(LocalDate startDate){
         this.startDate = startDate;
     }
 
@@ -40,7 +39,7 @@ public abstract class Rental {
         return endDate;
     }
 
-    public void setEndDate(Date endDate){
+    public void setEndDate(LocalDate endDate){
         this.endDate = endDate;
     }
 

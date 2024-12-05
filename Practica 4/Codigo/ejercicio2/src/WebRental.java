@@ -1,4 +1,3 @@
-import java.util.*;
 import java.time.*;
 
 public class WebRental extends Rental {
