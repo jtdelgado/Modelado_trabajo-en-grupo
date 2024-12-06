@@ -75,7 +75,7 @@ public class Car {
             Car coche = cochesEnLaOficina.nextElement();
     
             // Comprobamos que sea del mismo modelo y que esté en servicio
-            if (coche.getModel().equals(this.model) && coche.estado.isAvailableForRental()) {
+            if (coche.getModel().equals(this.model) && coche.isAvailableForRental()) {
                 coche.setEsSustituto(true);
                 return coche; // Retornamos el primer coche que cumple las condiciones
             }
@@ -108,5 +108,9 @@ public class Car {
 
     public void setEsSustituto(boolean esSustituto){
         this.esSustituto = esSustituto;
+    }
+
+    public boolean isAvailableForRental() {
+        return estado.isAvailableForRental();
     }
 }

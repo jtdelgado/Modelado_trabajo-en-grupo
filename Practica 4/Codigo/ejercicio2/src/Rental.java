@@ -13,7 +13,7 @@ public abstract class Rental {
         assert(car != null) : "Car no puede ser nulo";
         assert(pickUpOffice != null) : "pickUpOffice no puede ser nulo";
 
-        if (!car.getEstado().isAvailableForRental()) {
+        if (!car.isAvailableForRental()) {
             this.car = car.getCocheSustituto();
             if (this.car == null) {
                 throw new IllegalArgumentException("No hay coches disponibles");

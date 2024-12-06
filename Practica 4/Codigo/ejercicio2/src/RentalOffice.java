@@ -61,15 +61,16 @@ public class RentalOffice{
     }  
      
     public void addRental(Rental rental){
-        if (rental.getCar().getEstado().isAvailableForRental()) {
+        Car car = rental.getCar();
+        if (car.isAvailableForRental()) {
             rentals.add(rental);
         } else {
             System.out.println("El coche seleccionado no está disponible actualmente, procedemos a buscar un coche sustituto");
-            Car car = rental.getCar().getCocheSustituto();
-            if (car == null) {
+            Car carSustituto = car.getCocheSustituto();
+            if (carSustituto == null) {
                 throw new IllegalArgumentException("No hay coches disponibles");
             }
-            rental.setCar(car);
+            rental.setCar(carSustituto);
             rentals.add(rental);
         }
     }
