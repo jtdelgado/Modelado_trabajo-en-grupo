@@ -48,7 +48,7 @@ public class Car {
     }
 
     public void setrentalAssigned(RentalOffice rentalOffice){
-        assert(rentalOffice != null):"RentalOffice no puede ser nulo"; 
+        assert (rentalOffice != null) : "RentalOffice no puede ser nulo"; 
         this.rentalAssigned = rentalOffice;
     }
 

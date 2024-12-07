@@ -33,10 +33,10 @@ public class App {
         // Añado un alquiler onSite al cliente2
         c2.addRental(r3);
 
-        System.out.println("\nEl numero de alquileres con diferentes oficinas de recogida del cliente " +
+        System.out.println("\nEl número de alquileres con diferentes oficinas de recogida del cliente " +
                         c1.getName()+ " y entrega es: " + c1.numberOfRentalsWithDifferentOffices());
 
-        System.out.println("El numero de alquileres con diferentes oficinas de recogida del cliente " +
+        System.out.println("El número de alquileres con diferentes oficinas de recogida del cliente " +
                         c2.getName()+ " y entrega es: " + c2.numberOfRentalsWithDifferentOffices());        
     
     }
